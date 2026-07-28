@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>搜索起始页</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <div class="logo">🌌</div>
+        <h1>thanatosolo</h1>
+        <p class="sub">输入关键词搜索 · 或点击下方图标</p>
+
+        <div class="switch-wrap">
+            <span>新标签打开链接</span>
+            <label class="switch">
+                <input type="checkbox" id="newtabSwitch">
+                <span class="slider"></span>
+            </label>
+        </div>
+
+        <input class="search-box" type="text" placeholder="输入搜索内容..." onkeydown="if(event.key==='Enter'){window.location.href='https://www.baidu.com/s?wd='+encodeURIComponent(this.value)}">
+
+        <div class="grid">
+            <a data-href="https://luci.thanatosolo.duckdns.org:8888" class="card"><span class="icon">🖥️</span><span class="label">iStoreOS</span></a>
+            <a data-href="https://op.thanatosolo.duckdns.org:8888" class="card"><span class="icon">📦</span><span class="label">OpenList</span></a>
+            <a data-href="https://fb.thanatosolo.duckdns.org:8888" class="card"><span class="icon">📁</span><span class="label">FileBrowser</span></a>
+            <a data-href="https://ar.thanatosolo.duckdns.org:8888" class="card"><span class="icon">⬇️</span><span class="label">AriaNG</span></a>
+            <a data-href="https://ssh.thanatosolo.duckdns.org:8888" class="card"><span class="icon">💻</span><span class="label">TTYD</span></a>
+            <a data-href="https://qb.thanatosolo.duckdns.org:8888" class="card"><span class="icon">🌱</span><span class="label">qBittorrent</span></a>
+            <a data-href="https://je.thanatosolo.duckdns.org:8888" class="card"><span class="icon">🎬</span><span class="label">Jellyfin</span></a>
+            <a data-href="https://pp.thanatosolo.duckdns.org:8888" class="card"><span class="icon">🖼️</span><span class="label">PhotoPrism</span></a>
+            <a data-href="https://kd.thanatosolo.duckdns.org:8888" class="card"><span class="icon">🗂️</span><span class="label">可道云</span></a>
+            <a data-href="https://mt.thanatosolo.duckdns.org:8888" class="card"><span class="icon">📷</span><span class="label">MT Photos</span></a>
+            <a data-href="https://ai.thanatosolo.duckdns.org:8888" class="card"><span class="icon">🤖</span><span class="label">AI</span></a>
+            <a data-href="https://dav.thanatosolo.duckdns.org:8888" class="card"><span class="icon">☁️</span><span class="label">WebDAV</span></a>
+        </div>
+    </div>
+
+<script>
+    const switchEl = document.getElementById('newtabSwitch');
+    const cards = document.querySelectorAll('.card');
+    let useNewTab = localStorage.getItem('openNewTab') === 'true';
+    switchEl.checked = useNewTab;
+
+    switchEl.addEventListener('change', () => {
+        useNewTab = switchEl.checked;
+        localStorage.setItem('openNewTab', useNewTab);
+    });
+
+    cards.forEach(card => {
+        card.addEventListener('click', e => {
+            e.preventDefault();
+            const url = card.dataset.href;
+            if (useNewTab) {
+                window.open(url, '_blank');
+            } else {
+                window.location.href = url;
+            }
+        });
+    });
+</script>
+</body>
+</html>
