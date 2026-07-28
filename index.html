@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <title>时间与音乐</title>
+    <style>
+        *{margin:0;padding:0;box-sizing:border-box}
+        body{
+            height:100vh;
+            display:flex;
+            flex-direction:column;
+            justify-content:center;
+            align-items:center;
+            background:#111827;
+            color:#fff;
+            font-family:system-ui;
+            gap:40px;
+        }
+        #time{font-size:52px;margin-bottom:12px}
+        #date{font-size:24px;opacity:0.8;margin-bottom:20px}
+        audio{
+            width: 360px;
+            height:40px;
+        }
+    </style>
+</head>
+<body>
+    <div>
+        <div id="time"></div>
+        <div id="date"></div>
+    </div>
+
+    <!-- 自带可用公开mp3链接，直接生效 -->
+    <audio controls loop>
+        <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" type="audio/mpeg">
+        你的浏览器不支持音频播放
+    
+
+    <script>
+        function updateTime(){
+            const now = new Date();
+            const h = String(now.getHours()).padStart(2,'0');
+            const m = String(now.getMinutes()).padStart(2,'0');
+            const s = String(now.getSeconds()).padStart(2,'0');
+            document.getElementById('time').innerText = `${h}:${m}:${s}`;
+            
+            const year = now.getFullYear();
+            const mon = String(now.getMonth()+1).padStart(2,'0');
+            const day = String(now.getDate()).padStart(2,'0');
+            const week = ['周日','周一','周二','周三','周四','周五','周六'][now.getDay()];
+            document.getElementById('date').innerText = `${year}年${mon}月${day} ${week}`;
+        }
+        updateTime();
+        setInterval(updateTime, 1000);
+    </script>
+</body>
+</html>
