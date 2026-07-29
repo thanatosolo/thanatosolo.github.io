@@ -20,26 +20,23 @@
             padding-bottom: 60px;
             gap: 24px;
             font-family: "Microsoft YaHei", serif;
-            /* 原始背景图，无滤镜 */
             background-image: url("https://pic1.imgdb.cn/i/033xh33EZ3PtL19TphPUL3.jpg");
             background-size: cover;
             background-position: center;
             background-repeat: no-repeat;
             background-attachment: fixed;
-            cursor: none; /* 隐藏系统鼠标 */
+            cursor: none;
         }
-        /* 所有可交互元素强制取消小手光标 */
+        /* 禁止小手光标 */
         a, audio {
             cursor: none !important;
         }
-        /* 横向跳转链接容器 */
         .link-row {
             display: flex;
             gap: 30px;
             flex-wrap: wrap;
             justify-content: center;
         }
-        /* 艺术文字链接，无色块背景 */
         .art-link {
             font-size: 16px;
             letter-spacing: 2px;
@@ -50,25 +47,50 @@
             background-clip: text;
             -webkit-background-clip: text;
             transition: all 0.4s ease;
+            text-transform: uppercase; /* 强制大写 */
         }
-        /* 悬浮多彩渐变文字 */
         .art-link:hover {
             background-image: linear-gradient(90deg, #ff4d6d, #4cc9f0, #f72585, #4361ee);
             color: transparent;
             text-shadow: 0 0 8px rgba(255,255,255,0.6);
             transform: scale(1.08);
         }
-        /* 音频播放器容器 */
         .audio-box {
-            width: 300px;
+            width: 320px;
+            backdrop-filter: blur(4px);
+            border-radius: 50px;
         }
+        /* 播放器极致透明配置 */
         audio {
             width: 100%;
-            height: 40px;
-            border-radius: 8px;
+            height: 38px;
+            border-radius: 50px;
+            background: transparent;
+            border: none;
+            outline: none;
+            color: #fff;
         }
-
-        /* ========== 鼠标光标特效样式（修改白色高亮配色，不撞背景） ========== */
+        /* Chrome/Edge/Safari 控制面板强制透明 */
+        audio::-webkit-media-controls-panel {
+            background: transparent !important;
+        }
+        audio::-webkit-media-controls-play-button,
+        audio::-webkit-media-controls-mute-button {
+            filter: brightness(3);
+        }
+        audio::-webkit-slider-runnable-track {
+            background: rgba(255,255,255,0.2);
+        }
+        audio::-webkit-slider-thumb {
+            background: #fff;
+            box-shadow: 0 0 6px rgba(255,255,255,0.9);
+        }
+        audio::-webkit-media-controls-current-time-display,
+        audio::-webkit-media-controls-time-remaining-display {
+            color: #fff;
+            text-shadow: 0 0 4px rgba(0,0,0,0.5);
+        }
+        /* 白色高亮鼠标跟随光标 */
         .cursor {
             position: fixed;
             top: 0;
@@ -102,16 +124,16 @@
     </style>
 </head>
 <body>
-    <!-- 自定义鼠标光标DOM -->
+    <!-- 自定义光标 -->
     <div class="cursor"></div>
     <div class="cursor-follower"></div>
 
-    <!-- 跳转链接，自行替换 xxxxxxxxxxxxxx -->
+    <!-- 大写占位链接 -->
     <div class="link-row">
         <a href="thanatosolo.kdns.fr" target="_blank" class="art-link">thanatosolo.kdns.fr</a>
     </div>
 
-    <!-- 音频播放器，无自动播放 -->
+    <!-- 透明播放器 -->
     <div class="audio-box">
         <audio id="music" controls preload="auto">
             <source src="https://music.163.com/song/media/outer/url?id=1812453877.mp3" type="audio/mpeg">
@@ -119,7 +141,7 @@
         
     </div>
 
-    <!-- 鼠标跟随特效JS -->
+    <!-- 鼠标跟随动画JS -->
     <script>
         const cursor = document.querySelector('.cursor');
         const cursorFollower = document.querySelector('.cursor-follower');
@@ -147,7 +169,7 @@
         }
         animateCursor();
 
-        // 悬浮链接/播放器时光标放大
+        // 悬浮放大光标
         const hoverElements = document.querySelectorAll('.art-link, audio');
         hoverElements.forEach(el => {
             el.addEventListener('mouseenter', () => {
