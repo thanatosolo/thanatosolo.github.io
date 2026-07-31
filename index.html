@@ -142,7 +142,7 @@
         </audio>
     </div>
 
-    <!-- 鼠标跟随动画JS -->
+    <!-- 鼠标跟随动画JS + 双击跳转 -->
     <script>
         const cursor = document.querySelector('.cursor');
         const cursorFollower = document.querySelector('.cursor-follower');
@@ -179,6 +179,11 @@
             el.addEventListener('mouseleave', () => {
                 cursor.style.transform = 'translate(-50%, -50%) scale(1)';
             });
+        });
+
+        // 新增：双击页面任意位置，跳转到 /1/
+        document.addEventListener('dblclick', function() {
+            window.location.href = 'https://thanatosolo.github.io/1';
         });
     </script>
 </body>
