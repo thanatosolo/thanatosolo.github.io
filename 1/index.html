@@ -1,56 +1,61 @@
 <!DOCTYPE html>
-<html lang="zh">
+<html lang="zh-CN">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>THANATOSOLO</title>
-    <!-- 圆润字体 -->
+
+    <!-- ===== 浏览器标签页图标 (favicon) - 骷髅头 Emoji ===== -->
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>💀</text></svg>">
+
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;600;700&family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
     <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
         body {
-            font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+            width: 100vw;
             min-height: 100vh;
             display: flex;
-            justify-content: center;
+            flex-direction: column;
             align-items: center;
-            padding: 30px 20px;
-            cursor: none;
-            background-image: url('https://pic1.imgdb.cn/i/033xh33EZ3PtL19TphPUL3.jpg');
+            justify-content: flex-end;
+            padding-bottom: 40px;
+            gap: 18px;
+            font-family: "Microsoft YaHei", serif;
+            background-image: url("https://pic1.imgdb.cn/i/033xh33EZ3PtL19TphPUL3.jpg");
             background-size: cover;
             background-position: center;
             background-repeat: no-repeat;
             background-attachment: fixed;
+            cursor: none;
+            overflow-x: hidden;
+            transition: background-image 0.6s ease-in-out;
+        }
+        a, input, label {
+            cursor: none !important;
+            text-decoration: none;
         }
 
-        .container {
-            max-width: 820px;
-            width: 100%;
-            text-align: center;
-            padding: 40px 30px 50px;
-            border-radius: 72px 72px 48px 48px;
-            transition: all 0.2s;
-        }
-
-        /* ===== 标题：圆润字体 + 动态炫彩 ===== */
+        /* ===== 炫彩标题 ===== */
         .title-wrapper {
             display: inline-block;
-            margin-bottom: 12px;
         }
         h1 {
-            font-size: 48px;
+            font-size: 34px;
             font-weight: 700;
-            letter-spacing: 3px;
-            /* 圆润字体 */
+            letter-spacing: 4px;
             font-family: 'Quicksand', 'Nunito', 'Comic Sans MS', cursive, sans-serif;
-            background: linear-gradient(90deg, 
-                #f093fb 0%, 
-                #f5576c 20%, 
-                #4facfe 40%, 
-                #43e97b 60%, 
-                #f093fb 80%, 
+            background: linear-gradient(90deg,
+                #f093fb 0%,
+                #f5576c 20%,
+                #4facfe 40%,
+                #43e97b 60%,
+                #f093fb 80%,
                 #f5576c 100%
             );
             background-size: 300% 100%;
@@ -58,193 +63,192 @@
             -webkit-text-fill-color: transparent;
             background-clip: text;
             animation: gradientFlow 4s ease-in-out infinite alternate;
-            text-shadow: 0 0 60px rgba(245, 87, 108, 0.15);
+            text-shadow: 0 0 40px rgba(245, 87, 108, 0.15);
         }
-
         @keyframes gradientFlow {
             0% { background-position: 0% 50%; }
             50% { background-position: 100% 50%; }
             100% { background-position: 0% 50%; }
         }
 
-        /* ===== 搜索框 + 开关 横向排列 ===== */
+        /* ===== 搜索框 + 开关 ===== */
         .search-row {
             display: flex;
             align-items: center;
-            gap: 12px;
-            margin-bottom: 34px;
+            gap: 10px;
             width: 100%;
+            max-width: 500px;
+            padding: 0 20px;
         }
-
         .search-box {
             flex: 1;
-            padding: 16px 24px;
-            border-radius: 80px;
-            border: 1px solid rgba(255,255,255,0.3);
-            background: rgba(255, 255, 255, 0.15);
+            padding: 10px 18px;
+            border-radius: 40px;
+            border: 1px solid rgba(255,255,255,0.25);
+            background: rgba(255, 255, 255, 0.12);
             backdrop-filter: blur(4px);
-            font-size: 16px;
+            font-size: 14px;
             font-weight: 300;
             letter-spacing: 1px;
             outline: none;
             transition: 0.25s ease;
-            color: #1a1a1a;
-            box-shadow: inset 0 2px 6px rgba(0,0,0,0.02);
+            color: #ffffff;
+            text-shadow: 0 0 6px rgba(0,0,0,0.3);
             font-family: 'Inter', sans-serif;
         }
-        .search-box:focus {
-            border-color: rgba(255,255,255,0.6);
-            box-shadow: 0 0 0 6px rgba(255,255,255,0.08);
-            background: rgba(255, 255, 255, 0.25);
-        }
         .search-box::placeholder {
-            color: rgba(0,0,0,0.35);
+            color: rgba(255,255,255,0.5);
             font-weight: 200;
-            letter-spacing: 2px;
+        }
+        .search-box:focus {
+            border-color: rgba(255,255,255,0.5);
+            background: rgba(255, 255, 255, 0.2);
         }
 
         .switch-wrap {
             display: flex;
             align-items: center;
-            gap: 8px;
+            gap: 6px;
             flex-shrink: 0;
-            font-size: 12px;
+            font-size: 11px;
             font-weight: 300;
             letter-spacing: 0.5px;
-            color: rgba(255,255,255,0.8);
-            text-shadow: 0 1px 6px rgba(0,0,0,0.2);
+            color: rgba(255,255,255,0.85);
+            text-shadow: 0 1px 4px rgba(0,0,0,0.3);
             background: rgba(255,255,255,0.08);
             backdrop-filter: blur(4px);
-            padding: 6px 14px 6px 18px;
+            padding: 5px 12px 5px 14px;
             border-radius: 40px;
             border: 1px solid rgba(255,255,255,0.1);
-        }
-        .switch-wrap span {
             white-space: nowrap;
         }
         .switch {
             position: relative;
             display: inline-block;
-            width: 34px;
-            height: 18px;
+            width: 32px;
+            height: 16px;
         }
         .switch input { opacity: 0; width: 0; height: 0; }
         .slider {
             position: absolute;
             cursor: pointer;
             top: 0; left: 0; right: 0; bottom: 0;
-            background-color: rgba(200,185,170,0.5);
+            background-color: rgba(200,185,170,0.4);
             transition: .3s;
             border-radius: 40px;
-            box-shadow: inset 0 1px 4px rgba(0,0,0,0.04);
         }
         .slider:before {
             position: absolute;
             content: "";
-            height: 12px;
-            width: 12px;
+            height: 11px;
+            width: 11px;
             left: 3px;
-            bottom: 3px;
+            bottom: 2.5px;
             background-color: #fcf8f2;
             transition: .3s;
             border-radius: 50%;
             box-shadow: 0 1px 4px rgba(0,0,0,0.1);
         }
         input:checked + .slider { background-color: #b8a08c; }
-        input:checked + .slider:before { transform: translateX(16px); background-color: #fffcf5; }
+        input:checked + .slider:before { transform: translateX(15px); background-color: #fffcf5; }
 
-        /* ===== 卡片网格 — 整齐排列 ===== */
-        .grid {
+        /* ===== 卡片网格 ===== */
+        .icon-grid {
             display: grid;
-            grid-template-columns: repeat(6, 1fr);  /* 最大化时6列均分 */
-            gap: 14px;
-            margin-top: 6px;
+            grid-template-columns: repeat(6, 1fr);
+            gap: 12px 16px;
+            max-width: 580px;
+            width: 100%;
+            padding: 0 16px;
+            perspective: 800px;
         }
 
-        .card {
+        /* ===== 卡片翻转 ===== */
+        .icon-item {
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            background: rgba(255, 255, 255, 0.12);
-            backdrop-filter: blur(6px);
-            padding: 14px 6px 12px;
-            border-radius: 32px 12px 32px 12px;
-            text-decoration: none;
-            color: #1a1a1a;
-            font-weight: 400;
-            font-size: 12px;
+            gap: 2px;
+            color: #ffffff;
+            font-size: 11px;
             letter-spacing: 0.5px;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.06);
-            border: 1px solid rgba(255,255,255,0.15);
-            transition: all 0.25s cubic-bezier(0.2, 0.9, 0.4, 1);
-            transform: scale(1);
-            will-change: transform;
-            font-family: 'Inter', 'Segoe UI', sans-serif;
-            min-height: 80px;
+            text-shadow:
+                -1px -1px 0 #000,
+                1px -1px 0 #000,
+                -1px  1px 0 #000,
+                1px  1px 0 #000,
+                0 0 8px rgba(0,0,0,0.5);
+            background: transparent;
+            padding: 8px 4px;
+            border-radius: 12px;
+            border: none;
+            transition: transform 0.4s ease, box-shadow 0.4s ease;
+            transform-style: preserve-3d;
+            position: relative;
+            min-height: 64px;
+            cursor: none;
         }
-
-        .card:hover {
-            transform: translateY(-4px) scale(1.02);
-            background: rgba(255, 255, 255, 0.3);
-            border-color: rgba(255,255,255,0.4);
-            box-shadow: 0 18px 40px -8px rgba(0,0,0,0.15), 0 0 30px rgba(245, 87, 108, 0.08);
-            color: transparent;
-            background-image: linear-gradient(135deg, #f093fb 0%, #f5576c 40%, #4facfe 80%, #43e97b 100%);
-            -webkit-background-clip: text;
-            background-clip: text;
-            -webkit-text-fill-color: transparent;
+        .icon-item .front, .icon-item .back {
+            backface-visibility: hidden;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+            position: absolute;
+            top: 0;
+            left: 0;
+            padding: 8px 4px;
         }
-
-        .card:hover .icon {
-            -webkit-text-fill-color: initial;
-            color: initial;
-            filter: drop-shadow(0 4px 10px rgba(245, 87, 108, 0.2));
+        .icon-item .back {
+            transform: rotateY(180deg);
         }
-        .card span:not(.icon) {
-            display: inline-block;
+        .icon-item .emoji {
+            font-size: 26px;
+            line-height: 1.2;
+            filter: drop-shadow(0 2px 4px rgba(0,0,0,0.3));
         }
-        .card:hover span:not(.icon) {
-            background-image: linear-gradient(135deg, #f093fb 0%, #f5576c 40%, #4facfe 80%, #43e97b 100%);
-            -webkit-background-clip: text;
-            background-clip: text;
-            -webkit-text-fill-color: transparent;
+        .icon-item .label {
+            font-size: 10px;
+            opacity: 0.9;
+            font-weight: 400;
         }
-
-        .card .icon {
+        .icon-item .back-emoji {
             font-size: 28px;
-            display: block;
-            margin-bottom: 4px;
-            filter: drop-shadow(0 4px 6px rgba(0,0,0,0.04));
-            transition: 0.2s;
-            -webkit-text-fill-color: initial;
-            color: initial;
+            line-height: 1.2;
         }
-        .card:hover .icon {
-            transform: scale(1.06) rotate(-2deg);
+        .icon-item .back-label {
+            font-size: 9px;
+            opacity: 0.8;
+            font-weight: 300;
         }
 
-        /* ===== 响应式：窄屏时自动换行 ===== */
-        @media (max-width: 700px) {
-            .grid {
+        /* 翻转状态 */
+        .icon-item.flipped {
+            transform: rotateY(180deg);
+        }
+
+        /* ===== 响应式 ===== */
+        @media (max-width: 560px) {
+            .icon-grid {
                 grid-template-columns: repeat(4, 1fr);
+                gap: 10px 12px;
+                max-width: 400px;
             }
+            .icon-item .emoji { font-size: 22px; }
+            .icon-item .label { font-size: 9px; }
+            .search-row { max-width: 400px; }
+            h1 { font-size: 28px; }
         }
-        @media (max-width: 500px) {
-            .grid {
+        @media (max-width: 400px) {
+            .icon-grid {
                 grid-template-columns: repeat(3, 1fr);
+                gap: 8px 10px;
+                max-width: 300px;
             }
-            .container { padding: 30px 18px; border-radius: 48px; }
-            h1 { font-size: 36px; letter-spacing: 3px; }
-            .card { padding: 12px 4px 10px; min-height: 70px; border-radius: 24px 8px 24px 8px; }
-            .card .icon { font-size: 24px; }
-            .search-row { flex-wrap: wrap; gap: 8px; }
-            .switch-wrap { padding: 4px 12px 4px 14px; }
-        }
-        @media (max-width: 380px) {
-            .grid {
-                grid-template-columns: repeat(2, 1fr);
-            }
+            .icon-item .emoji { font-size: 20px; }
+            .search-row { flex-wrap: wrap; justify-content: center; }
         }
 
         /* ===== 自定义光标 ===== */
@@ -252,151 +256,297 @@
             position: fixed;
             top: 0;
             left: 0;
-            width: 28px;
-            height: 28px;
-            border: 1.5px solid rgba(255,255,255,0.7);
+            width: 20px;
+            height: 20px;
+            border: 2px solid #ffffff;
             border-radius: 50%;
             pointer-events: none;
             z-index: 9999;
             transform: translate(-50%, -50%);
-            transition: transform 0.15s ease, width 0.15s, height 0.15s, background 0.2s;
+            transition: transform 0.1s ease;
             will-change: transform;
-            background: rgba(255,255,255,0.05);
-            backdrop-filter: blur(2px);
-            box-shadow: 0 0 12px rgba(0,0,0,0.06);
+            box-shadow: 0 0 6px rgba(255,255,255,0.7);
         }
         .cursor-follower {
             position: fixed;
             top: 0;
             left: 0;
-            width: 6px;
-            height: 6px;
-            background: rgba(255,255,255,0.7);
+            width: 8px;
+            height: 8px;
+            background: #ffffff;
             border-radius: 50%;
             pointer-events: none;
             z-index: 9998;
             transform: translate(-50%, -50%);
-            transition: transform 0.2s cubic-bezier(0.2, 0.8, 0.4, 1), width 0.2s, height 0.2s;
+            transition: transform 0.15s ease;
             will-change: transform;
-            box-shadow: 0 0 18px rgba(0,0,0,0.05);
+            box-shadow: 0 0 4px rgba(255,255,255,0.8);
+        }
+
+        /* ===== 星星拖尾 ===== */
+        .star-trail {
+            position: fixed;
+            pointer-events: none;
+            z-index: 9997;
+            font-size: 14px;
+            animation: fadeOut 0.8s ease forwards;
+        }
+        @keyframes fadeOut {
+            0% { opacity: 1; transform: scale(1) rotate(0deg); }
+            100% { opacity: 0; transform: scale(0.2) rotate(180deg) translateY(-30px); }
+        }
+
+        /* ===== 烟花 ===== */
+        .firework-particle {
+            position: fixed;
+            pointer-events: none;
+            z-index: 9996;
+            border-radius: 50%;
+            animation: fireworkBurst 0.9s ease-out forwards;
+        }
+        @keyframes fireworkBurst {
+            0% { opacity: 1; transform: scale(1) translate(0, 0); }
+            100% { opacity: 0; transform: scale(0) translate(var(--tx), var(--ty)); }
         }
     </style>
 </head>
 <body>
+    <!-- 光标 -->
     <div class="cursor"></div>
     <div class="cursor-follower"></div>
 
-    <div class="container">
-        <!-- 标题：圆润字体 + 动态炫彩 -->
-        <div class="title-wrapper">
-            <h1>THANATOSOLO</h1>
-        </div>
+    <!-- 炫彩标题 -->
+    <div class="title-wrapper">
+        <h1>THANATOSOLO</h1>
+    </div>
 
-        <!-- 搜索框 + 开关 横向排列 -->
-        <div class="search-row">
-            <input class="search-box" type="text" placeholder="键入 探索 …" onkeydown="if(event.key==='Enter'){window.location.href='https://www.baidu.com/s?wd='+this.value}">
-            <div class="switch-wrap">
-                <span>↗ 新窗</span>
-                <label class="switch">
-                    <input type="checkbox" id="newtabSwitch">
-                    <span class="slider"></span>
-                </label>
-            </div>
-        </div>
-
-        <!-- 卡片网格 — 整齐排列 -->
-        <div class="grid">
-            <a data-href="https://luci.thanatosolo.duckdns.org:8888" class="card"><span class="icon">🖥️</span>iStoreOS</a>
-            <a data-href="https://op.thanatosolo.duckdns.org:8888" class="card"><span class="icon">📦</span>OpenList</a>
-            <a data-href="https://fb.thanatosolo.duckdns.org:8888" class="card"><span class="icon">📁</span>FileBrowser</a>
-            <a data-href="https://ar.thanatosolo.duckdns.org:8888" class="card"><span class="icon">⬇️</span>AriaNG</a>
-            <a data-href="https://ssh.thanatosolo.duckdns.org:8888" class="card"><span class="icon">💻</span>TTYD</a>
-            <a data-href="https://qb.thanatosolo.duckdns.org:8888" class="card"><span class="icon">🌱</span>qBittorrent</a>
-            <a data-href="https://je.thanatosolo.duckdns.org:8888" class="card"><span class="icon">🎬</span>Jellyfin</a>
-            <a data-href="https://pp.thanatosolo.duckdns.org:8888" class="card"><span class="icon">🖼️</span>PhotoPrism</a>
-            <a data-href="https://kd.thanatosolo.duckdns.org:8888" class="card"><span class="icon">🗂️</span>可道云</a>
-            <a data-href="https://mt.thanatosolo.duckdns.org:8888" class="card"><span class="icon">📷</span>MT Photos</a>
-            <a data-href="https://ai.thanatosolo.duckdns.org:8888" class="card"><span class="icon">🤖</span>AI</a>
-            <a data-href="https://dav.thanatosolo.duckdns.org:8888" class="card"><span class="icon">☁️</span>WebDAV</a>
+    <!-- 搜索框 + 开关 -->
+    <div class="search-row">
+        <input class="search-box" type="text" placeholder="键入 探索 …" onkeydown="if(event.key==='Enter'){window.location.href='https://www.baidu.com/s?wd='+this.value}">
+        <div class="switch-wrap">
+            <span>↗新窗</span>
+            <label class="switch">
+                <input type="checkbox" id="newtabSwitch">
+                <span class="slider"></span>
+            </label>
         </div>
     </div>
 
-<script>
-    // ===== 鼠标跟随 =====
-    const cursor = document.querySelector('.cursor');
-    const follower = document.querySelector('.cursor-follower');
-    let mouseX = 0, mouseY = 0;
-    let curX = 0, curY = 0;
-    let folX = 0, folY = 0;
+    <!-- 卡片网格 -->
+    <div class="icon-grid" id="iconGrid">
+        <a href="#" class="icon-item" data-href="https://luci.thanatosolo.duckdns.org:8888">
+            <span class="front"><span class="emoji">🖥️</span><span class="label">iStoreOS</span></span>
+            <span class="back"><span class="back-emoji">⚙️</span><span class="back-label">路由器</span></span>
+        </a>
+        <a href="#" class="icon-item" data-href="https://op.thanatosolo.duckdns.org:8888">
+            <span class="front"><span class="emoji">📦</span><span class="label">OpenList</span></span>
+            <span class="back"><span class="back-emoji">📋</span><span class="back-label">列表</span></span>
+        </a>
+        <a href="#" class="icon-item" data-href="https://fb.thanatosolo.duckdns.org:8888">
+            <span class="front"><span class="emoji">📁</span><span class="label">FileBrowser</span></span>
+            <span class="back"><span class="back-emoji">🗂️</span><span class="back-label">文件</span></span>
+        </a>
+        <a href="#" class="icon-item" data-href="https://ar.thanatosolo.duckdns.org:8888">
+            <span class="front"><span class="emoji">⬇️</span><span class="label">AriaNG</span></span>
+            <span class="back"><span class="back-emoji">📥</span><span class="back-label">下载</span></span>
+        </a>
+        <a href="#" class="icon-item" data-href="https://ssh.thanatosolo.duckdns.org:8888">
+            <span class="front"><span class="emoji">💻</span><span class="label">TTYD</span></span>
+            <span class="back"><span class="back-emoji">⌨️</span><span class="back-label">终端</span></span>
+        </a>
+        <a href="#" class="icon-item" data-href="https://qb.thanatosolo.duckdns.org:8888">
+            <span class="front"><span class="emoji">🌱</span><span class="label">qBittorrent</span></span>
+            <span class="back"><span class="back-emoji">🌿</span><span class="back-label">BT</span></span>
+        </a>
+        <a href="#" class="icon-item" data-href="https://je.thanatosolo.duckdns.org:8888">
+            <span class="front"><span class="emoji">🎬</span><span class="label">Jellyfin</span></span>
+            <span class="back"><span class="back-emoji">🎞️</span><span class="back-label">媒体</span></span>
+        </a>
+        <a href="#" class="icon-item" data-href="https://pp.thanatosolo.duckdns.org:8888">
+            <span class="front"><span class="emoji">🖼️</span><span class="label">PhotoPrism</span></span>
+            <span class="back"><span class="back-emoji">🖼️</span><span class="back-label">相册</span></span>
+        </a>
+        <a href="#" class="icon-item" data-href="https://kd.thanatosolo.duckdns.org:8888">
+            <span class="front"><span class="emoji">🗂️</span><span class="label">可道云</span></span>
+            <span class="back"><span class="back-emoji">☁️</span><span class="back-label">云盘</span></span>
+        </a>
+        <a href="#" class="icon-item" data-href="https://mt.thanatosolo.duckdns.org:8888">
+            <span class="front"><span class="emoji">📷</span><span class="label">MT Photos</span></span>
+            <span class="back"><span class="back-emoji">📸</span><span class="back-label">照片</span></span>
+        </a>
+        <a href="#" class="icon-item" data-href="https://ai.thanatosolo.duckdns.org:8888">
+            <span class="front"><span class="emoji">🤖</span><span class="label">AI</span></span>
+            <span class="back"><span class="back-emoji">🧠</span><span class="back-label">智能</span></span>
+        </a>
+        <a href="#" class="icon-item" data-href="https://dav.thanatosolo.duckdns.org:8888">
+            <span class="front"><span class="emoji">☁️</span><span class="label">WebDAV</span></span>
+            <span class="back"><span class="back-emoji">🔗</span><span class="back-label">网盘</span></span>
+        </a>
+    </div>
 
-    document.addEventListener('mousemove', (e) => {
-        mouseX = e.clientX;
-        mouseY = e.clientY;
-    });
+    <script>
+        // ==========================================
+        // 0. 双击切换背景 — 每次刷新回到默认
+        // ==========================================
+        // 背景图片数组 —— 以后新增图片，在这里加一行就行了
+        const bgImages = [
+            "https://pic1.imgdb.cn/i/033xh33EZ3PtL19TphPUL3.jpg",   // 默认
+            "https://pic1.imgdb.cn/i/033xtsxDAkPTTBrlTb6CZ9.png",  // 第二张
+            "https://pic1.imgdb.cn/i/033xt6xTLp0nzcV8eb0Ngg.png"   // 第三张
+        ];
 
-    function animateCursor() {
-        curX += (mouseX - curX) * 0.12;
-        curY += (mouseY - curY) * 0.12;
-        cursor.style.left = curX + 'px';
-        cursor.style.top = curY + 'px';
+        let currentBgIndex = 0;
 
-        folX += (mouseX - folX) * 0.04;
-        folY += (mouseY - folY) * 0.04;
-        follower.style.left = folX + 'px';
-        follower.style.top = folY + 'px';
+        // ===== 强制默认：每次刷新/新开页面都从第一张开始 =====
+        document.body.style.backgroundImage = `url("${bgImages[0]}")`;
 
-        requestAnimationFrame(animateCursor);
-    }
-    animateCursor();
+        // 双击空白处切换背景（不保存，刷新即恢复默认）
+        document.addEventListener('dblclick', (e) => {
+            // 排除点击卡片、搜索框、开关、标题等交互元素
+            const target = e.target.closest('.icon-item, .search-box, .switch-wrap, .title-wrapper, .cursor, .cursor-follower');
+            if (target) return;
 
-    // ===== 悬停放大光标 =====
-    const hoverTargets = document.querySelectorAll('.card, .search-box, .switch');
-    hoverTargets.forEach(el => {
-        el.addEventListener('mouseenter', () => {
-            cursor.style.width = '42px';
-            cursor.style.height = '42px';
-            cursor.style.borderColor = 'rgba(255,255,255,0.9)';
-            cursor.style.background = 'rgba(255,255,255,0.08)';
-            cursor.style.boxShadow = '0 0 30px rgba(0,0,0,0.08)';
-            follower.style.width = '10px';
-            follower.style.height = '10px';
-            follower.style.background = 'rgba(255,255,255,0.9)';
+            // 切换到下一张
+            currentBgIndex = (currentBgIndex + 1) % bgImages.length;
+            document.body.style.backgroundImage = `url("${bgImages[currentBgIndex]}")`;
         });
-        el.addEventListener('mouseleave', () => {
-            cursor.style.width = '28px';
-            cursor.style.height = '28px';
-            cursor.style.borderColor = 'rgba(255,255,255,0.7)';
-            cursor.style.background = 'rgba(255,255,255,0.05)';
-            cursor.style.boxShadow = '0 0 12px rgba(0,0,0,0.06)';
-            follower.style.width = '6px';
-            follower.style.height = '6px';
-            follower.style.background = 'rgba(255,255,255,0.7)';
-        });
-    });
 
-    // ===== 新标签开关 =====
-    const switchEl = document.getElementById('newtabSwitch');
-    const cards = document.querySelectorAll('.card');
-    let useNewTab = localStorage.getItem('openNewTab') === 'true';
-    switchEl.checked = useNewTab;
+        // ==========================================
+        // 1. 鼠标跟随
+        // ==========================================
+        const cursor = document.querySelector('.cursor');
+        const cursorFollower = document.querySelector('.cursor-follower');
+        let mouseX = 0, mouseY = 0;
+        let curX = 0, curY = 0;
+        let folX = 0, folY = 0;
 
-    switchEl.addEventListener('change', () => {
-        useNewTab = switchEl.checked;
-        localStorage.setItem('openNewTab', useNewTab);
-    });
-
-    cards.forEach(card => {
-        card.addEventListener('click', (e) => {
-            e.preventDefault();
-            const url = card.dataset.href;
-            if (useNewTab) {
-                window.open(url, '_blank');
-            } else {
-                window.location.href = url;
+        document.addEventListener('mousemove', (e) => {
+            mouseX = e.clientX;
+            mouseY = e.clientY;
+            if (Math.random() > 0.7) {
+                createStar(e.clientX, e.clientY);
             }
         });
-    });
-</script>
-<script type="module" src="https://static.cloudflareinsights.com/beacon.min.js/v4513226cdae34746b4dedf0b4dfa099e1781791509496" integrity="sha512-ZE9pZaUXND66v380QUtch/5sE9tPFh2zg45pR2PB0CVkCtOREv2AJKkSidISWkysEuQ0EH8faUU5du78bx87UQ==" data-cf-beacon='{"version":"2024.11.0","token":"7b8b240215d34298a6f87898a7212d4b","r":1}' crossorigin="anonymous"></script>
+
+        function animateCursor() {
+            curX += (mouseX - curX) * 0.1;
+            curY += (mouseY - curY) * 0.1;
+            cursor.style.left = curX + 'px';
+            cursor.style.top = curY + 'px';
+
+            folX += (mouseX - folX) * 0.05;
+            folY += (mouseY - folY) * 0.05;
+            cursorFollower.style.left = folX + 'px';
+            cursorFollower.style.top = folY + 'px';
+
+            requestAnimationFrame(animateCursor);
+        }
+        animateCursor();
+
+        // ==========================================
+        // 2. 鼠标星星拖尾
+        // ==========================================
+        const starEmojis = ['✦', '✧', '⭐', '✨', '💫', '🌟', '·'];
+
+        function createStar(x, y) {
+            const star = document.createElement('div');
+            star.className = 'star-trail';
+            star.textContent = starEmojis[Math.floor(Math.random() * starEmojis.length)];
+            star.style.left = x + 'px';
+            star.style.top = y + 'px';
+            star.style.color = `hsl(${Math.random() * 360}, 100%, 70%)`;
+            star.style.fontSize = (Math.random() * 12 + 8) + 'px';
+            document.body.appendChild(star);
+            setTimeout(() => star.remove(), 800);
+        }
+
+        // ==========================================
+        // 3. 点击烟花
+        // ==========================================
+        document.addEventListener('click', (e) => {
+            const target = e.target.closest('.icon-item, .search-box, .switch-wrap, .title-wrapper');
+            if (target) return;
+            createFirework(e.clientX, e.clientY);
+        });
+
+        function createFirework(x, y) {
+            const colors = ['#ff4d6d', '#f72585', '#b5179e', '#7209b7', '#4cc9f0', '#4361ee', '#f093fb', '#43e97b', '#f5576c', '#4facfe'];
+            const count = 50 + Math.floor(Math.random() * 30);
+
+            for (let i = 0; i < count; i++) {
+                const particle = document.createElement('div');
+                particle.className = 'firework-particle';
+                const angle = Math.random() * Math.PI * 2;
+                const distance = 80 + Math.random() * 120;
+                const tx = Math.cos(angle) * distance;
+                const ty = Math.sin(angle) * distance;
+                particle.style.cssText = `
+                    left: ${x}px;
+                    top: ${y}px;
+                    width: ${4 + Math.random() * 6}px;
+                    height: ${4 + Math.random() * 6}px;
+                    background: ${colors[Math.floor(Math.random() * colors.length)]};
+                    --tx: ${tx}px;
+                    --ty: ${ty}px;
+                    box-shadow: 0 0 6px ${colors[Math.floor(Math.random() * colors.length)]};
+                `;
+                document.body.appendChild(particle);
+                setTimeout(() => particle.remove(), 900);
+            }
+        }
+
+        // ==========================================
+        // 4. 卡片翻转
+        // ==========================================
+        const cards = document.querySelectorAll('.icon-item');
+        cards.forEach(card => {
+            card.addEventListener('mouseenter', () => {
+                card.classList.add('flipped');
+            });
+            card.addEventListener('mouseleave', () => {
+                card.classList.remove('flipped');
+            });
+        });
+
+        // ==========================================
+        // 5. 悬停放大光标
+        // ==========================================
+        const hoverElements = document.querySelectorAll('.icon-item, .search-box, .switch, .title-wrapper');
+        hoverElements.forEach(el => {
+            el.addEventListener('mouseenter', () => {
+                cursor.style.transform = 'translate(-50%, -50%) scale(1.5)';
+            });
+            el.addEventListener('mouseleave', () => {
+                cursor.style.transform = 'translate(-50%, -50%) scale(1)';
+            });
+        });
+
+        // ==========================================
+        // 6. 新标签开关
+        // ==========================================
+        const switchEl = document.getElementById('newtabSwitch');
+        let useNewTab = localStorage.getItem('openNewTab') === 'true';
+        switchEl.checked = useNewTab;
+
+        switchEl.addEventListener('change', () => {
+            useNewTab = switchEl.checked;
+            localStorage.setItem('openNewTab', useNewTab);
+        });
+
+        // ==========================================
+        // 7. 卡片点击跳转
+        // ==========================================
+        cards.forEach(card => {
+            card.addEventListener('click', (e) => {
+                e.preventDefault();
+                const url = card.dataset.href;
+                if (useNewTab) {
+                    window.open(url, '_blank');
+                } else {
+                    window.location.href = url;
+                }
+            });
+        });
+    </script>
 </body>
 </html>
