@@ -47,13 +47,24 @@
             background-clip: text;
             -webkit-background-clip: text;
             transition: all 0.4s ease;
-            text-transform: uppercase; /* 强制大写 */
+            text-transform: uppercase;
+            position: relative;
+        }
+        /* 离线链接添加删除线，不禁止点击、不降低透明度 */
+        .art-link.offline {
+            text-decoration: line-through;
+            opacity: 1;
+            pointer-events: auto;
         }
         .art-link:hover {
             background-image: linear-gradient(90deg, #ff4d6d, #4cc9f0, #f72585, #4361ee);
             color: transparent;
             text-shadow: 0 0 8px rgba(255,255,255,0.6);
             transform: scale(1.08);
+        }
+        /* 移除所有下方提示符号 */
+        .art-link::after {
+            display: none;
         }
         .audio-box {
             width: 320px;
@@ -70,7 +81,6 @@
             outline: none;
             color: #fff;
         }
-        /* Chrome/Edge/Safari 控制面板强制透明 */
         audio::-webkit-media-controls-panel {
             background: transparent !important;
         }
@@ -128,11 +138,11 @@
     <div class="cursor"></div>
     <div class="cursor-follower"></div>
 
-    <!-- 链接区域：新增 DPDNS.ORG 链接 -->
-    <div class="link-row">
-        <a href="http://w.thanatosolo.ddns.ge" target="_blank" class="art-link">DDNS.GE</a>
-        <a href="https://thanatosolo.dpdns.org" target="_blank" class="art-link">DPDNS.ORG</a>
-        <a href="https://thanatosolo.kdns.fr" target="_blank" class="art-link">KDNS.FR</a>
+    <!-- 链接区域 -->
+    <div class="link-row" id="linkContainer">
+        <a href="http://w.thanatosolo.ddns.ge" target="_blank" class="art-link" data-host="w.thanatosolo.ddns.ge">DDNS.GE</a>
+        <a href="https://thanatosolo.dpdns.org" target="_blank" class="art-link" data-host="thanatosolo.dpdns.org">DPDNS.ORG</a>
+        <a href="https://thanatosolo.kdns.fr" target="_blank" class="art-link" data-host="thanatosolo.kdns.fr">KDNS.FR</a>
     </div>
 
     <!-- 透明播放器 -->
@@ -140,10 +150,9 @@
         <audio id="music" controls preload="auto">
             <source src="https://music.163.com/song/media/outer/url?id=1812453877.mp3" type="audio/mpeg">
             你的浏览器不支持音频播放
-        </audio>
+        
     </div>
 
-    <!-- 鼠标跟随动画JS + 双击跳转 -->
     <script>
         const cursor = document.querySelector('.cursor');
         const cursorFollower = document.querySelector('.cursor-follower');
@@ -171,7 +180,6 @@
         }
         animateCursor();
 
-        // 悬浮放大光标
         const hoverElements = document.querySelectorAll('.art-link, audio');
         hoverElements.forEach(el => {
             el.addEventListener('mouseenter', () => {
@@ -182,10 +190,24 @@
             });
         });
 
-        // 新增：双击页面任意位置，跳转到 /1/
         document.addEventListener('dblclick', function() {
             window.location.href = 'https://thanatosolo.github.io/1';
         });
+
+        // 域名检测逻辑
+        const allLinks = document.querySelectorAll('.art-link');
+        allLinks.forEach(item => {
+            const fullUrl = item.href;
+            fetch(fullUrl, {
+                mode: "no-cors",
+                signal: AbortSignal.timeout(3000)
+            }).then(() => {
+                // 正常站点：不加任何样式
+            }).catch(() => {
+                // 失效站点：添加删除线，仍可点击
+                item.classList.add('offline');
+            })
+        })
     </script>
 </body>
 </html>
