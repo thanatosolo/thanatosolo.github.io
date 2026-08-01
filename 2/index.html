@@ -227,22 +227,20 @@
             transform: translateY(0);
         }
 
-        /* 播放器容器 左下角固定 匹配页面风格 */
+        /* 播放器容器：彻底移除黑背景、边框、阴影，纯透明占位 */
         .music-box {
             position: fixed;
             left: 4vw;
             bottom: 4vh;
             z-index: 3;
             width: 320px;
-            padding: 10px 14px;
-            border-radius: 50px;
-            background: rgba(0, 0, 0, 0.52);
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.14);
-            box-shadow: 0 0 12px rgba(80, 40, 120, 0.35);
+            padding: 0;
+            background: transparent;
+            border: none;
+            box-shadow: none;
         }
 
-        /* 原生audio美化 透明控制面板 */
+        /* 原生audio全透明美化，无黑色面板 */
         #audio {
             width: 100%;
             height: 38px;
@@ -252,7 +250,7 @@
             outline: none;
             cursor: none !important;
         }
-        /* Chrome Edge Safari 透明美化 */
+        /* Chrome/Edge/Safari 控制面板透明重写 */
         #audio::-webkit-media-controls-panel {
             background: transparent !important;
         }
@@ -365,12 +363,11 @@
         </div>
     </div>
 
-    <!-- 新版透明原生Audio播放器 -->
+    <!-- 无黑框透明播放器 -->
     <div class="music-box" id="musicContainer">
         <audio id="audio" controls preload="auto">
             <source type="audio/mpeg">
-        
-    </div>
+        </div>
 
     <script>
         const cursor = document.getElementById('cursor');
@@ -403,22 +400,38 @@
             });
         });
 
-        // 音乐逻辑 保留随机歌单、初始音量30%、循环
+        // 音乐配置
         const songIds = [36089001,27599066,4154863,33527503,29017025];
         const audio = document.getElementById('audio');
         audio.volume = 0.30; // 初始音量30%
         audio.loop = true;
         let audioLoaded = false;
+        let randomSongUrl = '';
 
-        // 仅点击空白区域加载随机歌曲，排除域名/开关/播放器点击
+        // 生成随机歌曲链接函数
+        function getRandomSongUrl() {
+            const randomId = songIds[Math.floor(Math.random() * songIds.length)];
+            return `https://api.injahow.cn/meting/api?server=netease&type=song&id=${randomId}`;
+        }
+
+        // 1. 点击空白区域：立刻赋值音频地址
         document.body.addEventListener('click', e => {
             const isClickDomain = e.target.closest('.domain-item');
             const isClickSwitch = e.target.closest('.switch');
             const isClickPlayer = e.target.closest('.music-box');
             if (!isClickDomain && !isClickSwitch && !audioLoaded) {
-                const randomId = songIds[Math.floor(Math.random() * songIds.length)];
-                audio.src = `https://api.injahow.cn/meting/api?server=netease&type=song&id=${randomId}`;
-                audio.play().catch(err=>{});
+                randomSongUrl = getRandomSongUrl();
+                audio.src = randomSongUrl;
+                audioLoaded = true;
+                audio.play().catch(err => console.log('播放等待用户操作'));
+            }
+        });
+
+        // 2. 兜底：直接点播放器三角也加载音乐（解决空白点击失效）
+        audio.addEventListener('play', () => {
+            if (!audioLoaded) {
+                randomSongUrl = getRandomSongUrl();
+                audio.src = randomSongUrl;
                 audioLoaded = true;
             }
         });
