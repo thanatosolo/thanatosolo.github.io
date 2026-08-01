@@ -21,13 +21,7 @@
             cursor: none;
         }
 
-        body::before {
-            content: '';
-            position: fixed;
-            inset: 0;
-            background-color: rgba(0, 0, 0, 0.28);
-            z-index: -1;
-        }
+        /* 删掉了body::before全局黑色遮罩，原图亮度完全还原 */
 
         .container {
             position: relative;
@@ -50,7 +44,7 @@
 
         .title {
             font-size: 52px;
-            font-weight: 800;
+            font-weight 800;
             letter-spacing: 8px;
             color: #ffffff;
             position: relative;
@@ -260,7 +254,7 @@
         }
         #audio::-webkit-slider-thumb {
             background: #fff;
-            box-shadow: 0 0 6px rgba(255,255,0.9);
+            box-shadow: 0 0 6px rgba(255,255,255,0.9);
         }
         #audio::-webkit-media-controls-current-time-display,
         #audio::-webkit-media-controls-time-remaining-display {
@@ -416,24 +410,18 @@
             audioLoaded = true;
         }
 
-        // 页面空白点击事件（核心修复）
+        // 页面空白点击切歌
         document.body.addEventListener('click', e => {
-            // 排除链接、开关、播放器点击
             const isDomain = e.target.closest('.domain-item');
             const isSwitch = e.target.closest('.switch');
             const isPlayer = e.target.closest('.music-box');
             if (!isDomain && !isSwitch && !isPlayer) {
-                // 第一次点击加载音源并播放；后续点击切歌
-                if (!audioLoaded) {
-                    randomPlay();
-                } else {
-                    randomPlay();
-                }
+                randomPlay();
                 audio.play().catch(err => {});
             }
         });
 
-        // 兜底：手动点播放按钮加载歌曲
+        // 兜底：手动点播放加载歌曲
         audio.addEventListener('play', () => {
             if (!audioLoaded) {
                 randomPlay();
