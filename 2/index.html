@@ -55,7 +55,6 @@
             letter-spacing: 8px;
             color: #ffffff;
             position: relative;
-            /* 降低光晕亮度，不再刺眼 */
             text-shadow:
                 0 0 2px #fff,
                 0 0 6px #c963b3,
@@ -155,7 +154,6 @@
             transform: translateX(26px);
         }
 
-        /* 修改：域名竖排单列 */
         .domain-list {
             display: flex;
             flex-direction: column;
@@ -205,7 +203,6 @@
             width: calc(100% - 16px);
         }
 
-        /* 悬浮地址距离拉近 */
         .domain-item .full-url {
             position: absolute;
             top: 112%;
@@ -230,21 +227,40 @@
             transform: translateY(0);
         }
 
+        /* 自定义播放器容器，替换原iframe盒子 */
         .music-box {
             position: fixed;
             left: 4vw;
             bottom: 4vh;
             z-index: 3;
-            padding: 10px 14px;
+            padding: 14px 18px;
             border-radius: 12px;
             background: rgba(0, 0, 0, 0.52);
             backdrop-filter: blur(10px);
             border: 1px solid rgba(255, 255, 255, 0.14);
             box-shadow: 0 0 12px rgba(80, 40, 120, 0.35);
+            color:#fff;
         }
-
-        .music-box iframe {
-            display: block;
+        .ctrl-row{
+            display:flex;
+            align-items:center;
+            gap:12px;
+            margin:8px 0;
+        }
+        .music-box input[type="range"]{
+            flex:1;
+            cursor:none;
+        }
+        .music-box button{
+            padding:5px 12px;
+            border:none;
+            border-radius:8px;
+            cursor:none;
+            background:rgba(255,255,255,0.18);
+            color:#fff;
+        }
+        .music-box button:hover{
+            background:rgba(255,255,255,0.3);
         }
 
         /* 双层反向旋转光环光标 */
@@ -319,7 +335,6 @@
             </div>
         </div>
 
-        <!-- 竖排，顺序 2、3、1、4 -->
         <div class="domain-list">
             <div class="domain-item" data-href="https://thanatosolo.dpdns.org">
                 DPDNS.ORG
@@ -340,9 +355,19 @@
         </div>
     </div>
 
+    <!-- 替换为自定义播放器结构，移除iframe -->
     <div class="music-box" id="musicContainer">
-        <iframe allow="autoplay" frameborder="no" border="0" marginwidth="0" marginheight="0" width="298" height="52" src=""></iframe>
+        <div class="ctrl-row">
+            <button id="playBtn">播放</button>
+            <input type="range" id="progress" value="0" min="0" max="100">
+        </div>
+        <div class="ctrl-row">
+            <span>🔊</span>
+            <input type="range" id="volSlider" min="0" max="100" value="30">
+            <span id="volNum">30%</span>
+        </div>
     </div>
+    <audio id="audio">
 
     <script>
         const cursor = document.getElementById('cursor');
@@ -375,21 +400,53 @@
             });
         });
 
-        // 随机歌曲库
+        // ==========音乐相关逻辑【保留随机歌单】==========
         const songIds = [36089001,27599066,4154863,33527503,29017025];
-        const musicContainer = document.getElementById('musicContainer');
-        const iframe = musicContainer.querySelector('iframe');
+        const audio = document.getElementById('audio');
+        const playBtn = document.getElementById('playBtn');
+        const progress = document.getElementById('progress');
+        const volSlider = document.getElementById('volSlider');
+        const volNum = document.getElementById('volNum');
+
+        audio.volume = 0.30; // 初始音量30%
+        audio.loop = true;
         let audioLoaded = false;
 
+        // 页面空白点击加载随机歌曲并播放，排除域名、开关点击
         document.body.addEventListener('click', e => {
             const isClickDomain = e.target.closest('.domain-item');
             const isClickSwitch = e.target.closest('.switch');
+            const isClickPlayer = e.target.closest('.music-box');
             if (!isClickDomain && !isClickSwitch && !audioLoaded) {
                 const randomId = songIds[Math.floor(Math.random() * songIds.length)];
-                iframe.src = `//music.163.com/outchain/player?type=2&id=${randomId}&auto=1&height=32`;
+                audio.src = `https://api.injahow.cn/meting/api?server=netease&type=song&id=${randomId}`;
+                audio.play().catch(err=>{});
                 audioLoaded = true;
             }
         });
+
+        // 播放暂停按钮
+        playBtn.onclick = ()=>{
+            if(audio.paused) audio.play();
+            else audio.pause();
+        }
+        audio.addEventListener('play',()=>playBtn.textContent="暂停");
+        audio.addEventListener('pause',()=>playBtn.textContent="播放");
+
+        // 进度条同步
+        audio.addEventListener('timeupdate',()=>{
+            if(audio.duration) progress.value = audio.currentTime / audio.duration * 100;
+        })
+        progress.oninput = ()=>{
+            audio.currentTime = progress.value / 100 * audio.duration;
+        }
+
+        // 音量滑块
+        volSlider.oninput = ()=>{
+            let val = volSlider.value;
+            audio.volume = val / 100;
+            volNum.textContent = val + "%";
+        }
     </script>
 </body>
 </html>
