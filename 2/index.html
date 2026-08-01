@@ -145,7 +145,7 @@
         }
 
         input:checked + .slider {
-            background: rgba120, 75, 170, 0.40);
+            background: rgba(120, 75, 170, 0.40);
             box-shadow: 0 0 10px rgba(160, 90, 180, 0.45);
         }
 
@@ -260,7 +260,7 @@
         }
         #audio::-webkit-slider-thumb {
             background: #fff;
-            box-shadow: 0 0 6px rgba(255,255,255,0.9);
+            box-shadow: 0 0 6px rgba(255,255,0.9);
         }
         #audio::-webkit-media-controls-current-time-display,
         #audio::-webkit-media-controls-time-remaining-display {
@@ -379,7 +379,6 @@
         let openNewTab = localStorage.getItem(STORAGE_KEY) === '1';
         targetSwitch.checked = openNewTab;
 
-        // 修复：变量名错误 target → targetSwitch
         targetSwitch.addEventListener('change', () => {
             openNewTab = targetSwitch.checked;
             localStorage.setItem(STORAGE_KEY, openNewTab ? '1' : '0');
@@ -397,7 +396,7 @@
             });
         });
 
-        // 5首可用网易云直链
+        // 歌曲链接列表
         const mp3List = [
             "https://music.163.com/song/media/outer/url?id=36089001.mp3",
             "https://music.163.com/song/media/outer/url?id=27599066.mp3",
@@ -417,23 +416,28 @@
             audioLoaded = true;
         }
 
-        // 页面载入预先加载一首（解决完全空白无反应）
-        randomPlay();
-
-        // 空白点击切歌，排除链接/开关/播放器
+        // 页面空白点击事件（核心修复）
         document.body.addEventListener('click', e => {
-            const isClickDomain = e.target.closest('.domain-item');
-            const isClickSwitch = e.target.closest('.switch');
-            const isClickPlayer = e.target.closest('.music-box');
-            if (!isClickDomain && !isClickSwitch && !audioLoaded) {
-                randomPlay();
+            // 排除链接、开关、播放器点击
+            const isDomain = e.target.closest('.domain-item');
+            const isSwitch = e.target.closest('.switch');
+            const isPlayer = e.target.closest('.music-box');
+            if (!isDomain && !isSwitch && !isPlayer) {
+                // 第一次点击加载音源并播放；后续点击切歌
+                if (!audioLoaded) {
+                    randomPlay();
+                } else {
+                    randomPlay();
+                }
                 audio.play().catch(err => {});
             }
         });
 
-        // 点击播放按钮兜底加载
+        // 兜底：手动点播放按钮加载歌曲
         audio.addEventListener('play', () => {
-            if (!audioLoaded) randomPlay();
+            if (!audioLoaded) {
+                randomPlay();
+            }
         });
     </script>
 </body>
