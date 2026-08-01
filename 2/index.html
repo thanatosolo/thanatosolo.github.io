@@ -21,8 +21,6 @@
             cursor: none;
         }
 
-        /* 移除全局黑色遮罩，原图亮度完整保留 */
-
         .container {
             position: relative;
             z-index: 2;
@@ -49,10 +47,12 @@
             color: #ffffff;
             position: relative;
             text-shadow:
-                0 0 2px #fff,
-                0 0 6px #c963b3,
-                0 0 12px #8b57b8,
-                0 0 22px #4e3480;
+                0 0 1px #000,
+                1px 1px 2px #000,
+                -1px -1px 2px #000,
+                0 0 4px #c963b3,
+                0 0 9px #8b57b8,
+                0 0 16px #4e3480;
 
             animation: titleNeonGlow 3.8s ease-in-out infinite alternate;
         }
@@ -76,17 +76,21 @@
         @keyframes titleNeonGlow {
             0% {
                 text-shadow:
-                    0 0 2px #fff,
-                    0 0 6px #c963b3,
-                    0 0 12px #8b57b8,
-                    0 0 22px #4e3480;
+                    0 0 1px #000,
+                    1px 1px 2px #000,
+                    -1px -1px 2px #000,
+                    0 0 4px #c963b3,
+                    0 0 9px #8b57b8,
+                    0 0 16px #4e3480;
             }
             100% {
                 text-shadow:
-                    0 0 2px #fff,
-                    0 0 8px #6098c8,
-                    0 0 16px #5468a8,
-                    0 0 26px #402c70;
+                    0 0 1px #000,
+                    1px 1px 2px #000,
+                    -1px -1px 2px #000,
+                    0 0 5px #6098c8,
+                    0 0 11px #5468a8,
+                    0 0 18px #402c70;
             }
         }
 
@@ -96,6 +100,9 @@
             gap: 10px;
             color: #d6e0f0;
             font-size: 15px;
+            text-shadow:
+                1px 1px 2px #000,
+                -1px -1px 2px #000;
         }
 
         .switch {
@@ -166,9 +173,11 @@
 
             color: #f0f0f8;
             text-shadow:
-                0 0 1px #fff,
-                0 0 4px #9468b0,
-                0 0 9px #523880;
+                0 0 1px #000,
+                1px 1px 2px #000,
+                -1px -1px 2px #000,
+                0 0 3px #9468b0,
+                0 0 7px #523880;
         }
 
         .domain-item::before {
@@ -187,9 +196,11 @@
             transform: translateY(-4px) scale(1.04);
             color: #ffffff;
             text-shadow:
-                0 0 2px #fff,
-                0 0 6px #b470aa,
-                0 0 14px #7050a0;
+                0 0 1px #000,
+                1px 1px 2px #000,
+                -1px -1px 2px #000,
+                0 0 5px #b470aa,
+                0 0 12px #7050a0;
         }
 
         .domain-item:hover::before {
@@ -211,8 +222,9 @@
             pointer-events: none;
 
             text-shadow:
-                0 0 4px #000,
-                0 0 6px #604080;
+                1px 1px 2px #000,
+                -1px -1px 2px #000,
+                2px 2px 3px rgba(0,0,0,0.8);
         }
 
         .domain-item:hover .full-url {
@@ -259,7 +271,7 @@
         #audio::-webkit-media-controls-current-time-display,
         #audio::-webkit-media-controls-time-remaining-display {
             color: #fff;
-            text-shadow: 0 0 4px rgba(0,0,0,0.5);
+            text-shadow: 1px 1px 2px #000,-1px -1px 2px #000;
         }
 
         /* 双层反向旋转光环光标 */
