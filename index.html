@@ -3,176 +3,445 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Music Page</title>
+    <title>THANATOSOLO</title>
     <style>
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
         }
+
         body {
-            width: 100vw;
+            min-height: 100vh;
+            background: url('https://pic1.imgdb.cn/i/033xh33EZ3PtL19TphPUL3.jpg') no-repeat center center;
+            background-size: cover;
+            background-attachment: fixed;
+            font-family: "Microsoft YaHei", "PingFang SC", sans-serif;
+            overflow-x: hidden;
+            cursor: none;
+        }
+
+        .container {
+            position: relative;
+            z-index: 2;
             min-height: 100vh;
             display: flex;
             flex-direction: column;
-            align-items: center;
-            justify-content: flex-end;
-            padding-bottom: 30px;
-            gap: 72px;
-            font-family: "Microsoft YaHei", serif;
-            background-image: url("https://pic1.imgdb.cn/i/033xh33EZ3PtL19TphPUL3.jpg");
-            background-size: cover;
-            background-position: center;
-            background-repeat: no-repeat;
-            background-attachment: fixed;
-            cursor: none;
+            align-items: flex-start;
+            justify-content: flex-start;
+            padding: 6vh 4vw;
+            gap: 48px;
         }
-        /* 禁止小手光标 */
-        a, iframe {
-            cursor: none !important;
-        }
-        .link-row {
+
+        .title-wrap {
             display: flex;
-            gap: 30px;
+            align-items: center;
+            gap: 26px;
             flex-wrap: wrap;
-            justify-content: center;
         }
-        .art-link {
-            font-size: 22px;
-            letter-spacing: 2px;
-            text-decoration: none;
+
+        .title {
+            font-size: 52px;
+            font-weight: 800;
+            letter-spacing: 8px;
             color: #ffffff;
-            text-shadow: 0 0 2px #000, 0 0 4px #000;
-            background-image: linear-gradient(90deg, #fff, #fff);
+            position: relative;
+            text-shadow:
+                0 0 1px #000,
+                1px 1px 2px #000,
+                -1px -1px 2px #000,
+                0 0 4px #c963b3,
+                0 0 9px #8b57b8,
+                0 0 16px #4e3480;
+
+            animation: titleNeonGlow 3.8s ease-in-out infinite alternate;
+        }
+
+        .title::before {
+            content: attr(data-text);
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            color: transparent;
+            background: linear-gradient(135deg, #b87890, #a070b8, #7c68b4);
             background-clip: text;
             -webkit-background-clip: text;
-            transition: all 0.4s ease;
-            text-transform: uppercase;
+            opacity: 0.7;
+            z-index: -1;
+            filter: blur(1px);
+        }
+
+        @keyframes titleNeonGlow {
+            0% {
+                text-shadow:
+                    0 0 1px #000,
+                    1px 1px 2px #000,
+                    -1px -1px 2px #000,
+                    0 0 4px #c963b3,
+                    0 0 9px #8b57b8,
+                    0 0 16px #4e3480;
+            }
+            100% {
+                text-shadow:
+                    0 0 1px #000,
+                    1px 1px 2px #000,
+                    -1px -1px 2px #000,
+                    0 0 5px #6098c8,
+                    0 0 11px #5468a8,
+                    0 0 18px #402c70;
+            }
+        }
+
+        .switch-box {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: #d6e0f0;
+            font-size: 15px;
+            text-shadow:
+                1px 1px 2px #000,
+                -1px -1px 2px #000;
+        }
+
+        .switch {
             position: relative;
+            display: inline-block;
+            width: 50px;
+            height: 24px;
         }
-        .art-link:hover {
-            background-image: linear-gradient(90deg, #ff4d6d, #4cc9f0, #f72585, #4361ee);
-            color: transparent;
-            text-shadow: 0 0 8px rgba(255,255,255,0.6);
-            transform: scale(1.08);
+
+        .switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
         }
-        .art-link::after {
-            display: none;
-        }
-        .iframe-box {
-            width: 298px;
-            height: 52px;
-            backdrop-filter: blur(4px);
-            border-radius: 50px;
-            overflow: hidden;
-        }
-        /* 自定义光标 */
-        .cursor {
-            position: fixed;
+
+        .slider {
+            position: absolute;
+            cursor: none;
             top: 0;
             left: 0;
-            width: 20px;
-            height: 20px;
-            border: 2px solid #ffffff;
+            right: 0;
+            bottom: 0;
+            background: rgba(255, 255, 255, 0.10);
+            backdrop-filter: blur(4px);
+            border-radius: 24px;
+            transition: 0.35s;
+            border: 1px solid rgba(255, 255, 255, 0.25);
+        }
+
+        .slider:before {
+            position: absolute;
+            content: "";
+            height: 18px;
+            width: 18px;
+            left: 3px;
+            bottom: 2px;
+            background: #fff;
             border-radius: 50%;
+            transition: 0.35s;
+            box-shadow: 0 0 6px #9e60aa;
+        }
+
+        input:checked + .slider {
+            background: rgba(120, 75, 170, 0.40);
+            box-shadow: 0 0 10px rgba(160, 90, 180, 0.45);
+        }
+
+        input:checked + .slider:before {
+            transform: translateX(26px);
+        }
+
+        .domain-list {
+            display: flex;
+            flex-direction: column;
+            gap: 28px;
+            align-items: flex-start;
+        }
+
+        .domain-item {
+            position: relative;
+            padding: 10px 8px;
+            font-size: 25px;
+            font-weight: 600;
+            letter-spacing: 1.2px;
+            cursor: none !important;
+            transition: all 0.32s ease;
+            white-space: nowrap;
+
+            color: #f0f0f8;
+            text-shadow:
+                0 0 1px #000,
+                1px 1px 2px #000,
+                -1px -1px 2px #000,
+                0 0 3px #9468b0,
+                0 0 7px #523880;
+        }
+
+        .domain-item::before {
+            content: '';
+            position: absolute;
+            left: 8px;
+            bottom: 6px;
+            width: 0;
+            height: 2px;
+            background: linear-gradient(90deg, #b068a2, #6878b8);
+            transition: width 0.32s ease;
+            filter: blur(0.5px);
+        }
+
+        .domain-item:hover {
+            transform: translateY(-4px) scale(1.04);
+            color: #ffffff;
+            text-shadow:
+                0 0 1px #000,
+                1px 1px 2px #000,
+                -1px -1px 2px #000,
+                0 0 5px #b470aa,
+                0 0 12px #7050a0;
+        }
+
+        .domain-item:hover::before {
+            width: calc(100% - 16px);
+        }
+
+        .domain-item .full-url {
+            position: absolute;
+            top: 112%;
+            left: 8px;
+            white-space: nowrap;
+            font-size: 14px;
+            font-weight: 400;
+            letter-spacing: 0.4px;
+            color: #e4e0f0;
+            opacity: 0;
+            transform: translateY(-3px);
+            transition: all 0.28s ease;
+            pointer-events: none;
+
+            text-shadow:
+                1px 1px 2px #000,
+                -1px -1px 2px #000,
+                2px 2px 3px rgba(0,0,0,0.8);
+        }
+
+        .domain-item:hover .full-url {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* 播放器完全透明无黑框 */
+        .music-box {
+            position: fixed;
+            left: 4vw;
+            bottom: 4vh;
+            z-index: 3;
+            width: 320px;
+            padding: 0;
+            background: transparent;
+            border: none;
+            box-shadow: none;
+        }
+
+        #audio {
+            width: 100%;
+            height: 38px;
+            border-radius: 50px;
+            background: transparent;
+            border: none;
+            outline: none;
+            cursor: none !important;
+        }
+        #audio::-webkit-media-controls-panel {
+            background: transparent !important;
+        }
+        #audio::-webkit-media-controls-play-button,
+        #audio::-webkit-media-controls-mute-button {
+            filter: brightness(3);
+        }
+        #audio::-webkit-slider-runnable-track {
+            background: rgba(255,255,255,0.2);
+        }
+        #audio::-webkit-slider-thumb {
+            background: #fff;
+            box-shadow: 0 0 6px rgba(255,255,255,0.9);
+        }
+        #audio::-webkit-media-controls-current-time-display,
+        #audio::-webkit-media-controls-time-remaining-display {
+            color: #fff;
+            text-shadow: 1px 1px 2px #000,-1px -1px 2px #000;
+        }
+
+        /* 双层反向旋转光环光标 */
+        #cursor {
+            position: fixed;
+            width: 44px;
+            height: 44px;
+            transform: translate(-50%, -50%);
             pointer-events: none;
             z-index: 9999;
-            transform: translate(-50%, -50%);
-            transition: transform 0.1s ease;
-            will-change: transform;
-            box-shadow: 0 0 6px rgba(255,255,255,0.7);
         }
-        .cursor-follower {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 8px;
-            height: 8px;
-            background: #ffffff;
-            border-radius: 50%;
-            pointer-events: none;
-            z-index: 9998;
-            transform: translate(-50%, -50%);
-            transition: transform 0.15s ease;
-            will-change: transform;
-            box-shadow: 0 0 4px rgba(255,255,255,0.8);
+        .ring-outer{
+            width:100%;
+            height:100%;
+            border:1px solid rgba(110,180,220,0.6);
+            border-radius:50%;
+            animation: rotateSlow 9s linear infinite;
+        }
+        .ring-inner{
+            position:absolute;
+            width:65%;
+            height:65%;
+            border:2px solid rgba(200,110,180,0.7);
+            border-radius:50%;
+            top:50%;
+            left:50%;
+            transform:translate(-50%,-50%);
+            animation: rotateReverse 6s linear infinite, pulse 2.4s ease-in-out infinite;
+            box-shadow:0 0 8px #885499;
+        }
+        .center-dot{
+            position:absolute;
+            width:7px;
+            height:7px;
+            background:#fff;
+            border-radius:50%;
+            top:50%;
+            left:50%;
+            transform:translate(-50%,-50%);
+            box-shadow:0 0 10px #ffffff,0 0 16px #5878a8;
+        }
+        @keyframes rotateSlow{
+            from{transform:rotate(0deg)}
+            to{transform:rotate(360deg)}
+        }
+        @keyframes rotateReverse{
+            from{transform:translate(-50%,-50%) rotate(360deg)}
+            to{transform:translate(-50%,-50%) rotate(0deg)}
+        }
+        @keyframes pulse{
+            0%,100%{transform:translate(-50%,-50%) scale(1)}
+            50%{transform:translate(-50%,-50%) scale(1.15)}
         }
     </style>
 </head>
 <body>
-    <!-- 自定义光标 -->
-    <div class="cursor"></div>
-    <div class="cursor-follower"></div>
-
-    <div class="link-row" id="linkContainer">
-        <a href="http://w.thanatosolo.ddns.ge" target="_blank" class="art-link">DDNS.GE</a>
-        <a href="https://thanatosolo.dpdns.org" target="_blank" class="art-link">DPDNS.ORG</a>
-        <a href="https://thanatosolo.kdns.fr" target="_blank" class="art-link">KDNS.FR</a>
+    <div id="cursor">
+        <div class="ring-outer"></div>
+        <div class="ring-inner"></div>
+        <div class="center-dot"></div>
     </div>
 
-    <!-- 网易云iframe播放器：初始src为空！关键 -->
-    <div class="iframe-box">
-        <iframe id="musicIframe" allow="autoplay" frameborder="no" border="0" marginwidth="0" marginheight="0" width=298 height=52 src="">
-        </iframe>
+    <div class="container">
+        <div class="title-wrap">
+            <h1 class="title" data-text="THANATOSOLO">THANATOSOLO</h1>
+        </div>
+
+        <div class="domain-list">
+            <!-- new开关在最上方，4个域名在开关下方 -->
+            <div class="switch-box">
+                <span>new</span>
+                <label class="switch">
+                    <input type="checkbox" id="targetSwitch">
+                    <span class="slider"></span>
+                </label>
+            </div>
+
+            <div class="domain-item" data-href="https://thanatosolo.dpdns.org">
+                DPDNS.ORG
+                <span class="full-url">https://thanatosolo.dpdns.org</span>
+            </div>
+            <div class="domain-item" data-href="https://thanatosolo.kdns.fr">
+                KDNS.FR
+                <span class="full-url">https://thanatosolo.kdns.fr</span>
+            </div>
+            <div class="domain-item" data-href="http://www.thanatosolo.ddns.ge">
+                DDNS.GE
+                <span class="full-url">http://www.thanatosolo.ddns.ge</span>
+            </div>
+            <div class="domain-item" data-href="http://thanatos.l.cd">
+                L.CD
+                <span class="full-url">http://thanatos.l.cd</span>
+            </div>
+        </div>
+    </div>
+
+    <div class="music-box" id="musicContainer">
+        <audio id="audio" controls preload="auto" playsinline>
+        
     </div>
 
     <script>
-        const cursor = document.querySelector('.cursor');
-        const cursorFollower = document.querySelector('.cursor-follower');
-        let mouseX = 0, mouseY = 0;
-        let curX = 0, curY = 0;
-        let folX = 0, folY = 0;
-
-        document.addEventListener('mousemove', (e) => {
-            mouseX = e.clientX;
-            mouseY = e.clientY;
+        const cursor = document.getElementById('cursor');
+        document.addEventListener('mousemove', e => {
+            cursor.style.left = e.clientX + 'px';
+            cursor.style.top = e.clientY + 'px';
         });
 
-        function animateCursor() {
-            curX += (mouseX - curX) * 0.1;
-            curY += (mouseY - curY) * 0.1;
-            cursor.style.left = curX + 'px';
-            cursor.style.top = curY + 'px';
+        const targetSwitch = document.getElementById('targetSwitch');
+        const domainItems = document.querySelectorAll('.domain-item');
+        const STORAGE_KEY = 'linkTargetMode';
 
-            folX += (mouseX - folX) * 0.05;
-            folY += (mouseY - folY) * 0.05;
-            cursorFollower.style.left = folX + 'px';
-            cursorFollower.style.top = folY + 'px';
+        let openNewTab = localStorage.getItem(STORAGE_KEY) === '1';
+        targetSwitch.checked = openNewTab;
 
-            requestAnimationFrame(animateCursor);
-        }
-        animateCursor();
+        targetSwitch.addEventListener('change', () => {
+            openNewTab = targetSwitch.checked;
+            localStorage.setItem(STORAGE_KEY, openNewTab ? '1' : '0');
+        });
 
-        // hover放大光标
-        const hoverElements = document.querySelectorAll('.art-link, #musicIframe');
-        hoverElements.forEach(el => {
-            el.addEventListener('mouseenter', () => {
-                cursor.style.transform = 'translate(-50%, -50%) scale(1.5)';
-            });
-            el.addEventListener('mouseleave', () => {
-                cursor.style.transform = 'translate(-50%, -50%) scale(1)';
+        domainItems.forEach(item => {
+            item.addEventListener('click', e => {
+                e.stopPropagation();
+                const url = item.dataset.href;
+                if (openNewTab) {
+                    window.open(url, '_blank');
+                } else {
+                    location.href = url;
+                }
             });
         });
 
-        // 双击跳转
-        document.addEventListener('dblclick', function() {
-            window.location.href = 'https://thanatosolo.github.io/1';
-        });
+        // 歌曲链接列表
+        const mp3List = [
+            "https://music.163.com/song/media/outer/url?id=36089001.mp3",
+            "https://music.163.com/song/media/outer/url?id=27599066.mp3",
+            "https://music.163.com/song/media/outer/url?id=4154863.mp3",
+            "https://music.163.com/song/media/outer/url?id=33527503.mp3",
+            "https://music.163.com/song/media/outer/url?id=29017025.mp3"
+        ];
+        const audio = document.getElementById('audio');
+        audio.volume = 0.3;
+        audio.loop = true;
+        let audioLoaded = false; // 刷新页面自动重置为false
 
-        // =========核心逻辑（参考示例方案）==========
-        const iframe = document.getElementById("musicIframe");
-        let audioLoaded = false;
-
-        document.body.addEventListener("click", function(e) {
-            // 点击链接、播放器区域不触发加载
-            const clickLink = e.target.closest(".art-link");
-            const clickPlayer = e.target.closest("#musicIframe");
-            if (clickLink || clickPlayer || audioLoaded) return;
-
-            // 首次点击空白，注入播放器地址，auto=1自动播放
-            iframe.src = "https://music.163.com/outchain/player?type=2&id=1812453877&auto=1&height=32";
+        function randomPlay() {
+            const randomUrl = mp3List[Math.floor(Math.random() * mp3List.length)];
+            audio.src = randomUrl;
+            audio.load();
             audioLoaded = true;
-        })
+        }
+
+        // 空白点击：仅未加载时才执行加载播放，已加载后点击空白无任何效果
+        document.body.addEventListener('click', e => {
+            const isDomain = e.target.closest('.domain-item');
+            const isSwitch = e.target.closest('.switch');
+            const isPlayer = e.target.closest('.music-box');
+            // 满足：空白点击 + 还没加载过音乐
+            if (!isDomain && !isSwitch && !isPlayer && !audioLoaded) {
+                randomPlay();
+                audio.play().catch(err => {});
+            }
+        });
+
+        // 兜底：直接点播放器播放按钮加载歌曲
+        audio.addEventListener('play', () => {
+            if (!audioLoaded) {
+                randomPlay();
+            }
+        });
     </script>
 </body>
 </html>
