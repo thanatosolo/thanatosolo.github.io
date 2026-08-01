@@ -3,73 +3,122 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>测试</title>
+    <title>TEST</title>
     <style>
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
         }
+
         body {
             min-height: 100vh;
             background: url('https://pic1.imgdb.cn/i/033xh33EZ3PtL19TphPUL3.jpg') no-repeat center center;
             background-size: cover;
             background-attachment: fixed;
-            font-family: "Microsoft YaHei", sans-serif;
+            font-family: "Microsoft YaHei", "PingFang SC", sans-serif;
             overflow-x: hidden;
             cursor: none;
         }
+
         body::before {
             content: '';
             position: fixed;
             inset: 0;
-            background-color: rgba(0,0,0,0.18);
+            background-color: rgba(0, 0, 0, 0.28);
             z-index: -1;
         }
+
         .container {
             position: relative;
             z-index: 2;
-            text-align: center;
-            min-height:100vh;
-            display:flex;
-            flex-direction:column;
-            align-items:center;
-            /* 整体向下靠拢，取消垂直居中 */
-            justify-content:flex-start;
-            padding-top: 18vh;
-            gap:36px;
+            text-align: left;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            justify-content: flex-start;
+            padding: 6vh 4vw;
+            gap: 48px;
         }
+
         .title-wrap {
             display: flex;
             align-items: center;
-            justify-content: center;
-            gap: 16px;
-            margin-bottom: 20px;
+            gap: 26px;
+            flex-wrap: wrap;
         }
+
         .title {
-            font-size: 32px;
+            font-size: 52px;
+            font-weight: 800;
+            letter-spacing: 8px;
             color: #ffffff;
-            text-shadow: 0 2px 10px rgba(0,0,0,0.35);
+            position: relative;
+            /* 降低光晕亮度，不再刺眼 */
+            text-shadow:
+                0 0 2px #fff,
+                0 0 6px #c963b3,
+                0 0 12px #8b57b8,
+                0 0 22px #4e3480;
+
+            animation: titleNeonGlow 3.8s ease-in-out infinite alternate;
         }
-        /* 跳转开关样式 */
+
+        .title::before {
+            content: attr(data-text);
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            color: transparent;
+            background: linear-gradient(135deg, #b87890, #a070b8, #7c68b4);
+            background-clip: text;
+            -webkit-background-clip: text;
+            opacity: 0.7;
+            z-index: -1;
+            filter: blur(1px);
+        }
+
+        @keyframes titleNeonGlow {
+            0% {
+                text-shadow:
+                    0 0 2px #fff,
+                    0 0 6px #c963b3,
+                    0 0 12px #8b57b8,
+                    0 0 22px #4e3480;
+            }
+            100% {
+                text-shadow:
+                    0 0 2px #fff,
+                    0 0 8px #6098c8,
+                    0 0 16px #5468a8,
+                    0 0 26px #402c70;
+            }
+        }
+
         .switch-box {
             display: flex;
             align-items: center;
-            gap: 8px;
-            color: #fff;
-            font-size: 14px;
+            gap: 10px;
+            color: #d6e0f0;
+            font-size: 15px;
         }
+
         .switch {
             position: relative;
             display: inline-block;
-            width: 44px;
-            height: 22px;
+            width: 50px;
+            height: 24px;
         }
+
         .switch input {
             opacity: 0;
             width: 0;
             height: 0;
         }
+
         .slider {
             position: absolute;
             cursor: none;
@@ -77,301 +126,270 @@
             left: 0;
             right: 0;
             bottom: 0;
-            background: rgba(255,255,255,0.2);
+            background: rgba(255, 255, 255, 0.10);
             backdrop-filter: blur(4px);
-            border-radius: 22px;
-            transition: .3s;
-            border: 1px solid rgba(255,255,255,0.3);
+            border-radius: 24px;
+            transition: 0.35s;
+            border: 1px solid rgba(255, 255, 255, 0.25);
         }
+
         .slider:before {
             position: absolute;
             content: "";
-            height: 16px;
-            width: 16px;
+            height: 18px;
+            width: 18px;
             left: 3px;
-            bottom: 3px;
+            bottom: 2px;
             background: #fff;
             border-radius: 50%;
-            transition: .3s;
-        }
-        input:checked + .slider {
-            background: rgba(100,200,255,0.4);
-        }
-        input:checked + .slider:before {
-            transform: translateX(22px);
+            transition: 0.35s;
+            box-shadow: 0 0 6px #9e60aa;
         }
 
-        /* 3D翻转卡片【改动：完全透明，尺寸自适应】 */
-        .domain-card-wrap {
+        input:checked + .slider {
+            background: rgba(120, 75, 170, 0.40);
+            box-shadow: 0 0 10px rgba(160, 90, 180, 0.45);
+        }
+
+        input:checked + .slider:before {
+            transform: translateX(26px);
+        }
+
+        /* 修改：域名竖排单列 */
+        .domain-list {
             display: flex;
             flex-direction: column;
-            gap: 22px;
-            align-items: center;
-            margin-bottom: 40px;
+            gap: 28px;
+            align-items: flex-start;
         }
-        .flip-card {
-            width: auto;
-            height: 90px;
-            perspective: 1200px;
-            pointer-events: auto;
-            cursor: none !important;
-        }
-        .flip-card-inner {
+
+        .domain-item {
             position: relative;
-            width: 100%;
-            height: 100%;
-            transition: transform 0.6s ease;
-            transform-style: preserve-3d;
+            padding: 10px 8px;
+            font-size: 25px;
+            font-weight: 600;
+            letter-spacing: 1.2px;
+            cursor: none !important;
+            transition: all 0.32s ease;
+            white-space: nowrap;
+
+            color: #f0f0f8;
+            text-shadow:
+                0 0 1px #fff,
+                0 0 4px #9468b0,
+                0 0 9px #523880;
         }
-        .flip-card:hover .flip-card-inner {
-            transform: rotateY(180deg);
-        }
-        .flip-front, .flip-back {
+
+        .domain-item::before {
+            content: '';
             position: absolute;
-            width: 100%;
-            height: 100%;
-            padding: 12px 24px;
-            /* 全部透明：去除背景、边框、毛玻璃 */
-            background: transparent;
-            border:none;
-            backdrop-filter:none;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            backface-visibility: hidden;
-            -webkit-backface-visibility: hidden;
-            cursor: none !important;
+            left: 8px;
+            bottom: 6px;
+            width: 0;
+            height: 2px;
+            background: linear-gradient(90deg, #b068a2, #6878b8);
+            transition: width 0.32s ease;
+            filter: blur(0.5px);
         }
-        .flip-back {
-            transform: rotateY(180deg);
+
+        .domain-item:hover {
+            transform: translateY(-4px) scale(1.04);
+            color: #ffffff;
+            text-shadow:
+                0 0 2px #fff,
+                0 0 6px #b470aa,
+                0 0 14px #7050a0;
         }
-        .domain-name {
-            font-size: 24px;
-            font-weight: 500;
-            color: #fff;
-            letter-spacing: 2px;
+
+        .domain-item:hover::before {
+            width: calc(100% - 16px);
         }
-        .domain-link-text {
+
+        /* 悬浮地址距离拉近 */
+        .domain-item .full-url {
+            position: absolute;
+            top: 112%;
+            left: 8px;
+            white-space: nowrap;
             font-size: 14px;
-            color: #fff;
-            word-break: break-all;
+            font-weight: 400;
+            letter-spacing: 0.4px;
+            color: #e4e0f0;
+            opacity: 0;
+            transform: translateY(-3px);
+            transition: all 0.28s ease;
+            pointer-events: none;
+
+            text-shadow:
+                0 0 4px #000,
+                0 0 6px #604080;
         }
-        .flip-card a{
-            display:block;
-            width:100%;
-            height:100%;
-            text-decoration:none;
-            cursor: none !important;
+
+        .domain-item:hover .full-url {
+            opacity: 1;
+            transform: translateY(0);
         }
 
         .music-box {
-            position: relative;
-            z-index: 2;
-            margin-top:12px;
-        }
-        /* 画布层：点阵拖尾 */
-        #canvasMouse {
             position: fixed;
-            top:0;
-            left:0;
-            width:100%;
-            height:100%;
-            pointer-events: none;
-            z-index:1;
-            background: transparent;
+            left: 4vw;
+            bottom: 4vh;
+            z-index: 3;
+            padding: 10px 14px;
+            border-radius: 12px;
+            background: rgba(0, 0, 0, 0.52);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.14);
+            box-shadow: 0 0 12px rgba(80, 40, 120, 0.35);
         }
 
-        /* ========= CSS动态光标【方案A 旋转+呼吸光圈】 ========= */
+        .music-box iframe {
+            display: block;
+        }
+
+        /* 双层反向旋转光环光标 */
         #cursor {
             position: fixed;
-            width: 26px;
-            height: 26px;
-            transform: translate(-50%,-50%);
+            width: 44px;
+            height: 44px;
+            transform: translate(-50%, -50%);
             pointer-events: none;
-            z-index:9999;
+            z-index: 9999;
         }
-        .cursor-ring{
+        .ring-outer{
             width:100%;
             height:100%;
-            border: 2px solid #fff;
+            border:1px solid rgba(110,180,220,0.6);
             border-radius:50%;
-            animation: rotate 4s linear infinite, breathe 2.5s ease-in-out infinite;
+            animation: rotateSlow 9s linear infinite;
         }
-        .cursor-dot{
+        .ring-inner{
             position:absolute;
-            width:5px;
-            height:5px;
+            width:65%;
+            height:65%;
+            border:2px solid rgba(200,110,180,0.7);
+            border-radius:50%;
+            top:50%;
+            left:50%;
+            transform:translate(-50%,-50%);
+            animation: rotateReverse 6s linear infinite, pulse 2.4s ease-in-out infinite;
+            box-shadow:0 0 8px #885499;
+        }
+        .center-dot{
+            position:absolute;
+            width:7px;
+            height:7px;
             background:#fff;
             border-radius:50%;
             top:50%;
             left:50%;
             transform:translate(-50%,-50%);
-            animation: flicker 1.2s ease-in-out infinite;
+            box-shadow:0 0 10px #ffffff,0 0 16px #5878a8;
         }
-        @keyframes rotate {
+        @keyframes rotateSlow{
             from{transform:rotate(0deg)}
             to{transform:rotate(360deg)}
         }
-        @keyframes breathe {
-            0%,100%{transform:scale(1)}
-            50%{transform:scale(1.25)}
+        @keyframes rotateReverse{
+            from{transform:translate(-50%,-50%) rotate(360deg)}
+            to{transform:translate(-50%,-50%) rotate(0deg)}
         }
-        @keyframes flicker {
-            0%,100%{opacity:1}
-            50%{opacity:0.35}
+        @keyframes pulse{
+            0%,100%{transform:translate(-50%,-50%) scale(1)}
+            50%{transform:translate(-50%,-50%) scale(1.15)}
         }
     </style>
 </head>
 <body>
-<canvas id="canvasMouse"></canvas>
-<!-- 动态光标DOM结构 -->
-<div id="cursor">
-    <div class="cursor-ring"></div>
-    <div class="cursor-dot"></div>
-</div>
-
-<div class="container">
-    <div class="title-wrap">
-        <h1 class="title">测试</h1>
-        <div class="switch-box">
-            <span>新标签打开</span>
-            <label class="switch">
-                <input type="checkbox" id="targetSwitch">
-                <span class="slider"></span>
-            </label>
-        </div>
+    <div id="cursor">
+        <div class="ring-outer"></div>
+        <div class="ring-inner"></div>
+        <div class="center-dot"></div>
     </div>
 
-    <div class="domain-card-wrap">
-        <div class="flip-card" data-href="http://w.thanatosolo.ddns.ge">
-            <div class="flip-card-inner">
-                <div class="flip-front">
-                    <a href="javascript:void(0)">
-                        <div class="domain-name">DDNS.GE</div>
-                    </a>
-                </div>
-                <div class="flip-back">
-                    <a href="javascript:void(0)">
-                        <div class="domain-link-text">http://w.thanatosolo.ddns.ge</div>
-                    </a>
-                </div>
+    <div class="container">
+        <div class="title-wrap">
+            <h1 class="title" data-text="TEST">TEST</h1>
+            <div class="switch-box">
+                <span>new</span>
+                <label class="switch">
+                    <input type="checkbox" id="targetSwitch">
+                    <span class="slider"></span>
+                </label>
             </div>
         </div>
-        <div class="flip-card" data-href="https://thanatosolo.dpdns.org">
-            <div class="flip-card-inner">
-                <div class="flip-front">
-                    <a href="javascript:void(0)">
-                        <div class="domain-name">DPDNS.ORG</div>
-                    </a>
-                </div>
-                <div class="flip-back">
-                    <a href="javascript:void(0)">
-                        <div class="domain-link-text">https://thanatosolo.dpdns.org</div>
-                    </a>
-                </div>
+
+        <!-- 竖排，顺序 2、3、1、4 -->
+        <div class="domain-list">
+            <div class="domain-item" data-href="https://thanatosolo.dpdns.org">
+                DPDNS.ORG
+                <span class="full-url">https://thanatosolo.dpdns.org</span>
             </div>
-        </div>
-        <div class="flip-card" data-href="https://thanatosolo.kdns.fr">
-            <div class="flip-card-inner">
-                <div class="flip-front">
-                    <a href="javascript:void(0)">
-                        <div class="domain-name">KDNS.FR</div>
-                    </a>
-                </div>
-                <div class="flip-back">
-                    <a href="javascript:void(0)">
-                        <div class="domain-link-text">https://thanatosolo.kdns.fr</div>
-                    </a>
-                </div>
+            <div class="domain-item" data-href="https://thanatosolo.kdns.fr">
+                KDNS.FR
+                <span class="full-url">https://thanatosolo.kdns.fr</span>
+            </div>
+            <div class="domain-item" data-href="http://w.thanatosolo.ddns.ge">
+                DDNS.GE
+                <span class="full-url">http://w.thanatosolo.ddns.ge</span>
+            </div>
+            <div class="domain-item" data-href="http://www.thanatos.l.cd">
+                L.CD
+                <span class="full-url">http://www.thanatos.l.cd</span>
             </div>
         </div>
     </div>
 
     <div class="music-box" id="musicContainer">
-        <iframe allow="autoplay" frameborder="no" border="0" marginwidth="0" marginheight="0" width=298 height=52 src=""></iframe>
+        <iframe allow="autoplay" frameborder="no" border="0" marginwidth="0" marginheight="0" width="298" height="52" src=""></iframe>
     </div>
-</div>
 
-<script>
-// 动态光标跟随
-const cursor = document.getElementById('cursor');
-document.addEventListener('mousemove',e=>{
-    cursor.style.left = e.clientX + 'px';
-    cursor.style.top = e.clientY + 'px';
-})
+    <script>
+        const cursor = document.getElementById('cursor');
+        document.addEventListener('mousemove', e => {
+            cursor.style.left = e.clientX + 'px';
+            cursor.style.top = e.clientY + 'px';
+        });
 
-// ========== 跳转开关 + 本地记忆 ==========
-const targetSwitch = document.getElementById('targetSwitch');
-const flipCards = document.querySelectorAll('.flip-card');
-const STORAGE_KEY = 'linkTargetMode';
-let openNewTab = localStorage.getItem(STORAGE_KEY) === '1';
-targetSwitch.checked = openNewTab;
+        const targetSwitch = document.getElementById('targetSwitch');
+        const domainItems = document.querySelectorAll('.domain-item');
+        const STORAGE_KEY = 'linkTargetMode';
 
-targetSwitch.addEventListener('change', ()=>{
-    openNewTab = targetSwitch.checked;
-    localStorage.setItem(STORAGE_KEY, openNewTab ? '1' : '0');
-})
+        let openNewTab = localStorage.getItem(STORAGE_KEY) === '1';
+        targetSwitch.checked = openNewTab;
 
-flipCards.forEach(card=>{
-    card.addEventListener('click',(e)=>{
-        e.stopPropagation();
-        const url = card.dataset.href;
-        if(openNewTab){
-            window.open(url,'_blank');
-        }else{
-            location.href = url;
-        }
-    })
-})
+        targetSwitch.addEventListener('change', () => {
+            openNewTab = targetSwitch.checked;
+            localStorage.setItem(STORAGE_KEY, openNewTab ? '1' : '0');
+        });
 
-// ========== 音乐加载逻辑：仅点击空白区域生效 ==========
-const musicContainer = document.getElementById('musicContainer');
-const iframe = musicContainer.querySelector('iframe');
-let audioLoaded = false;
-document.body.addEventListener('click',(e)=>{
-    const isClickCard = e.target.closest('.flip-card');
-    const isClickSwitch = e.target.closest('.switch');
-    if(!isClickCard && !isClickSwitch && !audioLoaded){
-        iframe.src = "//music.163.com/outchain/player?type=2&id=20753116&auto=1&height=32";
-        audioLoaded = true;
-    }
-})
+        domainItems.forEach(item => {
+            item.addEventListener('click', e => {
+                e.stopPropagation();
+                const url = item.dataset.href;
+                if (openNewTab) {
+                    window.open(url, '_blank');
+                } else {
+                    location.href = url;
+                }
+            });
+        });
 
-// ========== Canvas：点阵圆点拖尾（无连线） ==========
-const canvas = document.getElementById("canvasMouse");
-const ctx = canvas.getContext("2d");
-let width,height;
-// 点阵队列
-const dots = [];
-const maxDotCount = 22;
+        // 随机歌曲库
+        const songIds = [36089001,27599066,4154863,33527503,29017025];
+        const musicContainer = document.getElementById('musicContainer');
+        const iframe = musicContainer.querySelector('iframe');
+        let audioLoaded = false;
 
-function resizeCanvas(){
-    width = canvas.width = window.innerWidth;
-    height = canvas.height = window.innerHeight;
-}
-resizeCanvas();
-window.addEventListener('resize',resizeCanvas);
-
-window.addEventListener('mousemove',(e)=>{
-    dots.push({x:e.clientX,y:e.clientY,alpha:1});
-    if(dots.length > maxDotCount) dots.shift();
-})
-
-function animate(){
-    ctx.clearRect(0,0,width,height);
-    // 循环绘制一串圆点
-    for(let i=0;i<dots.length;i++){
-        const point = dots[i];
-        point.alpha -= 0.045;
-        if(point.alpha <=0) continue;
-        ctx.beginPath();
-        ctx.arc(point.x, point.y, 3, 0, Math.PI*2);
-        ctx.fillStyle = `rgba(255,255,255,${point.alpha})`;
-        ctx.fill();
-    }
-    requestAnimationFrame(animate);
-}
-animate();
-</script>
+        document.body.addEventListener('click', e => {
+            const isClickDomain = e.target.closest('.domain-item');
+            const isClickSwitch = e.target.closest('.switch');
+            if (!isClickDomain && !isClickSwitch && !audioLoaded) {
+                const randomId = songIds[Math.floor(Math.random() * songIds.length)];
+                iframe.src = `//music.163.com/outchain/player?type=2&id=${randomId}&auto=1&height=32`;
+                audioLoaded = true;
+            }
+        });
+    </script>
 </body>
 </html>
