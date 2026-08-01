@@ -43,7 +43,7 @@
             margin-bottom: 42px;
         }
 
-        /* ========== 3D翻转卡片核心样式 ========== */
+        /* 3D翻转卡片 */
         .domain-card-wrap {
             display: flex;
             flex-direction: column;
@@ -64,7 +64,6 @@
             transition: transform 0.6s ease;
             transform-style: preserve-3d;
         }
-        /* hover触发翻转 */
         .flip-card:hover .flip-card-inner {
             transform: rotateY(180deg);
         }
@@ -97,28 +96,20 @@
             padding: 0 10px;
             word-break: break-all;
         }
+        .flip-card a{
+            display:block;
+            width:100%;
+            height:100%;
+            text-decoration:none;
+        }
 
-        /* 音乐按钮 */
-        .audio-btn {
-            padding: 12px 30px;
-            border: 1px solid rgba(255,255,255,0.35);
-            background: rgba(255,255,255,0.15);
-            backdrop-filter: blur(6px);
-            color: #fff;
-            border-radius: 999px;
-            font-size: 16px;
-            transition: 0.3s;
-        }
-        .audio-btn:hover {
-            background: rgba(255,255,255,0.3);
-        }
         .music-box {
             position: relative;
             z-index: 2;
             display: none;
             margin-top:12px;
         }
-        /* 鼠标线条拖尾画布 */
+        /* 画布层：线条拖尾 + 点击波纹 */
         #canvasMouse {
             position: fixed;
             top:0;
@@ -128,24 +119,29 @@
             pointer-events: none;
             z-index:1;
         }
-        /* 自定义炫彩圆点光标 */
+        /* 圆环自定义光标 */
         #cursor {
             position: fixed;
-            width: 16px;
-            height:16px;
+            width: 22px;
+            height:22px;
             border-radius:50%;
-            background: linear-gradient(45deg,#ff6b6b,#4ecdc4,#ffe066,#a855f7);
-            background-size: 300% 300%;
-            animation: gradientRotate 2s linear infinite;
+            border: 2px solid #fff;
+            background: transparent;
             transform: translate(-50%,-50%);
             pointer-events: none;
             z-index:9999;
-            box-shadow: 0 0 12px rgba(255,255,255,0.6);
+            box-shadow: 0 0 8px rgba(255,255,255,0.4);
         }
-        @keyframes gradientRotate{
-            0%{background-position:0% 50%}
-            50%{background-position:100% 50%}
-            100%{background-position:0% 50%}
+        #cursor::after{
+            content:"";
+            position:absolute;
+            width:4px;
+            height:4px;
+            background:#fff;
+            border-radius:50%;
+            top:50%;
+            left:50%;
+            transform:translate(-50%,-50%);
         }
     </style>
 </head>
@@ -156,72 +152,83 @@
 <div class="container">
     <h1 class="title">测试</h1>
     <div class="domain-card-wrap">
-        <!--卡片1-->
         <div class="flip-card">
             <div class="flip-card-inner">
                 <div class="flip-front">
-                    <div class="domain-name">DDNS.GE</div>
+                    <a href="http://w.thanatosolo.ddns.ge" target="_blank">
+                        <div class="domain-name">DDNS.GE</div>
+                    </a>
                 </div>
                 <div class="flip-back">
-                    <div class="domain-link-text">http://w.thanatosolo.ddns.ge</div>
+                    <a href="http://w.thanatosolo.ddns.ge" target="_blank">
+                        <div class="domain-link-text">http://w.thanatosolo.ddns.ge</div>
+                    </a>
                 </div>
             </div>
         </div>
-        <!--卡片2-->
         <div class="flip-card">
             <div class="flip-card-inner">
                 <div class="flip-front">
-                    <div class="domain-name">DPDNS.ORG</div>
+                    <a href="https://thanatosolo.dpdns.org" target="_blank">
+                        <div class="domain-name">DPDNS.ORG</div>
+                    </a>
                 </div>
                 <div class="flip-back">
-                    <div class="domain-link-text">https://thanatosolo.dpdns.org</div>
+                    <a href="https://thanatosolo.dpdns.org" target="_blank">
+                        <div class="domain-link-text">https://thanatosolo.dpdns.org</div>
+                    </a>
                 </div>
             </div>
         </div>
-        <!--卡片3-->
         <div class="flip-card">
             <div class="flip-card-inner">
                 <div class="flip-front">
-                    <div class="domain-name">KDNS.FR</div>
+                    <a href="https://thanatosolo.kdns.fr" target="_blank">
+                        <div class="domain-name">KDNS.FR</div>
+                    </a>
                 </div>
                 <div class="flip-back">
-                    <div class="domain-link-text">https://thanatosolo.kdns.fr</div>
+                    <a href="https://thanatosolo.kdns.fr" target="_blank">
+                        <div class="domain-link-text">https://thanatosolo.kdns.fr</div>
+                    </a>
                 </div>
             </div>
         </div>
     </div>
 
-    <button class="audio-btn" id="playBtn">点击开启背景音乐</button>
     <div class="music-box" id="musicContainer">
         <iframe allow="autoplay" frameborder="no" border="0" marginwidth="0" marginheight="0" width=298 height=52 src=""></iframe>
     </div>
 </div>
 
 <script>
-// 跟随光标
+// 圆环光标跟随
 const cursor = document.getElementById('cursor');
 document.addEventListener('mousemove',e=>{
     cursor.style.left = e.clientX + 'px';
     cursor.style.top = e.clientY + 'px';
 })
 
-// 音乐按钮逻辑：点击后填充带自动播放的iframe地址
-const playBtn = document.getElementById('playBtn');
+// 音乐控制：全局任意点击触发一次播放器加载，防止重复加载
 const musicContainer = document.getElementById('musicContainer');
 const iframe = musicContainer.querySelector('iframe');
-playBtn.addEventListener('click',()=>{
-    iframe.src = "//music.163.com/outchain/player?type=2&id=20753116&auto=1&height=32";
-    musicContainer.style.display = 'block';
-    playBtn.innerText = "音乐已开启";
-    playBtn.disabled = true;
+let audioLoaded = false;
+document.body.addEventListener('click',()=>{
+    if(!audioLoaded){
+        iframe.src = "//music.163.com/outchain/player?type=2&id=20753116&auto=1&height=32";
+        musicContainer.style.display = 'block';
+        audioLoaded = true;
+    }
 })
 
-// ===================== 新版：流光线条鼠标拖尾特效 =====================
+// 画布：线条拖尾 + 点击波纹特效
 const canvas = document.getElementById("canvasMouse");
 const ctx = canvas.getContext("2d");
 let width,height;
 const trailPoints = [];
 const maxTrailLength = 35;
+// 点击波纹数组
+let rippleList = [];
 
 function resizeCanvas(){
     width = canvas.width = window.innerWidth;
@@ -230,23 +237,32 @@ function resizeCanvas(){
 resizeCanvas();
 window.addEventListener('resize',resizeCanvas);
 
+// 鼠标移动记录轨迹
 window.addEventListener('mousemove',(e)=>{
     trailPoints.push({x:e.clientX,y:e.clientY});
     if(trailPoints.length > maxTrailLength){
         trailPoints.shift();
     }
 })
+// 点击生成波纹
+window.addEventListener('click',e=>{
+    rippleList.push({
+        x:e.clientX,
+        y:e.clientY,
+        radius:5,
+        alpha:1
+    })
+})
 
 function animate(){
-    // 拖尾渐变淡出效果
     ctx.fillStyle = 'rgba(0,0,0,0.06)';
     ctx.fillRect(0,0,width,height);
 
+    // 炫彩鼠标拖尾线条
     ctx.lineCap = "round";
     for(let i=1;i<trailPoints.length;i++){
         const p1 = trailPoints[i-1];
         const p2 = trailPoints[i];
-        // 渐变色 hsl动态变色
         const hue = (i * 10 + Date.now() * 0.05) % 360;
         const alpha = i / trailPoints.length;
         ctx.beginPath();
@@ -255,6 +271,21 @@ function animate(){
         ctx.strokeStyle = `hsla(${hue}, 85%, 65%, ${alpha})`;
         ctx.lineWidth = alpha * 4;
         ctx.stroke();
+    }
+
+    // 点击扩散波纹特效
+    for(let i=rippleList.length-1;i>=0;i--){
+        const r = rippleList[i];
+        ctx.beginPath();
+        ctx.arc(r.x, r.y, r.radius, 0, Math.PI*2);
+        ctx.strokeStyle = `rgba(255,255,255,${r.alpha})`;
+        ctx.lineWidth = 1.5;
+        ctx.stroke();
+        r.radius +=2;
+        r.alpha -=0.025;
+        if(r.alpha <=0){
+            rippleList.splice(i,1);
+        }
     }
     requestAnimationFrame(animate);
 }
