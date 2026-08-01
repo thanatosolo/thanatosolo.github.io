@@ -50,19 +50,13 @@
             text-transform: uppercase;
             position: relative;
         }
-        /* 离线链接添加删除线，不禁止点击、不降低透明度 */
-        .art-link.offline {
-            text-decoration: line-through;
-            opacity: 1;
-            pointer-events: auto;
-        }
         .art-link:hover {
             background-image: linear-gradient(90deg, #ff4d6d, #4cc9f0, #f72585, #4361ee);
             color: transparent;
             text-shadow: 0 0 8px rgba(255,255,255,0.6);
             transform: scale(1.08);
         }
-        /* 移除所有下方提示符号 */
+        /* 移除多余伪元素 */
         .art-link::after {
             display: none;
         }
@@ -138,9 +132,9 @@
     <div class="cursor"></div>
     <div class="cursor-follower"></div>
 
-    <!-- 链接区域：http 修改为协议自适应写法 -->
+    <!-- 链接：统一https协议，删除data-host属性 -->
     <div class="link-row" id="linkContainer">
-        <a href="//w.thanatosolo.ddns.ge" target="_blank" class="art-link">DDNS.GE</a>
+        <a href="http://w.thanatosolo.ddns.ge" target="_blank" class="art-link">DDNS.GE</a>
         <a href="https://thanatosolo.dpdns.org" target="_blank" class="art-link">DPDNS.ORG</a>
         <a href="https://thanatosolo.kdns.fr" target="_blank" class="art-link">KDNS.FR</a>
     </div>
@@ -190,11 +184,10 @@
             });
         });
 
+        // 双击跳转逻辑保留
         document.addEventListener('dblclick', function() {
             window.location.href = 'https://thanatosolo.github.io/1';
         });
-
-        // 已完全移除fetch域名探测代码
     </script>
 </body>
 </html>
