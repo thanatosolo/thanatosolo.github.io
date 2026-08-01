@@ -4,549 +4,588 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>THANATOSOLO</title>
-
-    <!-- ===== 浏览器标签页图标 (favicon) - 骷髅头 Emoji ===== -->
     <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>💀</text></svg>">
-
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;600;700&family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
     <style>
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
         }
+
         body {
-            width: 100vw;
+            min-height: 100vh;
+            background: url('https://pic1.imgdb.cn/i/033xh33EZ3PtL19TphPUL3.jpg') no-repeat center center;
+            background-size: cover;
+            background-attachment: fixed;
+            font-family: "Microsoft YaHei", "PingFang SC", "Inter", sans-serif;
+            overflow-x: hidden;
+            cursor: none;
+            user-select: none;
+        }
+
+        .container {
+            position: relative;
+            z-index: 2;
             min-height: 100vh;
             display: flex;
             flex-direction: column;
-            align-items: center;
-            justify-content: flex-end;
-            padding-bottom: 40px;
-            gap: 18px;
-            font-family: "Microsoft YaHei", serif;
-            background-image: url("https://pic1.imgdb.cn/i/033xh33EZ3PtL19TphPUL3.jpg");
-            background-size: cover;
-            background-position: center;
-            background-repeat: no-repeat;
-            background-attachment: fixed;
-            cursor: none;
-            overflow-x: hidden;
-            transition: background-image 0.6s ease-in-out;
-        }
-        a, input, label {
-            cursor: none !important;
-            text-decoration: none;
+            align-items: flex-start;
+            justify-content: flex-start;
+            padding: 6vh 4vw;
+            gap: 48px;
         }
 
-        /* ===== 炫彩标题 ===== */
-        .title-wrapper {
-            display: inline-block;
-        }
-        h1 {
-            font-size: 34px;
-            font-weight: 700;
-            letter-spacing: 4px;
-            font-family: 'Quicksand', 'Nunito', 'Comic Sans MS', cursive, sans-serif;
-            background: linear-gradient(90deg,
-                #f093fb 0%,
-                #f5576c 20%,
-                #4facfe 40%,
-                #43e97b 60%,
-                #f093fb 80%,
-                #f5576c 100%
-            );
-            background-size: 300% 100%;
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            animation: gradientFlow 4s ease-in-out infinite alternate;
-            text-shadow: 0 0 40px rgba(245, 87, 108, 0.15);
-        }
-        @keyframes gradientFlow {
-            0% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
-            100% { background-position: 0% 50%; }
-        }
-
-        /* ===== 搜索框 + 开关 ===== */
-        .search-row {
-            display: flex;
-            align-items: center;
-            gap: 10px;
+        .sticky-area {
+            position: sticky;
+            top: 6vh;
+            z-index: 50;
             width: 100%;
-            max-width: 500px;
-            padding: 0 20px;
-        }
-        .search-box {
-            flex: 1;
-            padding: 10px 18px;
-            border-radius: 40px;
-            border: 1px solid rgba(255,255,255,0.25);
-            background: rgba(255, 255, 255, 0.12);
-            backdrop-filter: blur(4px);
-            font-size: 14px;
-            font-weight: 300;
-            letter-spacing: 1px;
-            outline: none;
-            transition: 0.25s ease;
-            color: #ffffff;
-            text-shadow: 0 0 6px rgba(0,0,0,0.3);
-            font-family: 'Inter', sans-serif;
-        }
-        .search-box::placeholder {
-            color: rgba(255,255,255,0.5);
-            font-weight: 200;
-        }
-        .search-box:focus {
-            border-color: rgba(255,255,255,0.5);
-            background: rgba(255, 255, 255, 0.2);
+            display: flex;
+            flex-direction: column;
+            gap: 48px;
+            background: transparent;
         }
 
-        .switch-wrap {
+        .title-wrap {
             display: flex;
             align-items: center;
-            gap: 6px;
-            flex-shrink: 0;
-            font-size: 11px;
-            font-weight: 300;
-            letter-spacing: 0.5px;
-            color: rgba(255,255,255,0.85);
-            text-shadow: 0 1px 4px rgba(0,0,0,0.3);
-            background: rgba(255,255,255,0.08);
-            backdrop-filter: blur(4px);
-            padding: 5px 12px 5px 14px;
-            border-radius: 40px;
-            border: 1px solid rgba(255,255,255,0.1);
-            white-space: nowrap;
+            gap: 26px;
+            flex-wrap: wrap;
         }
+
+        .title {
+            font-size: 32px;
+            font-weight: 800;
+            letter-spacing: 8px;
+            position: relative;
+            background: linear-gradient(90deg, #ff3366, #ff8833, #ffcc33, #33dd88, #33aaff, #aa66ff, #ff33aa, #ff3366);
+            background-size: 400% 100%;
+            background-clip: text;
+            -webkit-background-clip: text;
+            color: transparent;
+            animation: textRainbowFlow 8s linear infinite;
+            text-shadow: 0 0 30px rgba(255, 100, 200, 0.3);
+        }
+
+        @keyframes textRainbowFlow {
+            0% { background-position: 0% 50%; }
+            100% { background-position: 400% 50%; }
+        }
+
+        .switch-box {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            color: #d6e0f0;
+            font-size: 15px;
+            font-weight: 500;
+            text-shadow: 0 0 12px rgba(0,0,0,0.7), 0 0 4px #000;
+            padding: 0;
+            background: transparent;
+            border: none;
+            backdrop-filter: none;
+            flex-shrink: 0;
+        }
+
         .switch {
             position: relative;
             display: inline-block;
-            width: 32px;
-            height: 16px;
+            width: 50px;
+            height: 24px;
         }
-        .switch input { opacity: 0; width: 0; height: 0; }
+
+        .switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+
         .slider {
             position: absolute;
-            cursor: pointer;
-            top: 0; left: 0; right: 0; bottom: 0;
-            background-color: rgba(200,185,170,0.4);
-            transition: .3s;
-            border-radius: 40px;
+            cursor: none;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(20, 30, 50, 0.5);
+            backdrop-filter: blur(6px);
+            border-radius: 24px;
+            transition: 0.4s cubic-bezier(0.23, 1, 0.32, 1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            box-shadow: inset 0 0 6px rgba(0,0,0,0.6);
         }
+
         .slider:before {
             position: absolute;
             content: "";
-            height: 11px;
-            width: 11px;
+            height: 18px;
+            width: 18px;
             left: 3px;
-            bottom: 2.5px;
-            background-color: #fcf8f2;
-            transition: .3s;
+            bottom: 2px;
+            background: radial-gradient(circle at 30% 30%, #f0f0ff, #b0b8ff);
             border-radius: 50%;
-            box-shadow: 0 1px 4px rgba(0,0,0,0.1);
-        }
-        input:checked + .slider { background-color: #b8a08c; }
-        input:checked + .slider:before { transform: translateX(15px); background-color: #fffcf5; }
-
-        /* ===== 卡片网格 ===== */
-        .icon-grid {
-            display: grid;
-            grid-template-columns: repeat(6, 1fr);
-            gap: 12px 16px;
-            max-width: 580px;
-            width: 100%;
-            padding: 0 16px;
-            perspective: 800px;
+            transition: 0.4s cubic-bezier(0.23, 1, 0.32, 1);
+            box-shadow: 0 0 16px #9f7aff, 0 0 30px #7f5aff;
         }
 
-        /* ===== 卡片翻转 ===== */
-        .icon-item {
+        input:checked + .slider {
+            background: rgba(140, 70, 200, 0.45);
+            border-color: #b580ff;
+            box-shadow: 0 0 24px rgba(170, 100, 255, 0.4), inset 0 0 10px rgba(200, 150, 255, 0.3);
+        }
+
+        input:checked + .slider:before {
+            transform: translateX(26px);
+            background: radial-gradient(circle at 30% 30%, #ffffff, #c8a0ff);
+            box-shadow: 0 0 30px #b080ff, 0 0 60px #9055ff;
+        }
+
+        .domain-list {
             display: flex;
             flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            gap: 2px;
-            color: #ffffff;
-            font-size: 11px;
-            letter-spacing: 0.5px;
-            text-shadow:
-                -1px -1px 0 #000,
-                1px -1px 0 #000,
-                -1px  1px 0 #000,
-                1px  1px 0 #000,
-                0 0 8px rgba(0,0,0,0.5);
-            background: transparent;
-            padding: 8px 4px;
-            border-radius: 12px;
-            border: none;
-            transition: transform 0.4s ease, box-shadow 0.4s ease;
-            transform-style: preserve-3d;
+            gap: 22px;
+            align-items: flex-start;
+            width: 100%;
+            max-width: 750px;
+        }
+
+        .domain-item {
             position: relative;
-            min-height: 64px;
-            cursor: none;
-        }
-        .icon-item .front, .icon-item .back {
-            backface-visibility: hidden;
+            padding: 8px 8px 8px 18px;
+            font-size: 22px;
+            font-weight: 600;
+            letter-spacing: 0.8px;
+            cursor: none !important;
+            transition: all 0.32s cubic-bezier(0.2, 0.9, 0.4, 1);
+            white-space: nowrap;
+            color: #f0f0f8;
+            text-shadow:
+                0 0 2px #000,
+                1px 1px 2px #000,
+                -1px -1px 2px #000,
+                0 0 8px #9468b0,
+                0 0 16px #523880;
+            border-left: 2px solid transparent;
             display: flex;
-            flex-direction: column;
             align-items: center;
-            justify-content: center;
+            gap: 12px;
             width: 100%;
-            position: absolute;
-            top: 0;
-            left: 0;
-            padding: 8px 4px;
+            flex-wrap: wrap;
         }
-        .icon-item .back {
-            transform: rotateY(180deg);
-        }
-        .icon-item .emoji {
+
+        .domain-item .icon {
             font-size: 26px;
-            line-height: 1.2;
-            filter: drop-shadow(0 2px 4px rgba(0,0,0,0.3));
+            line-height: 1;
+            filter: drop-shadow(0 0 6px rgba(180, 130, 255, 0.3));
         }
-        .icon-item .label {
-            font-size: 10px;
-            opacity: 0.9;
+
+        .domain-item .name {
+            font-weight: 600;
+            color: #f0f0f8;
+            letter-spacing: 1px;
+        }
+
+        .domain-item .full-url {
+            position: absolute;
+            top: 112%;
+            left: 18px;
+            white-space: nowrap;
+            font-size: 14px;
             font-weight: 400;
-        }
-        .icon-item .back-emoji {
-            font-size: 28px;
-            line-height: 1.2;
-        }
-        .icon-item .back-label {
-            font-size: 9px;
-            opacity: 0.8;
-            font-weight: 300;
-        }
-
-        /* 翻转状态 */
-        .icon-item.flipped {
-            transform: rotateY(180deg);
-        }
-
-        /* ===== 响应式 ===== */
-        @media (max-width: 560px) {
-            .icon-grid {
-                grid-template-columns: repeat(4, 1fr);
-                gap: 10px 12px;
-                max-width: 400px;
-            }
-            .icon-item .emoji { font-size: 22px; }
-            .icon-item .label { font-size: 9px; }
-            .search-row { max-width: 400px; }
-            h1 { font-size: 28px; }
-        }
-        @media (max-width: 400px) {
-            .icon-grid {
-                grid-template-columns: repeat(3, 1fr);
-                gap: 8px 10px;
-                max-width: 300px;
-            }
-            .icon-item .emoji { font-size: 20px; }
-            .search-row { flex-wrap: wrap; justify-content: center; }
+            letter-spacing: 0.4px;
+            color: #e4e0f0;
+            opacity: 0;
+            transform: translateY(-3px) scale(0.96);
+            transition: all 0.28s cubic-bezier(0.2, 0.9, 0.4, 1);
+            pointer-events: none;
+            text-shadow:
+                1px 1px 4px #000,
+                -1px -1px 4px #000,
+                0 0 12px rgba(0,0,0,0.9);
+            background: rgba(0,0,0,0.25);
+            backdrop-filter: blur(4px);
+            padding: 2px 14px 2px 10px;
+            border-radius: 40px;
+            border: 1px solid rgba(255,255,255,0.08);
+            z-index: 10;
         }
 
-        /* ===== 自定义光标 ===== */
-        .cursor {
-            position: fixed;
-            top: 0;
+        .domain-item:hover .full-url {
+            opacity: 1;
+            transform: translateY(0) scale(1);
+        }
+
+        .domain-item::after {
+            content: '';
+            position: absolute;
             left: 0;
-            width: 20px;
-            height: 20px;
-            border: 2px solid #ffffff;
-            border-radius: 50%;
+            bottom: 8px;
+            width: 0;
+            height: 2px;
+            background: linear-gradient(90deg, #f0a0ff, #80b0ff, #a0f0ff);
+            transition: width 0.4s ease;
+            filter: blur(1px);
+            box-shadow: 0 0 12px #a070ff;
+        }
+
+        .domain-item:hover {
+            transform: translateY(-3px) scale(1.01);
+            color: #ffffff;
+            text-shadow:
+                0 0 2px #000,
+                1px 1px 2px #000,
+                -1px -1px 2px #000,
+                0 0 12px #d080ff,
+                0 0 28px #8050c0;
+            border-left: 2px solid rgba(200, 150, 255, 0.7);
+        }
+
+        .domain-item:hover::after {
+            width: calc(100% - 18px);
+        }
+
+        #cursor {
+            position: fixed;
+            width: 60px;
+            height: 60px;
+            transform: translate(-50%, -50%);
             pointer-events: none;
             z-index: 9999;
-            transform: translate(-50%, -50%);
-            transition: transform 0.1s ease;
-            will-change: transform;
-            box-shadow: 0 0 6px rgba(255,255,255,0.7);
+            mix-blend-mode: screen;
+            filter: drop-shadow(0 0 20px #b080ff);
         }
-        .cursor-follower {
+
+        .ring-outer {
+            width: 100%;
+            height: 100%;
+            border: 1.8px solid rgba(160, 220, 255, 0.9);
+            border-radius: 50%;
+            animation: rotateSlow 12s linear infinite;
+            box-shadow: 0 0 30px rgba(100, 180, 255, 0.3), inset 0 0 30px rgba(100, 180, 255, 0.1);
+        }
+
+        .ring-inner {
+            position: absolute;
+            width: 60%;
+            height: 60%;
+            border: 2.5px solid rgba(255, 140, 220, 0.9);
+            border-radius: 50%;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            animation: rotateReverse 8s linear infinite, pulseGlow 2.8s ease-in-out infinite;
+            box-shadow: 0 0 28px #ff70c0, 0 0 50px #b050ff;
+        }
+
+        .center-dot {
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            background: radial-gradient(circle, #ffffff, #b0a0ff);
+            border-radius: 50%;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            box-shadow: 0 0 30px #ffffff, 0 0 60px #8060ff, 0 0 100px #a070ff;
+            animation: pulseDot 2s ease-in-out infinite alternate;
+        }
+
+        @keyframes rotateSlow {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+        @keyframes rotateReverse {
+            from { transform: translate(-50%, -50%) rotate(360deg); }
+            to { transform: translate(-50%, -50%) rotate(0deg); }
+        }
+        @keyframes pulseGlow {
+            0%, 100% { transform: translate(-50%, -50%) scale(1); opacity: 0.8; }
+            50% { transform: translate(-50%, -50%) scale(1.3); opacity: 1; }
+        }
+        @keyframes pulseDot {
+            0% { transform: translate(-50%, -50%) scale(1); box-shadow: 0 0 30px #fff, 0 0 60px #8060ff; }
+            100% { transform: translate(-50%, -50%) scale(1.3); box-shadow: 0 0 50px #ffb0ff, 0 0 100px #a070ff; }
+        }
+
+        #trailCanvas {
             position: fixed;
             top: 0;
             left: 0;
-            width: 8px;
-            height: 8px;
-            background: #ffffff;
-            border-radius: 50%;
+            width: 100vw;
+            height: 100vh;
             pointer-events: none;
             z-index: 9998;
-            transform: translate(-50%, -50%);
-            transition: transform 0.15s ease;
-            will-change: transform;
-            box-shadow: 0 0 4px rgba(255,255,255,0.8);
+            mix-blend-mode: screen;
         }
 
-        /* ===== 星星拖尾 ===== */
-        .star-trail {
-            position: fixed;
-            pointer-events: none;
-            z-index: 9997;
-            font-size: 14px;
-            animation: fadeOut 0.8s ease forwards;
-        }
-        @keyframes fadeOut {
-            0% { opacity: 1; transform: scale(1) rotate(0deg); }
-            100% { opacity: 0; transform: scale(0.2) rotate(180deg) translateY(-30px); }
-        }
-
-        /* ===== 烟花 ===== */
-        .firework-particle {
-            position: fixed;
-            pointer-events: none;
-            z-index: 9996;
-            border-radius: 50%;
-            animation: fireworkBurst 0.9s ease-out forwards;
-        }
-        @keyframes fireworkBurst {
-            0% { opacity: 1; transform: scale(1) translate(0, 0); }
-            100% { opacity: 0; transform: scale(0) translate(var(--tx), var(--ty)); }
+        @media (max-width: 600px) {
+            .container { padding: 4vh 4vw; gap: 32px; }
+            .sticky-area { top: 4vh; gap: 32px; }
+            .title { font-size: 24px; letter-spacing: 4px; }
+            .switch-box { font-size: 13px; }
+            .switch { width: 42px; height: 20px; }
+            .slider:before { height: 14px; width: 14px; left: 3px; bottom: 2px; }
+            input:checked + .slider:before { transform: translateX(22px); }
+            .domain-item { font-size: 18px; padding: 6px 4px 6px 12px; gap: 8px; }
+            .domain-item .icon { font-size: 22px; }
+            .domain-item .full-url { font-size: 12px; top: 110%; left: 12px; }
+            #cursor { width: 44px; height: 44px; }
         }
     </style>
 </head>
 <body>
-    <!-- 光标 -->
-    <div class="cursor"></div>
-    <div class="cursor-follower"></div>
-
-    <!-- 炫彩标题 -->
-    <div class="title-wrapper">
-        <h1>THANATOSOLO</h1>
+    <canvas id="trailCanvas"></canvas>
+    <div id="cursor">
+        <div class="ring-outer"></div>
+        <div class="ring-inner"></div>
+        <div class="center-dot"></div>
     </div>
 
-    <!-- 搜索框 + 开关 -->
-    <div class="search-row">
-        <input class="search-box" type="text" placeholder="键入 探索 …" onkeydown="if(event.key==='Enter'){window.location.href='https://www.baidu.com/s?wd='+this.value}">
-        <div class="switch-wrap">
-            <span>↗新窗</span>
-            <label class="switch">
-                <input type="checkbox" id="newtabSwitch">
-                <span class="slider"></span>
-            </label>
+    <div class="container">
+        <div class="sticky-area" id="stickyArea">
+            <div class="title-wrap">
+                <h1 class="title">THANATOSOLO</h1>
+            </div>
+            <div class="switch-box">
+                <span style="letter-spacing:1px;">new</span>
+                <label class="switch">
+                    <input type="checkbox" id="targetSwitch">
+                    <span class="slider"></span>
+                </label>
+            </div>
+        </div>
+
+        <div class="domain-list" id="domainList">
+            <div class="domain-item" data-href="http://luci.thanatosolo.duckdns.org:8888">
+                <span class="icon">🖥️</span>
+                <span class="name">Istoreos</span>
+                <span class="full-url">http://luci.thanatosolo.duckdns.org:8888</span>
+            </div>
+            <div class="domain-item" data-href="http://op.thanatosolo.duckdns.org:8888">
+                <span class="icon">📦</span>
+                <span class="name">Openlist</span>
+                <span class="full-url">http://op.thanatosolo.duckdns.org:8888</span>
+            </div>
+            <div class="domain-item" data-href="http://fb.thanatosolo.duckdns.org:8888">
+                <span class="icon">📁</span>
+                <span class="name">Filebrowser</span>
+                <span class="full-url">http://fb.thanatosolo.duckdns.org:8888</span>
+            </div>
+            <div class="domain-item" data-href="http://ar.thanatosolo.duckdns.org:8888">
+                <span class="icon">📥</span>
+                <span class="name">ariaNG</span>
+                <span class="full-url">http://ar.thanatosolo.duckdns.org:8888</span>
+            </div>
+            <div class="domain-item" data-href="http://ssh.thanatosolo.duckdns.org:8888">
+                <span class="icon">💻</span>
+                <span class="name">TTYD</span>
+                <span class="full-url">http://ssh.thanatosolo.duckdns.org:8888</span>
+            </div>
+            <div class="domain-item" data-href="http://qb.thanatosolo.duckdns.org:8888">
+                <span class="icon">🌱</span>
+                <span class="name">QBittorrent</span>
+                <span class="full-url">http://qb.thanatosolo.duckdns.org:8888</span>
+            </div>
+            <div class="domain-item" data-href="http://je.thanatosolo.duckdns.org:8888">
+                <span class="icon">🎬</span>
+                <span class="name">Jellyfin</span>
+                <span class="full-url">http://je.thanatosolo.duckdns.org:8888</span>
+            </div>
+            <div class="domain-item" data-href="http://pp.thanatosolo.duckdns.org:8888">
+                <span class="icon">🖼️</span>
+                <span class="name">PhotoPrism</span>
+                <span class="full-url">http://pp.thanatosolo.duckdns.org:8888</span>
+            </div>
+            <div class="domain-item" data-href="http://kd.thanatosolo.duckdns.org:8888">
+                <span class="icon">🗂️</span>
+                <span class="name">Kod cloud</span>
+                <span class="full-url">http://kd.thanatosolo.duckdns.org:8888</span>
+            </div>
+            <div class="domain-item" data-href="http://mt.thanatosolo.duckdns.org:8888">
+                <span class="icon">📷</span>
+                <span class="name">MT Photos</span>
+                <span class="full-url">http://mt.thanatosolo.duckdns.org:8888</span>
+            </div>
+            <div class="domain-item" data-href="http://ai.thanatosolo.duckdns.org:8888">
+                <span class="icon">🤖</span>
+                <span class="name">AI</span>
+                <span class="full-url">http://ai.thanatosolo.duckdns.org:8888</span>
+            </div>
+            <div class="domain-item" data-href="http://dav.thanatosolo.duckdns.org:8888">
+                <span class="icon">☁️</span>
+                <span class="name">webdav</span>
+                <span class="full-url">http://dav.thanatosolo.duckdns.org:8888</span>
+            </div>
         </div>
     </div>
 
-    <!-- 卡片网格 -->
-    <div class="icon-grid" id="iconGrid">
-        <a href="#" class="icon-item" data-href="https://luci.thanatosolo.duckdns.org:8888">
-            <span class="front"><span class="emoji">🖥️</span><span class="label">iStoreOS</span></span>
-            <span class="back"><span class="back-emoji">⚙️</span><span class="back-label">路由器</span></span>
-        </a>
-        <a href="#" class="icon-item" data-href="https://op.thanatosolo.duckdns.org:8888">
-            <span class="front"><span class="emoji">📦</span><span class="label">OpenList</span></span>
-            <span class="back"><span class="back-emoji">📋</span><span class="back-label">列表</span></span>
-        </a>
-        <a href="#" class="icon-item" data-href="https://fb.thanatosolo.duckdns.org:8888">
-            <span class="front"><span class="emoji">📁</span><span class="label">FileBrowser</span></span>
-            <span class="back"><span class="back-emoji">🗂️</span><span class="back-label">文件</span></span>
-        </a>
-        <a href="#" class="icon-item" data-href="https://ar.thanatosolo.duckdns.org:8888">
-            <span class="front"><span class="emoji">⬇️</span><span class="label">AriaNG</span></span>
-            <span class="back"><span class="back-emoji">📥</span><span class="back-label">下载</span></span>
-        </a>
-        <a href="#" class="icon-item" data-href="https://ssh.thanatosolo.duckdns.org:8888">
-            <span class="front"><span class="emoji">💻</span><span class="label">TTYD</span></span>
-            <span class="back"><span class="back-emoji">⌨️</span><span class="back-label">终端</span></span>
-        </a>
-        <a href="#" class="icon-item" data-href="https://qb.thanatosolo.duckdns.org:8888">
-            <span class="front"><span class="emoji">🌱</span><span class="label">qBittorrent</span></span>
-            <span class="back"><span class="back-emoji">🌿</span><span class="back-label">BT</span></span>
-        </a>
-        <a href="#" class="icon-item" data-href="https://je.thanatosolo.duckdns.org:8888">
-            <span class="front"><span class="emoji">🎬</span><span class="label">Jellyfin</span></span>
-            <span class="back"><span class="back-emoji">🎞️</span><span class="back-label">媒体</span></span>
-        </a>
-        <a href="#" class="icon-item" data-href="https://pp.thanatosolo.duckdns.org:8888">
-            <span class="front"><span class="emoji">🖼️</span><span class="label">PhotoPrism</span></span>
-            <span class="back"><span class="back-emoji">🖼️</span><span class="back-label">相册</span></span>
-        </a>
-        <a href="#" class="icon-item" data-href="https://kd.thanatosolo.duckdns.org:8888">
-            <span class="front"><span class="emoji">🗂️</span><span class="label">可道云</span></span>
-            <span class="back"><span class="back-emoji">☁️</span><span class="back-label">云盘</span></span>
-        </a>
-        <a href="#" class="icon-item" data-href="https://mt.thanatosolo.duckdns.org:8888">
-            <span class="front"><span class="emoji">📷</span><span class="label">MT Photos</span></span>
-            <span class="back"><span class="back-emoji">📸</span><span class="back-label">照片</span></span>
-        </a>
-        <a href="#" class="icon-item" data-href="https://ai.thanatosolo.duckdns.org:8888">
-            <span class="front"><span class="emoji">🤖</span><span class="label">AI</span></span>
-            <span class="back"><span class="back-emoji">🧠</span><span class="back-label">智能</span></span>
-        </a>
-        <a href="#" class="icon-item" data-href="https://dav.thanatosolo.duckdns.org:8888">
-            <span class="front"><span class="emoji">☁️</span><span class="label">WebDAV</span></span>
-            <span class="back"><span class="back-emoji">🔗</span><span class="back-label">网盘</span></span>
-        </a>
-    </div>
-
     <script>
-        // ==========================================
-        // 0. 双击切换背景 — 每次刷新回到默认
-        // ==========================================
-        // 背景图片数组 —— 以后新增图片，在这里加一行就行了
-        const bgImages = [
-            "https://pic1.imgdb.cn/i/033xh33EZ3PtL19TphPUL3.jpg",   // 默认
-            "https://pic1.imgdb.cn/i/033xtsxDAkPTTBrlTb6CZ9.png",  // 第二张
-            "https://pic1.imgdb.cn/i/033xt6xTLp0nzcV8eb0Ngg.png"   // 第三张
-        ];
+        // ---------- 光标 + 残影 ----------
+        const cursor = document.getElementById('cursor');
+        const canvas = document.getElementById('trailCanvas');
+        const ctx = canvas.getContext('2d');
 
-        let currentBgIndex = 0;
+        function resizeCanvas() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        }
+        resizeCanvas();
+        window.addEventListener('resize', resizeCanvas);
 
-        // ===== 强制默认：每次刷新/新开页面都从第一张开始 =====
-        document.body.style.backgroundImage = `url("${bgImages[0]}")`;
-
-        // 双击空白处切换背景（不保存，刷新即恢复默认）
-        document.addEventListener('dblclick', (e) => {
-            // 排除点击卡片、搜索框、开关、标题等交互元素
-            const target = e.target.closest('.icon-item, .search-box, .switch-wrap, .title-wrapper, .cursor, .cursor-follower');
-            if (target) return;
-
-            // 切换到下一张
-            currentBgIndex = (currentBgIndex + 1) % bgImages.length;
-            document.body.style.backgroundImage = `url("${bgImages[currentBgIndex]}")`;
-        });
-
-        // ==========================================
-        // 1. 鼠标跟随
-        // ==========================================
-        const cursor = document.querySelector('.cursor');
-        const cursorFollower = document.querySelector('.cursor-follower');
+        const trailPoints = [];
+        const maxTrailLength = 64;
         let mouseX = 0, mouseY = 0;
-        let curX = 0, curY = 0;
-        let folX = 0, folY = 0;
 
-        document.addEventListener('mousemove', (e) => {
+        document.addEventListener('mousemove', e => {
             mouseX = e.clientX;
             mouseY = e.clientY;
-            if (Math.random() > 0.7) {
-                createStar(e.clientX, e.clientY);
+            cursor.style.left = mouseX + 'px';
+            cursor.style.top = mouseY + 'px';
+
+            trailPoints.push({ x: mouseX, y: mouseY, alpha: 1, size: 1 });
+            if (trailPoints.length > maxTrailLength) trailPoints.shift();
+        });
+
+        function drawTrail() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+            for (let i = 1; i < trailPoints.length; i++) {
+                const p1 = trailPoints[i - 1];
+                const p2 = trailPoints[i];
+                p1.alpha -= 0.016;
+                if (p1.alpha <= 0) continue;
+
+                const progress = i / trailPoints.length;
+                const hue = (280 + progress * 60) % 360;
+                const alphaVal = p1.alpha * 0.9;
+
+                ctx.beginPath();
+                ctx.moveTo(p1.x, p1.y);
+                ctx.lineTo(p2.x, p2.y);
+
+                const lineWidth = 3.5 + 6 * (1 - progress);
+                ctx.lineWidth = lineWidth;
+                ctx.strokeStyle = `hsla(${hue}, 90%, 70%, ${alphaVal})`;
+                ctx.shadowColor = `hsla(${hue}, 100%, 70%, 0.6)`;
+                ctx.shadowBlur = 22;
+                ctx.stroke();
+
+                ctx.beginPath();
+                ctx.moveTo(p1.x, p1.y);
+                ctx.lineTo(p2.x, p2.y);
+                ctx.lineWidth = lineWidth * 0.35;
+                ctx.strokeStyle = `hsla(${hue + 30}, 100%, 90%, ${alphaVal * 0.7})`;
+                ctx.shadowBlur = 40;
+                ctx.shadowColor = `hsla(${hue + 20}, 100%, 80%, 0.5)`;
+                ctx.stroke();
             }
-        });
 
-        function animateCursor() {
-            curX += (mouseX - curX) * 0.1;
-            curY += (mouseY - curY) * 0.1;
-            cursor.style.left = curX + 'px';
-            cursor.style.top = curY + 'px';
-
-            folX += (mouseX - folX) * 0.05;
-            folY += (mouseY - folY) * 0.05;
-            cursorFollower.style.left = folX + 'px';
-            cursorFollower.style.top = folY + 'px';
-
-            requestAnimationFrame(animateCursor);
-        }
-        animateCursor();
-
-        // ==========================================
-        // 2. 鼠标星星拖尾
-        // ==========================================
-        const starEmojis = ['✦', '✧', '⭐', '✨', '💫', '🌟', '·'];
-
-        function createStar(x, y) {
-            const star = document.createElement('div');
-            star.className = 'star-trail';
-            star.textContent = starEmojis[Math.floor(Math.random() * starEmojis.length)];
-            star.style.left = x + 'px';
-            star.style.top = y + 'px';
-            star.style.color = `hsl(${Math.random() * 360}, 100%, 70%)`;
-            star.style.fontSize = (Math.random() * 12 + 8) + 'px';
-            document.body.appendChild(star);
-            setTimeout(() => star.remove(), 800);
-        }
-
-        // ==========================================
-        // 3. 点击烟花
-        // ==========================================
-        document.addEventListener('click', (e) => {
-            const target = e.target.closest('.icon-item, .search-box, .switch-wrap, .title-wrapper');
-            if (target) return;
-            createFirework(e.clientX, e.clientY);
-        });
-
-        function createFirework(x, y) {
-            const colors = ['#ff4d6d', '#f72585', '#b5179e', '#7209b7', '#4cc9f0', '#4361ee', '#f093fb', '#43e97b', '#f5576c', '#4facfe'];
-            const count = 50 + Math.floor(Math.random() * 30);
-
-            for (let i = 0; i < count; i++) {
-                const particle = document.createElement('div');
-                particle.className = 'firework-particle';
-                const angle = Math.random() * Math.PI * 2;
-                const distance = 80 + Math.random() * 120;
-                const tx = Math.cos(angle) * distance;
-                const ty = Math.sin(angle) * distance;
-                particle.style.cssText = `
-                    left: ${x}px;
-                    top: ${y}px;
-                    width: ${4 + Math.random() * 6}px;
-                    height: ${4 + Math.random() * 6}px;
-                    background: ${colors[Math.floor(Math.random() * colors.length)]};
-                    --tx: ${tx}px;
-                    --ty: ${ty}px;
-                    box-shadow: 0 0 6px ${colors[Math.floor(Math.random() * colors.length)]};
-                `;
-                document.body.appendChild(particle);
-                setTimeout(() => particle.remove(), 900);
+            if (trailPoints.length > 2) {
+                const last = trailPoints[trailPoints.length - 1];
+                ctx.shadowBlur = 80;
+                for (let j = 0; j < 6; j++) {
+                    const angle = j * 1.2 + Date.now() * 0.001;
+                    const dist = 12 + Math.sin(Date.now() * 0.005 + j) * 6;
+                    const px = last.x + Math.cos(angle) * dist;
+                    const py = last.y + Math.sin(angle) * dist;
+                    ctx.beginPath();
+                    ctx.arc(px, py, 2 + Math.sin(Date.now() * 0.01 + j) * 1.5, 0, Math.PI * 2);
+                    ctx.fillStyle = `hsla(${300 + j * 20}, 100%, 80%, 0.5)`;
+                    ctx.shadowColor = `hsla(${300 + j * 20}, 100%, 70%, 0.7)`;
+                    ctx.shadowBlur = 40;
+                    ctx.fill();
+                }
             }
+
+            requestAnimationFrame(drawTrail);
         }
+        drawTrail();
 
-        // ==========================================
-        // 4. 卡片翻转
-        // ==========================================
-        const cards = document.querySelectorAll('.icon-item');
-        cards.forEach(card => {
-            card.addEventListener('mouseenter', () => {
-                card.classList.add('flipped');
-            });
-            card.addEventListener('mouseleave', () => {
-                card.classList.remove('flipped');
-            });
+        // ---------- 开关 ----------
+        const targetSwitch = document.getElementById('targetSwitch');
+        const domainItems = document.querySelectorAll('.domain-item');
+        const STORAGE_KEY = 'linkTargetMode';
+
+        let openNewTab = localStorage.getItem(STORAGE_KEY) === '1';
+        targetSwitch.checked = openNewTab;
+
+        targetSwitch.addEventListener('change', () => {
+            openNewTab = targetSwitch.checked;
+            localStorage.setItem(STORAGE_KEY, openNewTab ? '1' : '0');
         });
 
-        // ==========================================
-        // 5. 悬停放大光标
-        // ==========================================
-        const hoverElements = document.querySelectorAll('.icon-item, .search-box, .switch, .title-wrapper');
-        hoverElements.forEach(el => {
-            el.addEventListener('mouseenter', () => {
-                cursor.style.transform = 'translate(-50%, -50%) scale(1.5)';
-            });
-            el.addEventListener('mouseleave', () => {
-                cursor.style.transform = 'translate(-50%, -50%) scale(1)';
-            });
-        });
-
-        // ==========================================
-        // 6. 新标签开关
-        // ==========================================
-        const switchEl = document.getElementById('newtabSwitch');
-        let useNewTab = localStorage.getItem('openNewTab') === 'true';
-        switchEl.checked = useNewTab;
-
-        switchEl.addEventListener('change', () => {
-            useNewTab = switchEl.checked;
-            localStorage.setItem('openNewTab', useNewTab);
-        });
-
-        // ==========================================
-        // 7. 卡片点击跳转
-        // ==========================================
-        cards.forEach(card => {
-            card.addEventListener('click', (e) => {
-                e.preventDefault();
-                const url = card.dataset.href;
-                if (useNewTab) {
+        domainItems.forEach(item => {
+            item.addEventListener('click', e => {
+                e.stopPropagation();
+                const url = item.dataset.href;
+                if (openNewTab) {
                     window.open(url, '_blank');
                 } else {
-                    window.location.href = url;
+                    location.href = url;
                 }
             });
         });
+
+        // ===== 每一行在其自身位置消失 =====
+        // 原理：记录每个列表项初始的 top 位置，当滚动时，计算该项当前 top 相对于初始 top 的偏移量
+        // 偏移量越大，透明度越低，直到完全消失
+        function updateFade() {
+            const items = document.querySelectorAll('.domain-item');
+            // 获取固定区域底部作为参考
+            const stickyRect = document.getElementById('stickyArea').getBoundingClientRect();
+            const referenceBottom = stickyRect.bottom;
+
+            items.forEach((item, index) => {
+                const rect = item.getBoundingClientRect();
+                
+                // 计算该项顶部到参考底部的距离
+                const distance = rect.top - referenceBottom;
+                
+                // 每行在距离参考底部多远时完全消失
+                // 第一行：消失得更早（距离更远就开始消失）
+                // 每行消失位置逐行递减
+                const itemHeight = rect.height;
+                // 第一行在距离参考底部 2.5 倍自身高度时完全消失
+                // 后续行依次递减，让每行在差不多同一位置消失
+                const baseOffset = 2.5 * itemHeight;
+                // 每往后一行，消失位置提前一点（让视觉上更连贯）
+                const extraOffset = index * 15;
+                const fadeOffset = baseOffset + extraOffset;
+                
+                let opacity = 1;
+                if (distance < fadeOffset) {
+                    // 开始淡出
+                    const progress = 1 - (distance / fadeOffset);
+                    opacity = Math.max(0, 1 - progress);
+                }
+                // 如果已经完全进入淡出区域，完全透明
+                if (distance < 0) {
+                    opacity = 0;
+                }
+                
+                // 额外逻辑：如果该项已经完全在参考线之上，完全透明
+                if (rect.bottom < referenceBottom) {
+                    opacity = 0;
+                }
+
+                item.style.opacity = opacity;
+                item.style.pointerEvents = opacity === 0 ? 'none' : 'auto';
+            });
+        }
+
+        let ticking = false;
+        window.addEventListener('scroll', () => {
+            if (!ticking) {
+                requestAnimationFrame(() => {
+                    updateFade();
+                    ticking = false;
+                });
+                ticking = true;
+            }
+        });
+
+        window.addEventListener('resize', updateFade);
+        updateFade();
     </script>
 </body>
 </html>
