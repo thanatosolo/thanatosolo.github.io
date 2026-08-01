@@ -65,13 +65,6 @@
             backdrop-filter: blur(4px);
             border-radius: 50px;
             overflow: hidden;
-            position:relative;
-        }
-        /* 透明遮罩用于接收点击，用来转发点击到播放器 */
-        .trigger-mask{
-            position:absolute;
-            inset:0;
-            z-index:2;
         }
         /* 自定义光标 */
         .cursor {
@@ -117,10 +110,9 @@
         <a href="https://thanatosolo.kdns.fr" target="_blank" class="art-link">KDNS.FR</a>
     </div>
 
-    <!-- 网易云iframe播放器 -->
+    <!-- 网易云iframe播放器：初始src为空！关键 -->
     <div class="iframe-box">
-        <iframe id="musicIframe" frameborder="no" border="0" marginwidth="0" marginheight="0" width=298 height=52 
-        src="https://music.163.com/outchain/player?type=2&id=1812453877&auto=0&height=32">
+        <iframe id="musicIframe" allow="autoplay" frameborder="no" border="0" marginwidth="0" marginheight="0" width=298 height=52 src="">
         </iframe>
     </div>
 
@@ -167,22 +159,19 @@
             window.location.href = 'https://thanatosolo.github.io/1';
         });
 
-        // ==========核心播放逻辑==========
-        let hasPlay = false;
+        // =========核心逻辑（参考示例方案）==========
         const iframe = document.getElementById("musicIframe");
+        let audioLoaded = false;
 
-        document.body.addEventListener("click", function(e){
-            // 点击链接区域直接跳过，不触发播放
-            if(e.target.closest(".art-link")) return;
-            if(hasPlay) return;
+        document.body.addEventListener("click", function(e) {
+            // 点击链接、播放器区域不触发加载
+            const clickLink = e.target.closest(".art-link");
+            const clickPlayer = e.target.closest("#musicIframe");
+            if (clickLink || clickPlayer || audioLoaded) return;
 
-            hasPlay = true;
-            // 方案：把焦点移到iframe，模拟点击播放器区域触发播放
-            iframe.focus();
-            // 终极兼容方案：重新加载iframe带auto=1（备用兜底）
-            setTimeout(()=>{
-                iframe.src = "https://music.163.com/outchain/player?type=2&id=1812453877&auto=1&height=32";
-            }, 50);
+            // 首次点击空白，注入播放器地址，auto=1自动播放
+            iframe.src = "https://music.163.com/outchain/player?type=2&id=1812453877&auto=1&height=32";
+            audioLoaded = true;
         })
     </script>
 </body>
