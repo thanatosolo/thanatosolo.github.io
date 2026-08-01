@@ -138,11 +138,11 @@
     <div class="cursor"></div>
     <div class="cursor-follower"></div>
 
-    <!-- 链接区域 -->
+    <!-- 链接区域：http 修改为协议自适应写法 -->
     <div class="link-row" id="linkContainer">
-        <a href="http://w.thanatosolo.ddns.ge" target="_blank" class="art-link" data-host="w.thanatosolo.ddns.ge">DDNS.GE</a>
-        <a href="https://thanatosolo.dpdns.org" target="_blank" class="art-link" data-host="thanatosolo.dpdns.org">DPDNS.ORG</a>
-        <a href="https://thanatosolo.kdns.fr" target="_blank" class="art-link" data-host="thanatosolo.kdns.fr">KDNS.FR</a>
+        <a href="//w.thanatosolo.ddns.ge" target="_blank" class="art-link">DDNS.GE</a>
+        <a href="https://thanatosolo.dpdns.org" target="_blank" class="art-link">DPDNS.ORG</a>
+        <a href="https://thanatosolo.kdns.fr" target="_blank" class="art-link">KDNS.FR</a>
     </div>
 
     <!-- 透明播放器 -->
@@ -194,20 +194,7 @@
             window.location.href = 'https://thanatosolo.github.io/1';
         });
 
-        // 域名检测逻辑
-        const allLinks = document.querySelectorAll('.art-link');
-        allLinks.forEach(item => {
-            const fullUrl = item.href;
-            fetch(fullUrl, {
-                mode: "no-cors",
-                signal: AbortSignal.timeout(3000)
-            }).then(() => {
-                // 正常站点：不加任何样式
-            }).catch(() => {
-                // 失效站点：添加删除线，仍可点击
-                item.classList.add('offline');
-            })
-        })
+        // 已完全移除fetch域名探测代码
     </script>
 </body>
 </html>
