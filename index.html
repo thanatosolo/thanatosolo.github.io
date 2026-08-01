@@ -4,6 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>THANATOSOLO</title>
+    <!-- ===== 浏览器标签页图标 (favicon) - 骷髅头 Emoji ===== -->
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>💀</text></svg>">
     <style>
         * {
             margin: 0;
@@ -16,9 +18,10 @@
             background: url('https://pic1.imgdb.cn/i/033xh33EZ3PtL19TphPUL3.jpg') no-repeat center center;
             background-size: cover;
             background-attachment: fixed;
-            font-family: "Microsoft YaHei", "PingFang SC", sans-serif;
+            font-family: "Microsoft YaHei", "PingFang SC", "Inter", sans-serif;
             overflow-x: hidden;
             cursor: none;
+            user-select: none;
         }
 
         .container {
@@ -41,68 +44,37 @@
         }
 
         .title {
-            font-size: 52px;
+            font-size: 32px;
             font-weight: 800;
             letter-spacing: 8px;
-            color: #ffffff;
             position: relative;
-            text-shadow:
-                0 0 1px #000,
-                1px 1px 2px #000,
-                -1px -1px 2px #000,
-                0 0 4px #c963b3,
-                0 0 9px #8b57b8,
-                0 0 16px #4e3480;
-
-            animation: titleNeonGlow 3.8s ease-in-out infinite alternate;
-        }
-
-        .title::before {
-            content: attr(data-text);
-            position: absolute;
-            left: 0;
-            top: 0;
-            width: 100%;
-            height: 100%;
-            color: transparent;
-            background: linear-gradient(135deg, #b87890, #a070b8, #7c68b4);
+            background: linear-gradient(90deg, #ff3366, #ff8833, #ffcc33, #33dd88, #33aaff, #aa66ff, #ff33aa, #ff3366);
+            background-size: 400% 100%;
             background-clip: text;
             -webkit-background-clip: text;
-            opacity: 0.7;
-            z-index: -1;
-            filter: blur(1px);
+            color: transparent;
+            animation: textRainbowFlow 8s linear infinite;
+            text-shadow: 0 0 30px rgba(255, 100, 200, 0.3);
         }
 
-        @keyframes titleNeonGlow {
-            0% {
-                text-shadow:
-                    0 0 1px #000,
-                    1px 1px 2px #000,
-                    -1px -1px 2px #000,
-                    0 0 4px #c963b3,
-                    0 0 9px #8b57b8,
-                    0 0 16px #4e3480;
-            }
-            100% {
-                text-shadow:
-                    0 0 1px #000,
-                    1px 1px 2px #000,
-                    -1px -1px 2px #000,
-                    0 0 5px #6098c8,
-                    0 0 11px #5468a8,
-                    0 0 18px #402c70;
-            }
+        @keyframes textRainbowFlow {
+            0% { background-position: 0% 50%; }
+            100% { background-position: 400% 50%; }
         }
 
+        /* —— 新潮开关（无背景卡片） —— */
         .switch-box {
             display: flex;
             align-items: center;
-            gap: 10px;
+            gap: 12px;
             color: #d6e0f0;
             font-size: 15px;
-            text-shadow:
-                1px 1px 2px #000,
-                -1px -1px 2px #000;
+            font-weight: 500;
+            text-shadow: 0 0 12px rgba(0,0,0,0.7), 0 0 4px #000;
+            padding: 0;
+            background: transparent;
+            border: none;
+            backdrop-filter: none;
         }
 
         .switch {
@@ -125,11 +97,12 @@
             left: 0;
             right: 0;
             bottom: 0;
-            background: rgba(255, 255, 255, 0.10);
-            backdrop-filter: blur(4px);
+            background: rgba(20, 30, 50, 0.5);
+            backdrop-filter: blur(6px);
             border-radius: 24px;
-            transition: 0.35s;
-            border: 1px solid rgba(255, 255, 255, 0.25);
+            transition: 0.4s cubic-bezier(0.23, 1, 0.32, 1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            box-shadow: inset 0 0 6px rgba(0,0,0,0.6);
         }
 
         .slider:before {
@@ -139,21 +112,25 @@
             width: 18px;
             left: 3px;
             bottom: 2px;
-            background: #fff;
+            background: radial-gradient(circle at 30% 30%, #f0f0ff, #b0b8ff);
             border-radius: 50%;
-            transition: 0.35s;
-            box-shadow: 0 0 6px #9e60aa;
+            transition: 0.4s cubic-bezier(0.23, 1, 0.32, 1);
+            box-shadow: 0 0 16px #9f7aff, 0 0 30px #7f5aff;
         }
 
         input:checked + .slider {
-            background: rgba(120, 75, 170, 0.40);
-            box-shadow: 0 0 10px rgba(160, 90, 180, 0.45);
+            background: rgba(140, 70, 200, 0.45);
+            border-color: #b580ff;
+            box-shadow: 0 0 24px rgba(170, 100, 255, 0.4), inset 0 0 10px rgba(200, 150, 255, 0.3);
         }
 
         input:checked + .slider:before {
             transform: translateX(26px);
+            background: radial-gradient(circle at 30% 30%, #ffffff, #c8a0ff);
+            box-shadow: 0 0 30px #b080ff, 0 0 60px #9055ff;
         }
 
+        /* —— 域名列表 —— */
         .domain-list {
             display: flex;
             flex-direction: column;
@@ -168,166 +145,215 @@
             font-weight: 600;
             letter-spacing: 1.2px;
             cursor: none !important;
-            transition: all 0.32s ease;
+            transition: all 0.32s cubic-bezier(0.2, 0.9, 0.4, 1);
             white-space: nowrap;
-
             color: #f0f0f8;
             text-shadow:
-                0 0 1px #000,
+                0 0 2px #000,
                 1px 1px 2px #000,
                 -1px -1px 2px #000,
-                0 0 3px #9468b0,
-                0 0 7px #523880;
+                0 0 8px #9468b0,
+                0 0 16px #523880;
+            border-left: 2px solid transparent;
+            padding-left: 18px;
         }
 
-        .domain-item::before {
+        .domain-item::after {
             content: '';
             position: absolute;
-            left: 8px;
-            bottom: 6px;
+            left: 0;
+            bottom: 8px;
             width: 0;
             height: 2px;
-            background: linear-gradient(90deg, #b068a2, #6878b8);
-            transition: width 0.32s ease;
-            filter: blur(0.5px);
+            background: linear-gradient(90deg, #f0a0ff, #80b0ff, #a0f0ff);
+            transition: width 0.4s ease;
+            filter: blur(1px);
+            box-shadow: 0 0 12px #a070ff;
         }
 
         .domain-item:hover {
-            transform: translateY(-4px) scale(1.04);
+            transform: translateY(-4px) scale(1.02);
             color: #ffffff;
             text-shadow:
-                0 0 1px #000,
+                0 0 2px #000,
                 1px 1px 2px #000,
                 -1px -1px 2px #000,
-                0 0 5px #b470aa,
-                0 0 12px #7050a0;
+                0 0 12px #d080ff,
+                0 0 28px #8050c0;
+            border-left: 2px solid rgba(200, 150, 255, 0.7);
         }
 
-        .domain-item:hover::before {
-            width: calc(100% - 16px);
+        .domain-item:hover::after {
+            width: calc(100% - 18px);
         }
 
         .domain-item .full-url {
             position: absolute;
             top: 112%;
-            left: 8px;
+            left: 18px;
             white-space: nowrap;
             font-size: 14px;
             font-weight: 400;
             letter-spacing: 0.4px;
             color: #e4e0f0;
             opacity: 0;
-            transform: translateY(-3px);
-            transition: all 0.28s ease;
+            transform: translateY(-3px) scale(0.96);
+            transition: all 0.28s cubic-bezier(0.2, 0.9, 0.4, 1);
             pointer-events: none;
-
             text-shadow:
-                1px 1px 2px #000,
-                -1px -1px 2px #000,
-                2px 2px 3px rgba(0,0,0,0.8);
+                1px 1px 4px #000,
+                -1px -1px 4px #000,
+                0 0 12px rgba(0,0,0,0.9);
+            background: rgba(0,0,0,0.2);
+            backdrop-filter: blur(4px);
+            padding: 2px 12px 2px 8px;
+            border-radius: 40px;
+            border: 1px solid rgba(255,255,255,0.08);
         }
 
         .domain-item:hover .full-url {
             opacity: 1;
-            transform: translateY(0);
+            transform: translateY(0) scale(1);
         }
 
-        /* 播放器完全透明无黑框 */
+        /* —— 音乐播放器（透明悬浮） —— */
         .music-box {
             position: fixed;
             left: 4vw;
             bottom: 4vh;
             z-index: 3;
-            width: 320px;
+            width: 300px;
             padding: 0;
             background: transparent;
             border: none;
             box-shadow: none;
+            filter: drop-shadow(0 0 10px rgba(150, 80, 200, 0.2));
         }
 
         #audio {
             width: 100%;
             height: 38px;
-            border-radius: 50px;
+            border-radius: 60px;
             background: transparent;
             border: none;
             outline: none;
             cursor: none !important;
         }
         #audio::-webkit-media-controls-panel {
-            background: transparent !important;
+            background: rgba(10, 5, 20, 0.25) !important;
+            backdrop-filter: blur(10px) !important;
+            border-radius: 60px !important;
+            border: 1px solid rgba(255, 255, 255, 0.08);
         }
         #audio::-webkit-media-controls-play-button,
         #audio::-webkit-media-controls-mute-button {
-            filter: brightness(3);
+            filter: drop-shadow(0 0 4px #b080ff) brightness(1.6);
         }
         #audio::-webkit-slider-runnable-track {
-            background: rgba(255,255,255,0.2);
+            background: rgba(255,255,255,0.15);
+            border-radius: 20px;
         }
         #audio::-webkit-slider-thumb {
-            background: #fff;
-            box-shadow: 0 0 6px rgba(255,255,255,0.9);
+            background: radial-gradient(circle, #f0e0ff, #a070ff);
+            box-shadow: 0 0 20px #b080ff;
+            border-radius: 50%;
+            height: 14px;
+            width: 14px;
         }
         #audio::-webkit-media-controls-current-time-display,
         #audio::-webkit-media-controls-time-remaining-display {
             color: #fff;
-            text-shadow: 1px 1px 2px #000,-1px -1px 2px #000;
+            text-shadow: 0 0 12px #000, 0 0 20px #000;
+            font-weight: 500;
         }
 
-        /* 双层反向旋转光环光标 */
+        /* —— 全新赛博光标 —— */
         #cursor {
             position: fixed;
-            width: 44px;
-            height: 44px;
+            width: 60px;
+            height: 60px;
             transform: translate(-50%, -50%);
             pointer-events: none;
             z-index: 9999;
+            mix-blend-mode: screen;
+            filter: drop-shadow(0 0 20px #b080ff);
         }
-        .ring-outer{
-            width:100%;
-            height:100%;
-            border:1px solid rgba(110,180,220,0.6);
-            border-radius:50%;
-            animation: rotateSlow 9s linear infinite;
+
+        .ring-outer {
+            width: 100%;
+            height: 100%;
+            border: 1.8px solid rgba(160, 220, 255, 0.9);
+            border-radius: 50%;
+            animation: rotateSlow 12s linear infinite;
+            box-shadow: 0 0 30px rgba(100, 180, 255, 0.3), inset 0 0 30px rgba(100, 180, 255, 0.1);
         }
-        .ring-inner{
-            position:absolute;
-            width:65%;
-            height:65%;
-            border:2px solid rgba(200,110,180,0.7);
-            border-radius:50%;
-            top:50%;
-            left:50%;
-            transform:translate(-50%,-50%);
-            animation: rotateReverse 6s linear infinite, pulse 2.4s ease-in-out infinite;
-            box-shadow:0 0 8px #885499;
+
+        .ring-inner {
+            position: absolute;
+            width: 60%;
+            height: 60%;
+            border: 2.5px solid rgba(255, 140, 220, 0.9);
+            border-radius: 50%;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            animation: rotateReverse 8s linear infinite, pulseGlow 2.8s ease-in-out infinite;
+            box-shadow: 0 0 28px #ff70c0, 0 0 50px #b050ff;
         }
-        .center-dot{
-            position:absolute;
-            width:7px;
-            height:7px;
-            background:#fff;
-            border-radius:50%;
-            top:50%;
-            left:50%;
-            transform:translate(-50%,-50%);
-            box-shadow:0 0 10px #ffffff,0 0 16px #5878a8;
+
+        .center-dot {
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            background: radial-gradient(circle, #ffffff, #b0a0ff);
+            border-radius: 50%;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            box-shadow: 0 0 30px #ffffff, 0 0 60px #8060ff, 0 0 100px #a070ff;
+            animation: pulseDot 2s ease-in-out infinite alternate;
         }
-        @keyframes rotateSlow{
-            from{transform:rotate(0deg)}
-            to{transform:rotate(360deg)}
+
+        @keyframes rotateSlow {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
         }
-        @keyframes rotateReverse{
-            from{transform:translate(-50%,-50%) rotate(360deg)}
-            to{transform:translate(-50%,-50%) rotate(0deg)}
+        @keyframes rotateReverse {
+            from { transform: translate(-50%, -50%) rotate(360deg); }
+            to { transform: translate(-50%, -50%) rotate(0deg); }
         }
-        @keyframes pulse{
-            0%,100%{transform:translate(-50%,-50%) scale(1)}
-            50%{transform:translate(-50%,-50%) scale(1.15)}
+        @keyframes pulseGlow {
+            0%, 100% { transform: translate(-50%, -50%) scale(1); opacity: 0.8; }
+            50% { transform: translate(-50%, -50%) scale(1.3); opacity: 1; }
+        }
+        @keyframes pulseDot {
+            0% { transform: translate(-50%, -50%) scale(1); box-shadow: 0 0 30px #fff, 0 0 60px #8060ff; }
+            100% { transform: translate(-50%, -50%) scale(1.3); box-shadow: 0 0 50px #ffb0ff, 0 0 100px #a070ff; }
+        }
+
+        /* —— 残影画布（潮流拖尾） —— */
+        #trailCanvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            pointer-events: none;
+            z-index: 9998;
+            mix-blend-mode: screen;
+        }
+
+        /* 小屏优化 */
+        @media (max-width: 600px) {
+            .title { font-size: 24px; letter-spacing: 4px; }
+            .domain-item { font-size: 20px; }
+            .music-box { width: 220px; left: 2vw; bottom: 2vh; }
+            #cursor { width: 44px; height: 44px; }
         }
     </style>
 </head>
 <body>
+    <canvas id="trailCanvas"></canvas>
     <div id="cursor">
         <div class="ring-outer"></div>
         <div class="ring-inner"></div>
@@ -336,13 +362,12 @@
 
     <div class="container">
         <div class="title-wrap">
-            <h1 class="title" data-text="THANATOSOLO">THANATOSOLO</h1>
+            <h1 class="title">THANATOSOLO</h1>
         </div>
 
         <div class="domain-list">
-            <!-- new开关在最上方，4个域名在开关下方 -->
             <div class="switch-box">
-                <span>new</span>
+                <span style="letter-spacing:1px;">new</span>
                 <label class="switch">
                     <input type="checkbox" id="targetSwitch">
                     <span class="slider"></span>
@@ -369,17 +394,93 @@
     </div>
 
     <div class="music-box" id="musicContainer">
-        <audio id="audio" controls preload="auto" playsinline>
-        
+        <audio id="audio" controls preload="auto" playsinline></audio>
     </div>
 
     <script>
+        // ---------- 光标 + 残影 (潮流拖尾) ----------
         const cursor = document.getElementById('cursor');
+        const canvas = document.getElementById('trailCanvas');
+        const ctx = canvas.getContext('2d');
+
+        function resizeCanvas() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        }
+        resizeCanvas();
+        window.addEventListener('resize', resizeCanvas);
+
+        const trailPoints = [];
+        const maxTrailLength = 64;
+        let mouseX = 0, mouseY = 0;
+
         document.addEventListener('mousemove', e => {
-            cursor.style.left = e.clientX + 'px';
-            cursor.style.top = e.clientY + 'px';
+            mouseX = e.clientX;
+            mouseY = e.clientY;
+            cursor.style.left = mouseX + 'px';
+            cursor.style.top = mouseY + 'px';
+
+            trailPoints.push({ x: mouseX, y: mouseY, alpha: 1, size: 1 });
+            if (trailPoints.length > maxTrailLength) trailPoints.shift();
         });
 
+        // 绘制霓虹拖尾
+        function drawTrail() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+            for (let i = 1; i < trailPoints.length; i++) {
+                const p1 = trailPoints[i - 1];
+                const p2 = trailPoints[i];
+                p1.alpha -= 0.016;
+                if (p1.alpha <= 0) continue;
+
+                const progress = i / trailPoints.length;
+                const hue = (280 + progress * 60) % 360;
+                const alphaVal = p1.alpha * 0.9;
+
+                ctx.beginPath();
+                ctx.moveTo(p1.x, p1.y);
+                ctx.lineTo(p2.x, p2.y);
+
+                const lineWidth = 3.5 + 6 * (1 - progress);
+                ctx.lineWidth = lineWidth;
+                ctx.strokeStyle = `hsla(${hue}, 90%, 70%, ${alphaVal})`;
+                ctx.shadowColor = `hsla(${hue}, 100%, 70%, 0.6)`;
+                ctx.shadowBlur = 22;
+                ctx.stroke();
+
+                ctx.beginPath();
+                ctx.moveTo(p1.x, p1.y);
+                ctx.lineTo(p2.x, p2.y);
+                ctx.lineWidth = lineWidth * 0.35;
+                ctx.strokeStyle = `hsla(${hue + 30}, 100%, 90%, ${alphaVal * 0.7})`;
+                ctx.shadowBlur = 40;
+                ctx.shadowColor = `hsla(${hue + 20}, 100%, 80%, 0.5)`;
+                ctx.stroke();
+            }
+
+            if (trailPoints.length > 2) {
+                const last = trailPoints[trailPoints.length - 1];
+                ctx.shadowBlur = 80;
+                for (let j = 0; j < 6; j++) {
+                    const angle = j * 1.2 + Date.now() * 0.001;
+                    const dist = 12 + Math.sin(Date.now() * 0.005 + j) * 6;
+                    const px = last.x + Math.cos(angle) * dist;
+                    const py = last.y + Math.sin(angle) * dist;
+                    ctx.beginPath();
+                    ctx.arc(px, py, 2 + Math.sin(Date.now() * 0.01 + j) * 1.5, 0, Math.PI * 2);
+                    ctx.fillStyle = `hsla(${300 + j * 20}, 100%, 80%, 0.5)`;
+                    ctx.shadowColor = `hsla(${300 + j * 20}, 100%, 70%, 0.7)`;
+                    ctx.shadowBlur = 40;
+                    ctx.fill();
+                }
+            }
+
+            requestAnimationFrame(drawTrail);
+        }
+        drawTrail();
+
+        // ---------- 开关 & 域名跳转 ----------
         const targetSwitch = document.getElementById('targetSwitch');
         const domainItems = document.querySelectorAll('.domain-item');
         const STORAGE_KEY = 'linkTargetMode';
@@ -404,7 +505,7 @@
             });
         });
 
-        // 歌曲链接列表
+        // ---------- 音乐播放器（随机播放） ----------
         const mp3List = [
             "https://music.163.com/song/media/outer/url?id=36089001.mp3",
             "https://music.163.com/song/media/outer/url?id=27599066.mp3",
@@ -415,7 +516,7 @@
         const audio = document.getElementById('audio');
         audio.volume = 0.3;
         audio.loop = true;
-        let audioLoaded = false; // 刷新页面自动重置为false
+        let audioLoaded = false;
 
         function randomPlay() {
             const randomUrl = mp3List[Math.floor(Math.random() * mp3List.length)];
@@ -424,19 +525,16 @@
             audioLoaded = true;
         }
 
-        // 空白点击：仅未加载时才执行加载播放，已加载后点击空白无任何效果
         document.body.addEventListener('click', e => {
             const isDomain = e.target.closest('.domain-item');
             const isSwitch = e.target.closest('.switch');
             const isPlayer = e.target.closest('.music-box');
-            // 满足：空白点击 + 还没加载过音乐
             if (!isDomain && !isSwitch && !isPlayer && !audioLoaded) {
                 randomPlay();
                 audio.play().catch(err => {});
             }
         });
 
-        // 兜底：直接点播放器播放按钮加载歌曲
         audio.addEventListener('play', () => {
             if (!audioLoaded) {
                 randomPlay();
