@@ -12,7 +12,8 @@
         }
         body {
             min-height: 100vh;
-            background: url('https://images.unsplash.com/photo-1507525428034-b723cf961d3e?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80') no-repeat center center;
+            /* 你提供的背景图 */
+            background: url('https://pic1.imgdb.cn/i/033xh33EZ3PtL19TphPUL3.jpg') no-repeat center center;
             background-size: cover;
             background-attachment: fixed;
             font-family: "Microsoft YaHei", sans-serif;
@@ -36,11 +37,66 @@
             z-index: 2;
             text-align: center;
         }
+        .title-wrap {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 16px;
+            margin-bottom: 42px;
+        }
         .title {
             font-size: 32px;
             color: #ffffff;
             text-shadow: 0 2px 10px rgba(0,0,0,0.35);
-            margin-bottom: 42px;
+        }
+        /* 跳转开关样式 */
+        .switch-box {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: #fff;
+            font-size: 14px;
+        }
+        .switch {
+            position: relative;
+            display: inline-block;
+            width: 44px;
+            height: 22px;
+        }
+        .switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+        .slider {
+            position: absolute;
+            cursor: none;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(255,255,255,0.2);
+            backdrop-filter: blur(4px);
+            border-radius: 22px;
+            transition: .3s;
+            border: 1px solid rgba(255,255,255,0.3);
+        }
+        .slider:before {
+            position: absolute;
+            content: "";
+            height: 16px;
+            width: 16px;
+            left: 3px;
+            bottom: 3px;
+            background: #fff;
+            border-radius: 50%;
+            transition: .3s;
+        }
+        input:checked + .slider {
+            background: rgba(100,200,255,0.4);
+        }
+        input:checked + .slider:before {
+            transform: translateX(22px);
         }
 
         /* 3D翻转卡片 */
@@ -56,6 +112,7 @@
             height: 90px;
             perspective: 1200px;
             pointer-events: auto;
+            cursor: none !important; /* 移除小手 */
         }
         .flip-card-inner {
             position: relative;
@@ -80,6 +137,7 @@
             justify-content: center;
             backface-visibility: hidden;
             -webkit-backface-visibility: hidden;
+            cursor: none !important;
         }
         .flip-back {
             transform: rotateY(180deg);
@@ -101,12 +159,12 @@
             width:100%;
             height:100%;
             text-decoration:none;
+            cursor: none !important;
         }
 
         .music-box {
             position: relative;
             z-index: 2;
-            display: none;
             margin-top:12px;
         }
         /* 画布层：线条拖尾 + 点击波纹 */
@@ -150,45 +208,55 @@
 <div id="cursor"></div>
 
 <div class="container">
-    <h1 class="title">测试</h1>
+    <div class="title-wrap">
+        <h1 class="title">测试</h1>
+        <div class="switch-box">
+            <span>新标签打开</span>
+            <label class="switch">
+                <input type="checkbox" id="targetSwitch">
+                <span class="slider"></span>
+            </label>
+        </div>
+    </div>
+
     <div class="domain-card-wrap">
-        <div class="flip-card">
+        <div class="flip-card" data-href="http://w.thanatosolo.ddns.ge">
             <div class="flip-card-inner">
                 <div class="flip-front">
-                    <a href="http://w.thanatosolo.ddns.ge" target="_blank">
+                    <a href="javascript:void(0)">
                         <div class="domain-name">DDNS.GE</div>
                     </a>
                 </div>
                 <div class="flip-back">
-                    <a href="http://w.thanatosolo.ddns.ge" target="_blank">
+                    <a href="javascript:void(0)">
                         <div class="domain-link-text">http://w.thanatosolo.ddns.ge</div>
                     </a>
                 </div>
             </div>
         </div>
-        <div class="flip-card">
+        <div class="flip-card" data-href="https://thanatosolo.dpdns.org">
             <div class="flip-card-inner">
                 <div class="flip-front">
-                    <a href="https://thanatosolo.dpdns.org" target="_blank">
+                    <a href="javascript:void(0)">
                         <div class="domain-name">DPDNS.ORG</div>
                     </a>
                 </div>
                 <div class="flip-back">
-                    <a href="https://thanatosolo.dpdns.org" target="_blank">
+                    <a href="javascript:void(0)">
                         <div class="domain-link-text">https://thanatosolo.dpdns.org</div>
                     </a>
                 </div>
             </div>
         </div>
-        <div class="flip-card">
+        <div class="flip-card" data-href="https://thanatosolo.kdns.fr">
             <div class="flip-card-inner">
                 <div class="flip-front">
-                    <a href="https://thanatosolo.kdns.fr" target="_blank">
+                    <a href="javascript:void(0)">
                         <div class="domain-name">KDNS.FR</div>
                     </a>
                 </div>
                 <div class="flip-back">
-                    <a href="https://thanatosolo.kdns.fr" target="_blank">
+                    <a href="javascript:void(0)">
                         <div class="domain-link-text">https://thanatosolo.kdns.fr</div>
                     </a>
                 </div>
@@ -209,25 +277,53 @@ document.addEventListener('mousemove',e=>{
     cursor.style.top = e.clientY + 'px';
 })
 
-// 音乐控制：全局任意点击触发一次播放器加载，防止重复加载
+// ========== 跳转开关 + 本地记忆 ==========
+const targetSwitch = document.getElementById('targetSwitch');
+const flipCards = document.querySelectorAll('.flip-card');
+const STORAGE_KEY = 'linkTargetMode';
+// 读取记忆值
+let openNewTab = localStorage.getItem(STORAGE_KEY) === '1';
+targetSwitch.checked = openNewTab;
+
+// 切换保存
+targetSwitch.addEventListener('change', ()=>{
+    openNewTab = targetSwitch.checked;
+    localStorage.setItem(STORAGE_KEY, openNewTab ? '1' : '0');
+})
+
+// 卡片点击跳转逻辑
+flipCards.forEach(card=>{
+    card.addEventListener('click',(e)=>{
+        e.stopPropagation(); // 阻止冒泡，不会触发空白处音乐加载
+        const url = card.dataset.href;
+        if(openNewTab){
+            window.open(url,'_blank');
+        }else{
+            location.href = url;
+        }
+    })
+})
+
+// ========== 音乐加载逻辑：仅点击空白区域生效 ==========
 const musicContainer = document.getElementById('musicContainer');
 const iframe = musicContainer.querySelector('iframe');
 let audioLoaded = false;
-document.body.addEventListener('click',()=>{
-    if(!audioLoaded){
+document.body.addEventListener('click',(e)=>{
+    // 判断点击目标：卡片/开关不加载音乐，仅空白区域加载
+    const isClickCard = e.target.closest('.flip-card');
+    const isClickSwitch = e.target.closest('.switch');
+    if(!isClickCard && !isClickSwitch && !audioLoaded){
         iframe.src = "//music.163.com/outchain/player?type=2&id=20753116&auto=1&height=32";
-        musicContainer.style.display = 'block';
         audioLoaded = true;
     }
 })
 
-// 画布：线条拖尾 + 点击波纹特效
+// ========== 画布：线条拖尾 + 点击波纹特效 ==========
 const canvas = document.getElementById("canvasMouse");
 const ctx = canvas.getContext("2d");
 let width,height;
 const trailPoints = [];
 const maxTrailLength = 35;
-// 点击波纹数组
 let rippleList = [];
 
 function resizeCanvas(){
@@ -237,32 +333,22 @@ function resizeCanvas(){
 resizeCanvas();
 window.addEventListener('resize',resizeCanvas);
 
-// 鼠标移动记录轨迹
 window.addEventListener('mousemove',(e)=>{
     trailPoints.push({x:e.clientX,y:e.clientY});
-    if(trailPoints.length > maxTrailLength){
-        trailPoints.shift();
-    }
+    if(trailPoints.length > maxTrailLength) trailPoints.shift();
 })
-// 点击生成波纹
 window.addEventListener('click',e=>{
-    rippleList.push({
-        x:e.clientX,
-        y:e.clientY,
-        radius:5,
-        alpha:1
-    })
+    rippleList.push({x:e.clientX,y:e.clientY,radius:5,alpha:1})
 })
 
 function animate(){
     ctx.fillStyle = 'rgba(0,0,0,0.06)';
     ctx.fillRect(0,0,width,height);
 
-    // 炫彩鼠标拖尾线条
+    // 炫彩拖尾线条
     ctx.lineCap = "round";
     for(let i=1;i<trailPoints.length;i++){
-        const p1 = trailPoints[i-1];
-        const p2 = trailPoints[i];
+        const p1 = trailPoints[i-1], p2 = trailPoints[i];
         const hue = (i * 10 + Date.now() * 0.05) % 360;
         const alpha = i / trailPoints.length;
         ctx.beginPath();
@@ -273,7 +359,7 @@ function animate(){
         ctx.stroke();
     }
 
-    // 点击扩散波纹特效
+    // 点击波纹
     for(let i=rippleList.length-1;i>=0;i--){
         const r = rippleList[i];
         ctx.beginPath();
@@ -283,9 +369,7 @@ function animate(){
         ctx.stroke();
         r.radius +=2;
         r.alpha -=0.025;
-        if(r.alpha <=0){
-            rippleList.splice(i,1);
-        }
+        if(r.alpha <=0) rippleList.splice(i,1);
     }
     requestAnimationFrame(animate);
 }
