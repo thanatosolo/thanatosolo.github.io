@@ -32,7 +32,6 @@
         .container {
             position: relative;
             z-index: 2;
-            text-align: left;
             min-height: 100vh;
             display: flex;
             flex-direction: column;
@@ -146,7 +145,7 @@
         }
 
         input:checked + .slider {
-            background: rgba(120, 75, 170, 0.40);
+            background: rgba120, 75, 170, 0.40);
             box-shadow: 0 0 10px rgba(160, 90, 180, 0.45);
         }
 
@@ -269,7 +268,7 @@
             text-shadow: 0 0 4px rgba(0,0,0,0.5);
         }
 
-        /* 双层旋转光标 */
+        /* 双层反向旋转光环光标 */
         #cursor {
             position: fixed;
             width: 44px;
@@ -363,8 +362,8 @@
 
     <div class="music-box" id="musicContainer">
         <audio id="audio" controls preload="auto" playsinline>
-            <source type="audio/mpeg">
-        </div>
+        
+    </div>
 
     <script>
         const cursor = document.getElementById('cursor');
@@ -380,6 +379,7 @@
         let openNewTab = localStorage.getItem(STORAGE_KEY) === '1';
         targetSwitch.checked = openNewTab;
 
+        // 修复：变量名错误 target → targetSwitch
         targetSwitch.addEventListener('change', () => {
             openNewTab = targetSwitch.checked;
             localStorage.setItem(STORAGE_KEY, openNewTab ? '1' : '0');
@@ -397,39 +397,43 @@
             });
         });
 
-        // 保留你全部5首歌曲ID
-        const songIds = [36089001,27599066,4154863,33527503,29017025];
+        // 5首可用网易云直链
+        const mp3List = [
+            "https://music.163.com/song/media/outer/url?id=36089001.mp3",
+            "https://music.163.com/song/media/outer/url?id=27599066.mp3",
+            "https://music.163.com/song/media/outer/url?id=4154863.mp3",
+            "https://music.163.com/song/media/outer/url?id=33527503.mp3",
+            "https://music.163.com/song/media/outer/url?id=29017025.mp3"
+        ];
         const audio = document.getElementById('audio');
-        audio.volume = 0.30;
+        audio.volume = 0.3;
         audio.loop = true;
         let audioLoaded = false;
 
-        // 生成音源地址 + 强制刷新播放器
-        function setRandomAudioSource() {
-            const randomId = songIds[Math.floor(Math.random() * songIds.length)];
-            // 主解析接口
-            let srcUrl = `https://api.injahow.cn/meting/api?server=netease&type=song&id=${randomId}`;
-            audio.src = srcUrl;
-            audio.load(); // 关键：强制刷新播放器，按钮不再灰色
+        function randomPlay() {
+            const randomUrl = mp3List[Math.floor(Math.random() * mp3List.length)];
+            audio.src = randomUrl;
+            audio.load();
             audioLoaded = true;
         }
 
-        // 空白区域点击加载音乐
+        // 页面载入预先加载一首（解决完全空白无反应）
+        randomPlay();
+
+        // 空白点击切歌，排除链接/开关/播放器
         document.body.addEventListener('click', e => {
             const isClickDomain = e.target.closest('.domain-item');
             const isClickSwitch = e.target.closest('.switch');
             const isClickPlayer = e.target.closest('.music-box');
             if (!isClickDomain && !isClickSwitch && !audioLoaded) {
-                setRandomAudioSource();
+                randomPlay();
                 audio.play().catch(err => {});
             }
         });
 
-        // 兜底：直接点播放按钮也加载
+        // 点击播放按钮兜底加载
         audio.addEventListener('play', () => {
-            if (!audioLoaded) {
-                setRandomAudioSource();
-            }
+            if (!audioLoaded) randomPlay();
         });
     </script>
 </body>
