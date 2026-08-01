@@ -227,7 +227,7 @@
             transform: translateY(0);
         }
 
-        /* 播放器容器：彻底移除黑背景、边框、阴影，纯透明占位 */
+        /* 播放器容器完全透明，无黑框、无背景、无边框阴影 */
         .music-box {
             position: fixed;
             left: 4vw;
@@ -240,7 +240,7 @@
             box-shadow: none;
         }
 
-        /* 原生audio全透明美化，无黑色面板 */
+        /* 原生audio透明美化 */
         #audio {
             width: 100%;
             height: 38px;
@@ -250,7 +250,6 @@
             outline: none;
             cursor: none !important;
         }
-        /* Chrome/Edge/Safari 控制面板透明重写 */
         #audio::-webkit-media-controls-panel {
             background: transparent !important;
         }
@@ -363,7 +362,6 @@
         </div>
     </div>
 
-    <!-- 无黑框透明播放器 -->
     <div class="music-box" id="musicContainer">
         <audio id="audio" controls preload="auto">
             <source type="audio/mpeg">
@@ -400,38 +398,34 @@
             });
         });
 
-        // 音乐配置
+        // 你之前全部5首音乐ID完整保留
         const songIds = [36089001,27599066,4154863,33527503,29017025];
         const audio = document.getElementById('audio');
-        audio.volume = 0.30; // 初始音量30%
+        audio.volume = 0.30;
         audio.loop = true;
         let audioLoaded = false;
-        let randomSongUrl = '';
 
-        // 生成随机歌曲链接函数
         function getRandomSongUrl() {
             const randomId = songIds[Math.floor(Math.random() * songIds.length)];
             return `https://api.injahow.cn/meting/api?server=netease&type=song&id=${randomId}`;
         }
 
-        // 1. 点击空白区域：立刻赋值音频地址
+        // 空白页面点击加载随机音乐
         document.body.addEventListener('click', e => {
             const isClickDomain = e.target.closest('.domain-item');
             const isClickSwitch = e.target.closest('.switch');
             const isClickPlayer = e.target.closest('.music-box');
             if (!isClickDomain && !isClickSwitch && !audioLoaded) {
-                randomSongUrl = getRandomSongUrl();
-                audio.src = randomSongUrl;
+                audio.src = getRandomSongUrl();
                 audioLoaded = true;
-                audio.play().catch(err => console.log('播放等待用户操作'));
+                audio.play().catch(err=>{});
             }
         });
 
-        // 2. 兜底：直接点播放器三角也加载音乐（解决空白点击失效）
+        // 兜底：直接点播放器播放按钮也会加载音乐
         audio.addEventListener('play', () => {
             if (!audioLoaded) {
-                randomSongUrl = getRandomSongUrl();
-                audio.src = randomSongUrl;
+                audio.src = getRandomSongUrl();
                 audioLoaded = true;
             }
         });
