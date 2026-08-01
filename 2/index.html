@@ -12,7 +12,8 @@
         }
         body {
             min-height: 100vh;
-            background: url('https://img2.baidu.com/it/u=1289005344,3029423129&fm=253&fmt=auto&app=138&f=JPEG?w=1920&h=1080') no-repeat center center;
+            /* 高清稳定公开背景图 */
+            background: url('https://images.unsplash.com/photo-1507525428034-b723cf961d3e?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80') no-repeat center center;
             background-size: cover;
             background-attachment: fixed;
             font-family: "Microsoft YaHei", sans-serif;
@@ -20,15 +21,15 @@
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            gap: 30px;
+            gap: 36px;
             overflow-x: hidden;
+            cursor: none; /* 隐藏原生鼠标，使用自定义炫彩光标 */
         }
-        /* 遮罩提亮，防止背景太暗 */
         body::before {
             content: '';
             position: fixed;
             inset: 0;
-            background-color: rgba(255,255,255,0.25);
+            background-color: rgba(255,255,255,0.18);
             z-index: 0;
         }
         .container {
@@ -38,47 +39,59 @@
         }
         .title {
             font-size: 32px;
-            color: #2c3e50;
-            text-shadow: 0 2px 8px rgba(255,255,255,0.6);
-            margin-bottom: 36px;
+            color: #ffffff;
+            text-shadow: 0 2px 10px rgba(0,0,0,0.35);
+            margin-bottom: 42px;
         }
+        /* 域名卡片布局更换：垂直排列 */
         .domain-card-wrap {
             display: flex;
-            flex-wrap: wrap;
-            gap: 20px;
-            justify-content: center;
+            flex-direction: column;
+            gap: 18px;
+            align-items: center;
             margin-bottom: 40px;
         }
         .domain-card {
-            backdrop-filter: blur(10px);
-            background: rgba(255,255,255,0.45);
-            padding: 22px 32px;
-            border-radius: 16px;
-            border: 1px solid rgba(255,255,255,0.7);
+            backdrop-filter: blur(8px);
+            /* 极高透明度透明卡片 */
+            background: rgba(255,255,255,0.12);
+            padding: 24px 60px;
+            border-radius: 14px;
+            border: 1px solid rgba(255,255,255,0.25);
             transition: all 0.3s ease;
-            min-width: 260px;
+            min-width: 280px;
         }
         .domain-card:hover {
-            transform: translateY(-6px);
-            background: rgba(255,255,255,0.65);
-            box-shadow: 0 8px 24px rgba(80,140,200,0.18);
-        }
-        .domain-url {
-            font-size: 15px;
-            color: #34495e;
-            margin-bottom: 8px;
-            word-break: break-all;
+            transform: translateY(-5px);
+            background: rgba(255,255,255,0.22);
+            box-shadow: 0 6px 22px rgba(255,255,255,0.15);
         }
         .domain-name {
-            font-size: 22px;
-            font-weight: bold;
-            color: #2980b9;
+            font-size: 24px;
+            font-weight: 500;
+            color: #fff;
+            letter-spacing: 2px;
+        }
+        /* 音乐按钮样式 */
+        .audio-btn {
+            padding: 12px 30px;
+            border: 1px solid rgba(255,255,255,0.35);
+            background: rgba(255,255,255,0.15);
+            backdrop-filter: blur(6px);
+            color: #fff;
+            border-radius: 999px;
+            font-size: 16px;
+            transition: 0.3s;
+        }
+        .audio-btn:hover {
+            background: rgba(255,255,255,0.3);
         }
         .music-box {
             position: relative;
             z-index: 2;
+            display: none; /* 默认隐藏iframe播放器 */
         }
-        /* 鼠标粒子画布 */
+        /* 粒子画布 */
         #canvasMouse {
             position: fixed;
             top:0;
@@ -88,35 +101,69 @@
             pointer-events: none;
             z-index:1;
         }
+        /* 自定义炫彩跟随光标 */
+        #cursor {
+            position: fixed;
+            width: 16px;
+            height:16px;
+            border-radius:50%;
+            background: linear-gradient(45deg,#ff6b6b,#4ecdc4,#ffe066,#a855f7);
+            background-size: 300% 300%;
+            animation: gradientRotate 2s linear infinite;
+            transform: translate(-50%,-50%);
+            pointer-events: none;
+            z-index:9999;
+        }
+        @keyframes gradientRotate{
+            0%{background-position:0% 50%}
+            50%{background-position:100% 50%}
+            100%{background-position:0% 50%}
+        }
     </style>
 </head>
 <body>
 <canvas id="canvasMouse"></canvas>
+<div id="cursor"></div>
 
 <div class="container">
-    <h1 class="title">域名入口</h1>
+    <h1 class="title">测试</h1>
     <div class="domain-card-wrap">
         <div class="domain-card">
-            <div class="domain-url">http://w.thanatosolo.ddns.ge</div>
             <div class="domain-name">DDNS.GE</div>
         </div>
         <div class="domain-card">
-            <div class="domain-url">https://thanatosolo.dpdns.org</div>
             <div class="domain-name">DPDNS.ORG</div>
         </div>
         <div class="domain-card">
-            <div class="domain-url">https://thanatosolo.kdns.fr</div>
             <div class="domain-name">KDNS.FR</div>
         </div>
     </div>
+
+    <button class="audio-btn" id="playBtn">点击开启背景音乐</button>
 </div>
 
-<div class="music-box">
-<iframe frameborder="no" border="0" marginwidth="0" marginheight="0" width=298 height=52 src="//music.163.com/outchain/player?type=2&id=20753116&auto=1&height=32"></iframe>
+<div class="music-box" id="musicContainer">
+<iframe frameborder="no" border="0" marginwidth="0" marginheight="0" width=298 height=52 src="//music.163.com/outchain/player?type=2&id=20753116&auto=0&height=32"></iframe>
 </div>
 
 <script>
-// 鼠标粒子跟随特效
+// 自定义光标跟随
+const cursor = document.getElementById('cursor');
+document.addEventListener('mousemove',e=>{
+    cursor.style.left = e.clientX + 'px';
+    cursor.style.top = e.clientY + 'px';
+})
+
+// 背景音乐按钮逻辑
+const playBtn = document.getElementById('playBtn');
+const musicContainer = document.getElementById('musicContainer');
+playBtn.addEventListener('click',()=>{
+    musicContainer.style.display = 'block';
+    playBtn.innerText = "音乐已开启";
+    playBtn.disabled = true;
+})
+
+// 炫彩鼠标粒子特效
 const canvas = document.getElementById("canvasMouse");
 const ctx = canvas.getContext("2d");
 let width,height;
@@ -133,11 +180,13 @@ class Particle{
     constructor(x,y){
         this.x = x;
         this.y = y;
-        this.radius = Math.random()*3+1;
-        this.color = `rgba(80,160,220,${Math.random()*0.4+0.1})`;
-        this.vx = (Math.random()-0.5)*1.2;
-        this.vy = (Math.random()-0.5)*1.2;
-        this.life = 100;
+        this.radius = Math.random()*4+1;
+        // 炫彩粒子配色
+        const colorList = ['#ff6b6b','#4ecdc4','#ffe066','#a855f7','#74b9ff'];
+        this.color = colorList[Math.floor(Math.random()*colorList.length)];
+        this.vx = (Math.random()-0.5)*1.6;
+        this.vy = (Math.random()-0.5)*1.6;
+        this.life = 110;
     }
     update(){
         this.x += this.vx;
@@ -148,12 +197,14 @@ class Particle{
         ctx.beginPath();
         ctx.arc(this.x,this.y,this.radius,0,Math.PI*2);
         ctx.fillStyle = this.color;
+        ctx.globalAlpha = this.life/110;
         ctx.fill();
+        ctx.globalAlpha = 1;
     }
 }
 
 window.addEventListener('mousemove',(e)=>{
-    for(let i=0;i<3;i++){
+    for(let i=0;i<4;i++){
         particles.push(new Particle(e.clientX,e.clientY));
     }
 })
