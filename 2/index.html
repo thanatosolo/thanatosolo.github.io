@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>域名导航</title>
+    <title>测试</title>
     <style>
         * {
             margin: 0;
@@ -12,7 +12,6 @@
         }
         body {
             min-height: 100vh;
-            /* 高清稳定公开背景图 */
             background: url('https://images.unsplash.com/photo-1507525428034-b723cf961d3e?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80') no-repeat center center;
             background-size: cover;
             background-attachment: fixed;
@@ -23,7 +22,7 @@
             justify-content: center;
             gap: 36px;
             overflow-x: hidden;
-            cursor: none; /* 隐藏原生鼠标，使用自定义炫彩光标 */
+            cursor: none;
         }
         body::before {
             content: '';
@@ -43,28 +42,48 @@
             text-shadow: 0 2px 10px rgba(0,0,0,0.35);
             margin-bottom: 42px;
         }
-        /* 域名卡片布局更换：垂直排列 */
+
+        /* ========== 3D翻转卡片核心样式 ========== */
         .domain-card-wrap {
             display: flex;
             flex-direction: column;
-            gap: 18px;
+            gap: 22px;
             align-items: center;
             margin-bottom: 40px;
         }
-        .domain-card {
-            backdrop-filter: blur(8px);
-            /* 极高透明度透明卡片 */
-            background: rgba(255,255,255,0.12);
-            padding: 24px 60px;
-            border-radius: 14px;
-            border: 1px solid rgba(255,255,255,0.25);
-            transition: all 0.3s ease;
-            min-width: 280px;
+        .flip-card {
+            width: 320px;
+            height: 90px;
+            perspective: 1200px;
+            pointer-events: auto;
         }
-        .domain-card:hover {
-            transform: translateY(-5px);
-            background: rgba(255,255,255,0.22);
-            box-shadow: 0 6px 22px rgba(255,255,255,0.15);
+        .flip-card-inner {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            transition: transform 0.6s ease;
+            transform-style: preserve-3d;
+        }
+        /* hover触发翻转 */
+        .flip-card:hover .flip-card-inner {
+            transform: rotateY(180deg);
+        }
+        .flip-front, .flip-back {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            border-radius: 14px;
+            backdrop-filter: blur(8px);
+            background: rgba(255,255,255,0.12);
+            border: 1px solid rgba(255,255,255,0.25);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            backface-visibility: hidden;
+            -webkit-backface-visibility: hidden;
+        }
+        .flip-back {
+            transform: rotateY(180deg);
         }
         .domain-name {
             font-size: 24px;
@@ -72,7 +91,14 @@
             color: #fff;
             letter-spacing: 2px;
         }
-        /* 音乐按钮样式 */
+        .domain-link-text {
+            font-size: 14px;
+            color: #fff;
+            padding: 0 10px;
+            word-break: break-all;
+        }
+
+        /* 音乐按钮 */
         .audio-btn {
             padding: 12px 30px;
             border: 1px solid rgba(255,255,255,0.35);
@@ -89,9 +115,10 @@
         .music-box {
             position: relative;
             z-index: 2;
-            display: none; /* 默认隐藏iframe播放器 */
+            display: none;
+            margin-top:12px;
         }
-        /* 粒子画布 */
+        /* 鼠标线条拖尾画布 */
         #canvasMouse {
             position: fixed;
             top:0;
@@ -101,7 +128,7 @@
             pointer-events: none;
             z-index:1;
         }
-        /* 自定义炫彩跟随光标 */
+        /* 自定义炫彩圆点光标 */
         #cursor {
             position: fixed;
             width: 16px;
@@ -113,6 +140,7 @@
             transform: translate(-50%,-50%);
             pointer-events: none;
             z-index:9999;
+            box-shadow: 0 0 12px rgba(255,255,255,0.6);
         }
         @keyframes gradientRotate{
             0%{background-position:0% 50%}
@@ -128,46 +156,72 @@
 <div class="container">
     <h1 class="title">测试</h1>
     <div class="domain-card-wrap">
-        <div class="domain-card">
-            <div class="domain-name">DDNS.GE</div>
+        <!--卡片1-->
+        <div class="flip-card">
+            <div class="flip-card-inner">
+                <div class="flip-front">
+                    <div class="domain-name">DDNS.GE</div>
+                </div>
+                <div class="flip-back">
+                    <div class="domain-link-text">http://w.thanatosolo.ddns.ge</div>
+                </div>
+            </div>
         </div>
-        <div class="domain-card">
-            <div class="domain-name">DPDNS.ORG</div>
+        <!--卡片2-->
+        <div class="flip-card">
+            <div class="flip-card-inner">
+                <div class="flip-front">
+                    <div class="domain-name">DPDNS.ORG</div>
+                </div>
+                <div class="flip-back">
+                    <div class="domain-link-text">https://thanatosolo.dpdns.org</div>
+                </div>
+            </div>
         </div>
-        <div class="domain-card">
-            <div class="domain-name">KDNS.FR</div>
+        <!--卡片3-->
+        <div class="flip-card">
+            <div class="flip-card-inner">
+                <div class="flip-front">
+                    <div class="domain-name">KDNS.FR</div>
+                </div>
+                <div class="flip-back">
+                    <div class="domain-link-text">https://thanatosolo.kdns.fr</div>
+                </div>
+            </div>
         </div>
     </div>
 
     <button class="audio-btn" id="playBtn">点击开启背景音乐</button>
-</div>
-
-<div class="music-box" id="musicContainer">
-<iframe frameborder="no" border="0" marginwidth="0" marginheight="0" width=298 height=52 src="//music.163.com/outchain/player?type=2&id=20753116&auto=0&height=32"></iframe>
+    <div class="music-box" id="musicContainer">
+        <iframe allow="autoplay" frameborder="no" border="0" marginwidth="0" marginheight="0" width=298 height=52 src=""></iframe>
+    </div>
 </div>
 
 <script>
-// 自定义光标跟随
+// 跟随光标
 const cursor = document.getElementById('cursor');
 document.addEventListener('mousemove',e=>{
     cursor.style.left = e.clientX + 'px';
     cursor.style.top = e.clientY + 'px';
 })
 
-// 背景音乐按钮逻辑
+// 音乐按钮逻辑：点击后填充带自动播放的iframe地址
 const playBtn = document.getElementById('playBtn');
 const musicContainer = document.getElementById('musicContainer');
+const iframe = musicContainer.querySelector('iframe');
 playBtn.addEventListener('click',()=>{
+    iframe.src = "//music.163.com/outchain/player?type=2&id=20753116&auto=1&height=32";
     musicContainer.style.display = 'block';
     playBtn.innerText = "音乐已开启";
     playBtn.disabled = true;
 })
 
-// 炫彩鼠标粒子特效
+// ===================== 新版：流光线条鼠标拖尾特效 =====================
 const canvas = document.getElementById("canvasMouse");
 const ctx = canvas.getContext("2d");
 let width,height;
-let particles = [];
+const trailPoints = [];
+const maxTrailLength = 35;
 
 function resizeCanvas(){
     width = canvas.width = window.innerWidth;
@@ -176,48 +230,31 @@ function resizeCanvas(){
 resizeCanvas();
 window.addEventListener('resize',resizeCanvas);
 
-class Particle{
-    constructor(x,y){
-        this.x = x;
-        this.y = y;
-        this.radius = Math.random()*4+1;
-        // 炫彩粒子配色
-        const colorList = ['#ff6b6b','#4ecdc4','#ffe066','#a855f7','#74b9ff'];
-        this.color = colorList[Math.floor(Math.random()*colorList.length)];
-        this.vx = (Math.random()-0.5)*1.6;
-        this.vy = (Math.random()-0.5)*1.6;
-        this.life = 110;
-    }
-    update(){
-        this.x += this.vx;
-        this.y += this.vy;
-        this.life--;
-    }
-    draw(){
-        ctx.beginPath();
-        ctx.arc(this.x,this.y,this.radius,0,Math.PI*2);
-        ctx.fillStyle = this.color;
-        ctx.globalAlpha = this.life/110;
-        ctx.fill();
-        ctx.globalAlpha = 1;
-    }
-}
-
 window.addEventListener('mousemove',(e)=>{
-    for(let i=0;i<4;i++){
-        particles.push(new Particle(e.clientX,e.clientY));
+    trailPoints.push({x:e.clientX,y:e.clientY});
+    if(trailPoints.length > maxTrailLength){
+        trailPoints.shift();
     }
 })
 
 function animate(){
-    ctx.clearRect(0,0,width,height);
-    for(let i=particles.length-1;i>=0;i--){
-        const p = particles[i];
-        p.update();
-        p.draw();
-        if(p.life <= 0){
-            particles.splice(i,1);
-        }
+    // 拖尾渐变淡出效果
+    ctx.fillStyle = 'rgba(0,0,0,0.06)';
+    ctx.fillRect(0,0,width,height);
+
+    ctx.lineCap = "round";
+    for(let i=1;i<trailPoints.length;i++){
+        const p1 = trailPoints[i-1];
+        const p2 = trailPoints[i];
+        // 渐变色 hsl动态变色
+        const hue = (i * 10 + Date.now() * 0.05) % 360;
+        const alpha = i / trailPoints.length;
+        ctx.beginPath();
+        ctx.moveTo(p1.x,p1.y);
+        ctx.lineTo(p2.x,p2.y);
+        ctx.strokeStyle = `hsla(${hue}, 85%, 65%, ${alpha})`;
+        ctx.lineWidth = alpha * 4;
+        ctx.stroke();
     }
     requestAnimationFrame(animate);
 }
