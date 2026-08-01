@@ -65,6 +65,13 @@
             backdrop-filter: blur(4px);
             border-radius: 50px;
             overflow: hidden;
+            position:relative;
+        }
+        /* 透明遮罩用于接收点击，用来转发点击到播放器 */
+        .trigger-mask{
+            position:absolute;
+            inset:0;
+            z-index:2;
         }
         /* 自定义光标 */
         .cursor {
@@ -160,21 +167,22 @@
             window.location.href = 'https://thanatosolo.github.io/1';
         });
 
-        // ==========核心：点击空白处播放==========
-        let played = false;
-        const iframe = document.getElementById('musicIframe');
-        // 初始auto=0，避免浏览器拦截自动播放
-        document.body.addEventListener('click', function(e){
-            // 排除点击链接、iframe播放器区域，只响应空白位置
-            const target = e.target;
-            if(target.closest('.art-link') || target.closest('#musicIframe')){
-                return;
-            }
-            if(!played){
-                // 刷新iframe开启播放
+        // ==========核心播放逻辑==========
+        let hasPlay = false;
+        const iframe = document.getElementById("musicIframe");
+
+        document.body.addEventListener("click", function(e){
+            // 点击链接区域直接跳过，不触发播放
+            if(e.target.closest(".art-link")) return;
+            if(hasPlay) return;
+
+            hasPlay = true;
+            // 方案：把焦点移到iframe，模拟点击播放器区域触发播放
+            iframe.focus();
+            // 终极兼容方案：重新加载iframe带auto=1（备用兜底）
+            setTimeout(()=>{
                 iframe.src = "https://music.163.com/outchain/player?type=2&id=1812453877&auto=1&height=32";
-                played = true;
-            }
+            }, 50);
         })
     </script>
 </body>
