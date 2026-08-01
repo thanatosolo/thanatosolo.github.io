@@ -12,16 +12,10 @@
         }
         body {
             min-height: 100vh;
-            /* 你提供的背景图 */
             background: url('https://pic1.imgdb.cn/i/033xh33EZ3PtL19TphPUL3.jpg') no-repeat center center;
             background-size: cover;
             background-attachment: fixed;
             font-family: "Microsoft YaHei", sans-serif;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            gap: 36px;
             overflow-x: hidden;
             cursor: none;
         }
@@ -29,20 +23,28 @@
             content: '';
             position: fixed;
             inset: 0;
-            background-color: rgba(255,255,255,0.18);
-            z-index: 0;
+            background-color: rgba(0,0,0,0.18);
+            z-index: -1;
         }
         .container {
             position: relative;
             z-index: 2;
             text-align: center;
+            min-height:100vh;
+            display:flex;
+            flex-direction:column;
+            align-items:center;
+            /* 整体向下靠拢，取消垂直居中 */
+            justify-content:flex-start;
+            padding-top: 18vh;
+            gap:36px;
         }
         .title-wrap {
             display: flex;
             align-items: center;
             justify-content: center;
             gap: 16px;
-            margin-bottom: 42px;
+            margin-bottom: 20px;
         }
         .title {
             font-size: 32px;
@@ -99,7 +101,7 @@
             transform: translateX(22px);
         }
 
-        /* 3D翻转卡片 */
+        /* 3D翻转卡片【改动：完全透明，尺寸自适应】 */
         .domain-card-wrap {
             display: flex;
             flex-direction: column;
@@ -108,11 +110,11 @@
             margin-bottom: 40px;
         }
         .flip-card {
-            width: 320px;
+            width: auto;
             height: 90px;
             perspective: 1200px;
             pointer-events: auto;
-            cursor: none !important; /* 移除小手 */
+            cursor: none !important;
         }
         .flip-card-inner {
             position: relative;
@@ -128,10 +130,11 @@
             position: absolute;
             width: 100%;
             height: 100%;
-            border-radius: 14px;
-            backdrop-filter: blur(8px);
-            background: rgba(255,255,255,0.12);
-            border: 1px solid rgba(255,255,255,0.25);
+            padding: 12px 24px;
+            /* 全部透明：去除背景、边框、毛玻璃 */
+            background: transparent;
+            border:none;
+            backdrop-filter:none;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -151,7 +154,6 @@
         .domain-link-text {
             font-size: 14px;
             color: #fff;
-            padding: 0 10px;
             word-break: break-all;
         }
         .flip-card a{
@@ -167,7 +169,7 @@
             z-index: 2;
             margin-top:12px;
         }
-        /* 画布层：线条拖尾 + 点击波纹 */
+        /* 画布层：点阵拖尾 */
         #canvasMouse {
             position: fixed;
             top:0;
@@ -176,36 +178,57 @@
             height:100%;
             pointer-events: none;
             z-index:1;
+            background: transparent;
         }
-        /* 圆环自定义光标 */
+
+        /* ========= CSS动态光标【方案A 旋转+呼吸光圈】 ========= */
         #cursor {
             position: fixed;
-            width: 22px;
-            height:22px;
-            border-radius:50%;
-            border: 2px solid #fff;
-            background: transparent;
+            width: 26px;
+            height: 26px;
             transform: translate(-50%,-50%);
             pointer-events: none;
             z-index:9999;
-            box-shadow: 0 0 8px rgba(255,255,255,0.4);
         }
-        #cursor::after{
-            content:"";
+        .cursor-ring{
+            width:100%;
+            height:100%;
+            border: 2px solid #fff;
+            border-radius:50%;
+            animation: rotate 4s linear infinite, breathe 2.5s ease-in-out infinite;
+        }
+        .cursor-dot{
             position:absolute;
-            width:4px;
-            height:4px;
+            width:5px;
+            height:5px;
             background:#fff;
             border-radius:50%;
             top:50%;
             left:50%;
             transform:translate(-50%,-50%);
+            animation: flicker 1.2s ease-in-out infinite;
+        }
+        @keyframes rotate {
+            from{transform:rotate(0deg)}
+            to{transform:rotate(360deg)}
+        }
+        @keyframes breathe {
+            0%,100%{transform:scale(1)}
+            50%{transform:scale(1.25)}
+        }
+        @keyframes flicker {
+            0%,100%{opacity:1}
+            50%{opacity:0.35}
         }
     </style>
 </head>
 <body>
 <canvas id="canvasMouse"></canvas>
-<div id="cursor"></div>
+<!-- 动态光标DOM结构 -->
+<div id="cursor">
+    <div class="cursor-ring"></div>
+    <div class="cursor-dot"></div>
+</div>
 
 <div class="container">
     <div class="title-wrap">
@@ -270,7 +293,7 @@
 </div>
 
 <script>
-// 圆环光标跟随
+// 动态光标跟随
 const cursor = document.getElementById('cursor');
 document.addEventListener('mousemove',e=>{
     cursor.style.left = e.clientX + 'px';
@@ -281,20 +304,17 @@ document.addEventListener('mousemove',e=>{
 const targetSwitch = document.getElementById('targetSwitch');
 const flipCards = document.querySelectorAll('.flip-card');
 const STORAGE_KEY = 'linkTargetMode';
-// 读取记忆值
 let openNewTab = localStorage.getItem(STORAGE_KEY) === '1';
 targetSwitch.checked = openNewTab;
 
-// 切换保存
 targetSwitch.addEventListener('change', ()=>{
     openNewTab = targetSwitch.checked;
     localStorage.setItem(STORAGE_KEY, openNewTab ? '1' : '0');
 })
 
-// 卡片点击跳转逻辑
 flipCards.forEach(card=>{
     card.addEventListener('click',(e)=>{
-        e.stopPropagation(); // 阻止冒泡，不会触发空白处音乐加载
+        e.stopPropagation();
         const url = card.dataset.href;
         if(openNewTab){
             window.open(url,'_blank');
@@ -309,7 +329,6 @@ const musicContainer = document.getElementById('musicContainer');
 const iframe = musicContainer.querySelector('iframe');
 let audioLoaded = false;
 document.body.addEventListener('click',(e)=>{
-    // 判断点击目标：卡片/开关不加载音乐，仅空白区域加载
     const isClickCard = e.target.closest('.flip-card');
     const isClickSwitch = e.target.closest('.switch');
     if(!isClickCard && !isClickSwitch && !audioLoaded){
@@ -318,13 +337,13 @@ document.body.addEventListener('click',(e)=>{
     }
 })
 
-// ========== 画布：线条拖尾 + 点击波纹特效 ==========
+// ========== Canvas：点阵圆点拖尾（无连线） ==========
 const canvas = document.getElementById("canvasMouse");
 const ctx = canvas.getContext("2d");
 let width,height;
-const trailPoints = [];
-const maxTrailLength = 35;
-let rippleList = [];
+// 点阵队列
+const dots = [];
+const maxDotCount = 22;
 
 function resizeCanvas(){
     width = canvas.width = window.innerWidth;
@@ -334,42 +353,21 @@ resizeCanvas();
 window.addEventListener('resize',resizeCanvas);
 
 window.addEventListener('mousemove',(e)=>{
-    trailPoints.push({x:e.clientX,y:e.clientY});
-    if(trailPoints.length > maxTrailLength) trailPoints.shift();
-})
-window.addEventListener('click',e=>{
-    rippleList.push({x:e.clientX,y:e.clientY,radius:5,alpha:1})
+    dots.push({x:e.clientX,y:e.clientY,alpha:1});
+    if(dots.length > maxDotCount) dots.shift();
 })
 
 function animate(){
-    ctx.fillStyle = 'rgba(0,0,0,0.06)';
-    ctx.fillRect(0,0,width,height);
-
-    // 炫彩拖尾线条
-    ctx.lineCap = "round";
-    for(let i=1;i<trailPoints.length;i++){
-        const p1 = trailPoints[i-1], p2 = trailPoints[i];
-        const hue = (i * 10 + Date.now() * 0.05) % 360;
-        const alpha = i / trailPoints.length;
+    ctx.clearRect(0,0,width,height);
+    // 循环绘制一串圆点
+    for(let i=0;i<dots.length;i++){
+        const point = dots[i];
+        point.alpha -= 0.045;
+        if(point.alpha <=0) continue;
         ctx.beginPath();
-        ctx.moveTo(p1.x,p1.y);
-        ctx.lineTo(p2.x,p2.y);
-        ctx.strokeStyle = `hsla(${hue}, 85%, 65%, ${alpha})`;
-        ctx.lineWidth = alpha * 4;
-        ctx.stroke();
-    }
-
-    // 点击波纹
-    for(let i=rippleList.length-1;i>=0;i--){
-        const r = rippleList[i];
-        ctx.beginPath();
-        ctx.arc(r.x, r.y, r.radius, 0, Math.PI*2);
-        ctx.strokeStyle = `rgba(255,255,255,${r.alpha})`;
-        ctx.lineWidth = 1.5;
-        ctx.stroke();
-        r.radius +=2;
-        r.alpha -=0.025;
-        if(r.alpha <=0) rippleList.splice(i,1);
+        ctx.arc(point.x, point.y, 3, 0, Math.PI*2);
+        ctx.fillStyle = `rgba(255,255,255,${point.alpha})`;
+        ctx.fill();
     }
     requestAnimationFrame(animate);
 }
