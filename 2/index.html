@@ -227,40 +227,50 @@
             transform: translateY(0);
         }
 
-        /* 自定义播放器容器，替换原iframe盒子 */
+        /* 播放器容器 左下角固定 匹配页面风格 */
         .music-box {
             position: fixed;
             left: 4vw;
             bottom: 4vh;
             z-index: 3;
-            padding: 14px 18px;
-            border-radius: 12px;
+            width: 320px;
+            padding: 10px 14px;
+            border-radius: 50px;
             background: rgba(0, 0, 0, 0.52);
             backdrop-filter: blur(10px);
             border: 1px solid rgba(255, 255, 255, 0.14);
             box-shadow: 0 0 12px rgba(80, 40, 120, 0.35);
-            color:#fff;
         }
-        .ctrl-row{
-            display:flex;
-            align-items:center;
-            gap:12px;
-            margin:8px 0;
+
+        /* 原生audio美化 透明控制面板 */
+        #audio {
+            width: 100%;
+            height: 38px;
+            border-radius: 50px;
+            background: transparent;
+            border: none;
+            outline: none;
+            cursor: none !important;
         }
-        .music-box input[type="range"]{
-            flex:1;
-            cursor:none;
+        /* Chrome Edge Safari 透明美化 */
+        #audio::-webkit-media-controls-panel {
+            background: transparent !important;
         }
-        .music-box button{
-            padding:5px 12px;
-            border:none;
-            border-radius:8px;
-            cursor:none;
-            background:rgba(255,255,255,0.18);
-            color:#fff;
+        #audio::-webkit-media-controls-play-button,
+        #audio::-webkit-media-controls-mute-button {
+            filter: brightness(3);
         }
-        .music-box button:hover{
-            background:rgba(255,255,255,0.3);
+        #audio::-webkit-slider-runnable-track {
+            background: rgba(255,255,255,0.2);
+        }
+        #audio::-webkit-slider-thumb {
+            background: #fff;
+            box-shadow: 0 0 6px rgba(255,255,255,0.9);
+        }
+        #audio::-webkit-media-controls-current-time-display,
+        #audio::-webkit-media-controls-time-remaining-display {
+            color: #fff;
+            text-shadow: 0 0 4px rgba(0,0,0,0.5);
         }
 
         /* 双层反向旋转光环光标 */
@@ -355,19 +365,12 @@
         </div>
     </div>
 
-    <!-- 替换为自定义播放器结构，移除iframe -->
+    <!-- 新版透明原生Audio播放器 -->
     <div class="music-box" id="musicContainer">
-        <div class="ctrl-row">
-            <button id="playBtn">播放</button>
-            <input type="range" id="progress" value="0" min="0" max="100">
-        </div>
-        <div class="ctrl-row">
-            <span>🔊</span>
-            <input type="range" id="volSlider" min="0" max="100" value="30">
-            <span id="volNum">30%</span>
-        </div>
+        <audio id="audio" controls preload="auto">
+            <source type="audio/mpeg">
+        
     </div>
-    <audio id="audio">
 
     <script>
         const cursor = document.getElementById('cursor');
@@ -400,19 +403,14 @@
             });
         });
 
-        // ==========音乐相关逻辑【保留随机歌单】==========
+        // 音乐逻辑 保留随机歌单、初始音量30%、循环
         const songIds = [36089001,27599066,4154863,33527503,29017025];
         const audio = document.getElementById('audio');
-        const playBtn = document.getElementById('playBtn');
-        const progress = document.getElementById('progress');
-        const volSlider = document.getElementById('volSlider');
-        const volNum = document.getElementById('volNum');
-
         audio.volume = 0.30; // 初始音量30%
         audio.loop = true;
         let audioLoaded = false;
 
-        // 页面空白点击加载随机歌曲并播放，排除域名、开关点击
+        // 仅点击空白区域加载随机歌曲，排除域名/开关/播放器点击
         document.body.addEventListener('click', e => {
             const isClickDomain = e.target.closest('.domain-item');
             const isClickSwitch = e.target.closest('.switch');
@@ -424,29 +422,6 @@
                 audioLoaded = true;
             }
         });
-
-        // 播放暂停按钮
-        playBtn.onclick = ()=>{
-            if(audio.paused) audio.play();
-            else audio.pause();
-        }
-        audio.addEventListener('play',()=>playBtn.textContent="暂停");
-        audio.addEventListener('pause',()=>playBtn.textContent="播放");
-
-        // 进度条同步
-        audio.addEventListener('timeupdate',()=>{
-            if(audio.duration) progress.value = audio.currentTime / audio.duration * 100;
-        })
-        progress.oninput = ()=>{
-            audio.currentTime = progress.value / 100 * audio.duration;
-        }
-
-        // 音量滑块
-        volSlider.oninput = ()=>{
-            let val = volSlider.value;
-            audio.volume = val / 100;
-            volNum.textContent = val + "%";
-        }
     </script>
 </body>
 </html>
