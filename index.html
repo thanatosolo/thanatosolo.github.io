@@ -55,11 +55,22 @@
             color: transparent;
             animation: textRainbowFlow 8s linear infinite;
             text-shadow: 0 0 30px rgba(255, 100, 200, 0.3);
+            cursor: none;
+            transition: transform 0.25s ease, filter 0.25s ease;
+        }
+
+        .title:hover {
+            transform: scale(1.04);
+            filter: brightness(1.3);
         }
 
         @keyframes textRainbowFlow {
-            0% { background-position: 0% 50%; }
-            100% { background-position: 400% 50%; }
+            0% {
+                background-position: 0% 50%;
+            }
+            100% {
+                background-position: 400% 50%;
+            }
         }
 
         /* —— 新潮开关（无背景卡片） —— */
@@ -70,7 +81,7 @@
             color: #d6e0f0;
             font-size: 15px;
             font-weight: 500;
-            text-shadow: 0 0 12px rgba(0,0,0,0.7), 0 0 4px #000;
+            text-shadow: 0 0 12px rgba(0, 0, 0, 0.7), 0 0 4px #000;
             padding: 0;
             background: transparent;
             border: none;
@@ -102,7 +113,7 @@
             border-radius: 24px;
             transition: 0.4s cubic-bezier(0.23, 1, 0.32, 1);
             border: 1px solid rgba(255, 255, 255, 0.2);
-            box-shadow: inset 0 0 6px rgba(0,0,0,0.6);
+            box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.6);
         }
 
         .slider:before {
@@ -118,13 +129,13 @@
             box-shadow: 0 0 16px #9f7aff, 0 0 30px #7f5aff;
         }
 
-        input:checked + .slider {
+        input:checked+.slider {
             background: rgba(140, 70, 200, 0.45);
             border-color: #b580ff;
             box-shadow: 0 0 24px rgba(170, 100, 255, 0.4), inset 0 0 10px rgba(200, 150, 255, 0.3);
         }
 
-        input:checked + .slider:before {
+        input:checked+.slider:before {
             transform: translateX(26px);
             background: radial-gradient(circle at 30% 30%, #ffffff, #c8a0ff);
             box-shadow: 0 0 30px #b080ff, 0 0 60px #9055ff;
@@ -148,8 +159,7 @@
             transition: all 0.32s cubic-bezier(0.2, 0.9, 0.4, 1);
             white-space: nowrap;
             color: #f0f0f8;
-            text-shadow:
-                0 0 2px #000,
+            text-shadow: 0 0 2px #000,
                 1px 1px 2px #000,
                 -1px -1px 2px #000,
                 0 0 8px #9468b0,
@@ -174,8 +184,7 @@
         .domain-item:hover {
             transform: translateY(-4px) scale(1.02);
             color: #ffffff;
-            text-shadow:
-                0 0 2px #000,
+            text-shadow: 0 0 2px #000,
                 1px 1px 2px #000,
                 -1px -1px 2px #000,
                 0 0 12px #d080ff,
@@ -200,15 +209,14 @@
             transform: translateY(-3px) scale(0.96);
             transition: all 0.28s cubic-bezier(0.2, 0.9, 0.4, 1);
             pointer-events: none;
-            text-shadow:
-                1px 1px 4px #000,
+            text-shadow: 1px 1px 4px #000,
                 -1px -1px 4px #000,
-                0 0 12px rgba(0,0,0,0.9);
-            background: rgba(0,0,0,0.2);
+                0 0 12px rgba(0, 0, 0, 0.9);
+            background: rgba(0, 0, 0, 0.2);
             backdrop-filter: blur(4px);
             padding: 2px 12px 2px 8px;
             border-radius: 40px;
-            border: 1px solid rgba(255,255,255,0.08);
+            border: 1px solid rgba(255, 255, 255, 0.08);
         }
 
         .domain-item:hover .full-url {
@@ -239,20 +247,24 @@
             outline: none;
             cursor: none !important;
         }
+
         #audio::-webkit-media-controls-panel {
             background: rgba(10, 5, 20, 0.25) !important;
             backdrop-filter: blur(10px) !important;
             border-radius: 60px !important;
             border: 1px solid rgba(255, 255, 255, 0.08);
         }
+
         #audio::-webkit-media-controls-play-button,
         #audio::-webkit-media-controls-mute-button {
             filter: drop-shadow(0 0 4px #b080ff) brightness(1.6);
         }
+
         #audio::-webkit-slider-runnable-track {
-            background: rgba(255,255,255,0.15);
+            background: rgba(255, 255, 255, 0.15);
             border-radius: 20px;
         }
+
         #audio::-webkit-slider-thumb {
             background: radial-gradient(circle, #f0e0ff, #a070ff);
             box-shadow: 0 0 20px #b080ff;
@@ -260,6 +272,7 @@
             height: 14px;
             width: 14px;
         }
+
         #audio::-webkit-media-controls-current-time-display,
         #audio::-webkit-media-controls-time-remaining-display {
             color: #fff;
@@ -315,20 +328,44 @@
         }
 
         @keyframes rotateSlow {
-            from { transform: rotate(0deg); }
-            to { transform: rotate(360deg); }
+            from {
+                transform: rotate(0deg);
+            }
+            to {
+                transform: rotate(360deg);
+            }
         }
+
         @keyframes rotateReverse {
-            from { transform: translate(-50%, -50%) rotate(360deg); }
-            to { transform: translate(-50%, -50%) rotate(0deg); }
+            from {
+                transform: translate(-50%, -50%) rotate(360deg);
+            }
+            to {
+                transform: translate(-50%, -50%) rotate(0deg);
+            }
         }
+
         @keyframes pulseGlow {
-            0%, 100% { transform: translate(-50%, -50%) scale(1); opacity: 0.8; }
-            50% { transform: translate(-50%, -50%) scale(1.3); opacity: 1; }
+            0%,
+            100% {
+                transform: translate(-50%, -50%) scale(1);
+                opacity: 0.8;
+            }
+            50% {
+                transform: translate(-50%, -50%) scale(1.3);
+                opacity: 1;
+            }
         }
+
         @keyframes pulseDot {
-            0% { transform: translate(-50%, -50%) scale(1); box-shadow: 0 0 30px #fff, 0 0 60px #8060ff; }
-            100% { transform: translate(-50%, -50%) scale(1.3); box-shadow: 0 0 50px #ffb0ff, 0 0 100px #a070ff; }
+            0% {
+                transform: translate(-50%, -50%) scale(1);
+                box-shadow: 0 0 30px #fff, 0 0 60px #8060ff;
+            }
+            100% {
+                transform: translate(-50%, -50%) scale(1.3);
+                box-shadow: 0 0 50px #ffb0ff, 0 0 100px #a070ff;
+            }
         }
 
         /* —— 残影画布（潮流拖尾） —— */
@@ -345,10 +382,22 @@
 
         /* 小屏优化 */
         @media (max-width: 600px) {
-            .title { font-size: 24px; letter-spacing: 4px; }
-            .domain-item { font-size: 20px; }
-            .music-box { width: 220px; left: 2vw; bottom: 2vh; }
-            #cursor { width: 44px; height: 44px; }
+            .title {
+                font-size: 24px;
+                letter-spacing: 4px;
+            }
+            .domain-item {
+                font-size: 20px;
+            }
+            .music-box {
+                width: 220px;
+                left: 2vw;
+                bottom: 2vh;
+            }
+            #cursor {
+                width: 44px;
+                height: 44px;
+            }
         }
     </style>
 </head>
@@ -362,7 +411,8 @@
 
     <div class="container">
         <div class="title-wrap">
-            <h1 class="title">THANATOSOLO</h1>
+            <!-- 点击标题跳转到 thanatosolo.github.io/1 -->
+            <h1 class="title" id="mainTitle">THANATOSOLO</h1>
         </div>
 
         <div class="domain-list">
@@ -398,10 +448,17 @@
     </div>
 
     <div class="music-box" id="musicContainer">
-        <audio id="audio" controls preload="auto" playsinline>
+        <audio id="audio" controls preload="auto" playsinline></audio>
     </div>
 
     <script>
+        // ---------- 点击标题跳转 ----------
+        const mainTitle = document.getElementById('mainTitle');
+        mainTitle.addEventListener('click', function(e) {
+            e.stopPropagation();
+            window.location.href = 'https://thanatosolo.github.io/1';
+        });
+
         // ---------- 光标 + 残影 (潮流拖尾) ----------
         const cursor = document.getElementById('cursor');
         const canvas = document.getElementById('trailCanvas');
@@ -416,7 +473,8 @@
 
         const trailPoints = [];
         const maxTrailLength = 64;
-        let mouseX = 0, mouseY = 0;
+        let mouseX = 0,
+            mouseY = 0;
 
         document.addEventListener('mousemove', e => {
             mouseX = e.clientX;
@@ -533,7 +591,9 @@
             const isDomain = e.target.closest('.domain-item');
             const isSwitch = e.target.closest('.switch');
             const isPlayer = e.target.closest('.music-box');
-            if (!isDomain && !isSwitch && !isPlayer && !audioLoaded) {
+            const isTitle = e.target.closest('.title');
+            // 标题点击已单独处理，这里忽略避免干扰
+            if (!isDomain && !isSwitch && !isPlayer && !isTitle && !audioLoaded) {
                 randomPlay();
                 audio.play().catch(err => {});
             }
