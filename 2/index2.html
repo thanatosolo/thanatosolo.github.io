@@ -1,0 +1,484 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>域名到期监控</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+            background: #0d1117;
+            color: #c9d1d9;
+            padding: 30px 20px;
+            min-height: 100vh;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        /* ===== 顶部 ===== */
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 16px;
+            margin-bottom: 24px;
+            border-bottom: 1px solid #21262d;
+            padding-bottom: 16px;
+        }
+        .header h1 {
+            font-size: 26px;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        .header-controls {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        .view-btn {
+            background: #21262d;
+            border: 1px solid #30363d;
+            color: #8b949e;
+            padding: 6px 14px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 13px;
+            transition: 0.2s;
+        }
+        .view-btn:hover {
+            background: #30363d;
+        }
+        .view-btn.active {
+            background: #1f6feb;
+            border-color: #1f6feb;
+            color: #fff;
+        }
+
+        /* ===== 卡片视图 ===== */
+        .card-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 16px;
+        }
+
+        .card-group {
+            background: #161b22;
+            border: 1px solid #30363d;
+            border-radius: 12px;
+            padding: 14px 16px;
+            transition: 0.2s;
+        }
+        .card-group:hover {
+            border-color: #484f58;
+        }
+        .card-site {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            flex-wrap: wrap;
+            border-bottom: 1px solid #21262d;
+            padding-bottom: 10px;
+            margin-bottom: 10px;
+        }
+        .card-site a {
+            color: #58a6ff;
+            font-size: 14px;
+            font-weight: 500;
+            text-decoration: none;
+            word-break: break-all;
+        }
+        .card-site a:hover {
+            text-decoration: underline;
+        }
+        .card-site .account {
+            font-size: 11px;
+            background: #21262d;
+            padding: 1px 10px;
+            border-radius: 20px;
+            color: #8b949e;
+            border: 1px solid #30363d;
+        }
+        .card-domain {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 4px 0;
+            font-size: 13px;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+        .card-domain .name {
+            font-family: 'SF Mono', 'Fira Code', monospace;
+            color: #f0f6fc;
+            word-break: break-all;
+        }
+        .card-domain .expire {
+            color: #8b949e;
+            font-size: 12px;
+            white-space: nowrap;
+        }
+        .card-domain .days {
+            font-weight: 500;
+            font-size: 13px;
+            text-align: right;
+            white-space: nowrap;
+        }
+        .card-domain .days.urgent {
+            color: #f85149;
+            animation: blinkRed 1s step-end infinite;
+        }
+        .card-domain .days.unknown {
+            color: #484f58;
+        }
+        .card-domain .no-data {
+            color: #484f58;
+            font-size: 12px;
+        }
+
+        /* ===== 列表视图（原有样式） ===== */
+        .list-view .site-group {
+            background: #161b22;
+            border: 1px solid #30363d;
+            border-radius: 12px;
+            margin-bottom: 16px;
+            overflow: hidden;
+        }
+        .list-view .site-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px 18px;
+            background: #1c2333;
+            border-bottom: 1px solid #30363d;
+            flex-wrap: wrap;
+        }
+        .list-view .site-header a {
+            color: #58a6ff;
+            font-size: 16px;
+            font-weight: 500;
+            text-decoration: none;
+            word-break: break-all;
+        }
+        .list-view .site-header a:hover {
+            text-decoration: underline;
+        }
+        .list-view .site-header .account {
+            font-size: 12px;
+            background: #21262d;
+            padding: 2px 12px;
+            border-radius: 20px;
+            color: #8b949e;
+            border: 1px solid #30363d;
+        }
+        .list-view .domain-list {
+            padding: 4px 0;
+        }
+        .list-view .domain-row {
+            display: flex;
+            align-items: center;
+            padding: 10px 18px;
+            border-bottom: 1px solid #21262d;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+        .list-view .domain-row:last-child {
+            border-bottom: none;
+        }
+        .list-view .domain-row .name {
+            font-family: 'SF Mono', 'Fira Code', monospace;
+            font-size: 14px;
+            color: #f0f6fc;
+            min-width: 200px;
+            flex: 2;
+        }
+        .list-view .domain-row .expire {
+            font-size: 14px;
+            color: #8b949e;
+            min-width: 110px;
+            flex: 1;
+        }
+        .list-view .domain-row .days {
+            font-size: 14px;
+            font-weight: 500;
+            min-width: 90px;
+            text-align: right;
+            flex: 1;
+        }
+        .list-view .domain-row .days.urgent {
+            color: #f85149;
+            animation: blinkRed 1s step-end infinite;
+        }
+        .list-view .domain-row .days.unknown {
+            color: #8b949e;
+        }
+        .list-view .no-data {
+            color: #484f58;
+            font-size: 13px;
+        }
+
+        /* ===== 通用 ===== */
+        @keyframes blinkRed {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.2; }
+        }
+
+        .footer {
+            margin-top: 30px;
+            font-size: 13px;
+            color: #484f58;
+            text-align: center;
+            border-top: 1px solid #21262d;
+            padding-top: 20px;
+        }
+        .footer code {
+            background: #161b22;
+            padding: 2px 10px;
+            border-radius: 6px;
+            font-size: 12px;
+            color: #8b949e;
+        }
+
+        @media (max-width: 600px) {
+            .card-grid {
+                grid-template-columns: 1fr;
+            }
+            .list-view .domain-row {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 4px;
+            }
+            .list-view .domain-row .days {
+                text-align: left;
+            }
+            .list-view .site-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 6px;
+            }
+            .header {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- 顶部 -->
+        <div class="header">
+            <h1>📋 域名到期监控</h1>
+            <div class="header-controls">
+                <button class="view-btn active" data-view="card">📐 卡片</button>
+                <button class="view-btn" data-view="list">📋 列表</button>
+            </div>
+        </div>
+
+        <div id="app"></div>
+        <div class="footer">
+            💡 点击网站名跳转续期 · 红色闪烁 ≤30 天 · 数据在 <code>domains</code> 数组中修改
+        </div>
+    </div>
+
+    <script>
+        // ============================================================
+        //  📌 域名数据 —— 以后添加/修改/删除都在这个数组里操作
+        // ============================================================
+        const domains = [
+            // 原有的
+            { site: "domain.digitalplat.org", url: "https://dash.domain.digitalplat.org/dashboard", account: "hm", domain: "thanatosolo.dpdns.org", expire: "2027-05-25" },
+            { site: "katabump.com", url: "https://dashboard.katabump.com/auth/login", account: "hm", domain: "thanatosolo.kdns.fr", expire: null },
+            { site: "nic.chenzhizuo.com", url: "https://nic.chenzhizuo.com/user", account: "163", domain: "thanatosolo.beyond.wang", expire: null },
+            { site: "desec.io", url: "https://desec.io/domains", account: "163", domain: "thanatos.dedyn.io", expire: null },
+            { site: "desec.io", url: "https://desec.io/domains", account: "hm", domain: "thanatosolo.dedyn.io", expire: null },
+            { site: "dnshe.com", url: "https://my.dnshe.com/clientarea.php", account: "hm", domain: "thanatosolo.bot.cd", expire: "2027-07-25" },
+            { site: "dnshe.com", url: "https://my.dnshe.com/clientarea.php", account: "hm", domain: "thanatosolo.cn.mt", expire: "2027-07-25" },
+            { site: "dnshe.com", url: "https://my.dnshe.com/clientarea.php", account: "hm", domain: "thanatos.cc.cd", expire: "2027-07-24" },
+            { site: "localhost.cc", url: "https://localhost.cc/dashboard", account: "hm", domain: "thanatosolo.localhost.cc", expire: "2027-07-26" },
+            { site: "domain.stackryze.com", url: "https://domain.stackryze.com/dashboard", account: "hm", domain: "thanatos.nx.kg", expire: "2027-08-02" },
+            { site: "domain.stackryze.com", url: "https://domain.stackryze.com/dashboard", account: "hm", domain: "thanatos.indevs.in", expire: "2027-08-02" },
+
+            // ===== 新增的 =====
+            { site: "duckdns.org", url: "https://www.duckdns.org/domains", account: "gm", domain: "thanatosolo.duckdns.org", expire: null },
+            { site: "dynv6.com", url: "https://dynv6.com/", account: "hm", domain: "thanatosolo.v6.navy", expire: null },
+            { site: "cloudns.net", url: "https://www.cloudns.net/main/", account: "hm", domain: "thanatosolo.cloud-ip.cc", expire: null },
+            // pwdns.org 的域名待补充，先留空占位
+            { site: "pwdns.org", url: "https://pwdns.org/", account: "163", domain: "待补充", expire: null }
+        ];
+
+        // ============================================================
+        // 工具函数
+        // ============================================================
+        function daysUntil(expire) {
+            if (!expire) return null;
+            const now = new Date();
+            const today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+            const target = new Date(expire);
+            const diff = Math.ceil((target - today) / (1000 * 60 * 60 * 24));
+            return diff;
+        }
+
+        function formatExpire(expire) {
+            if (!expire) return '<span class="no-data">—</span>';
+            return expire;
+        }
+
+        // ============================================================
+        // 分组 & 排序
+        // ============================================================
+        function getGroups() {
+            const groups = {};
+            domains.forEach(item => {
+                const key = item.site;
+                if (!groups[key]) {
+                    groups[key] = {
+                        site: item.site,
+                        url: item.url,
+                        domains: []
+                    };
+                }
+                groups[key].domains.push({
+                    domain: item.domain,
+                    expire: item.expire,
+                    account: item.account
+                });
+            });
+            // 按网站名排序
+            const sorted = {};
+            Object.keys(groups).sort().forEach(key => {
+                sorted[key] = groups[key];
+            });
+            return sorted;
+        }
+
+        // ============================================================
+        // 渲染
+        // ============================================================
+        let currentView = localStorage.getItem('domainView') || 'card';
+
+        function render() {
+            const groups = getGroups();
+            const app = document.getElementById('app');
+
+            if (currentView === 'card') {
+                app.className = 'card-grid';
+                let html = '';
+                for (const key in groups) {
+                    const group = groups[key];
+                    const accounts = [...new Set(group.domains.map(d => d.account))];
+
+                    html += `<div class="card-group">`;
+                    html += `<div class="card-site">`;
+                    html += `<a href="${group.url}" target="_blank">🔗 ${group.site}</a>`;
+                    accounts.forEach(acc => {
+                        html += `<span class="account">${acc}</span>`;
+                    });
+                    html += `</div>`;
+
+                    group.domains.forEach(d => {
+                        const remain = daysUntil(d.expire);
+                        let daysClass = 'days';
+                        let daysText = '';
+                        if (remain === null) {
+                            daysClass += ' unknown';
+                            daysText = '—';
+                        } else if (remain < 0) {
+                            daysClass += ' urgent';
+                            daysText = '已过期 ⚠️';
+                        } else if (remain <= 30) {
+                            daysClass += ' urgent';
+                            daysText = `${remain} 天 ⚠️`;
+                        } else {
+                            daysText = `${remain} 天`;
+                        }
+
+                        html += `<div class="card-domain">`;
+                        html += `<span class="name">${d.domain}</span>`;
+                        html += `<span class="expire">${formatExpire(d.expire)}</span>`;
+                        html += `<span class="${daysClass}">${daysText}</span>`;
+                        html += `</div>`;
+                    });
+
+                    html += `</div>`;
+                }
+                app.innerHTML = html;
+            } else {
+                // 列表视图
+                app.className = 'list-view';
+                let html = '';
+                for (const key in groups) {
+                    const group = groups[key];
+                    const accounts = [...new Set(group.domains.map(d => d.account))];
+
+                    html += `<div class="site-group">`;
+                    html += `<div class="site-header">`;
+                    html += `<a href="${group.url}" target="_blank">🔗 ${group.site}</a>`;
+                    accounts.forEach(acc => {
+                        html += `<span class="account">${acc}</span>`;
+                    });
+                    html += `</div>`;
+                    html += `<div class="domain-list">`;
+
+                    group.domains.forEach(d => {
+                        const remain = daysUntil(d.expire);
+                        let daysClass = 'days';
+                        let daysText = '';
+                        if (remain === null) {
+                            daysClass += ' unknown';
+                            daysText = '—';
+                        } else if (remain < 0) {
+                            daysClass += ' urgent';
+                            daysText = '已过期 ⚠️';
+                        } else if (remain <= 30) {
+                            daysClass += ' urgent';
+                            daysText = `${remain} 天 ⚠️`;
+                        } else {
+                            daysText = `${remain} 天`;
+                        }
+
+                        html += `<div class="domain-row">`;
+                        html += `<span class="name">${d.domain}</span>`;
+                        html += `<span class="expire">${formatExpire(d.expire)}</span>`;
+                        html += `<span class="${daysClass}">${daysText}</span>`;
+                        html += `</div>`;
+                    });
+
+                    html += `</div>`;
+                    html += `</div>`;
+                }
+                app.innerHTML = html;
+            }
+
+            // 更新按钮状态
+            document.querySelectorAll('.view-btn').forEach(btn => {
+                btn.classList.toggle('active', btn.dataset.view === currentView);
+            });
+        }
+
+        // ============================================================
+        // 切换视图
+        // ============================================================
+        document.querySelectorAll('.view-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                currentView = btn.dataset.view;
+                localStorage.setItem('domainView', currentView);
+                render();
+            });
+        });
+
+        // ============================================================
+        // 启动
+        // ============================================================
+        render();
+    </script>
+</body>
+</html>
