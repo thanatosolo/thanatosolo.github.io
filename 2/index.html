@@ -22,7 +22,6 @@
             user-select: none;
         }
 
-        /* 半透明遮罩提升可读性 */
         body::before {
             content: '';
             position: fixed;
@@ -36,7 +35,7 @@
         }
 
         .container {
-            max-width: 1400px;
+            max-width: 1200px;
             margin: 0 auto;
             position: relative;
             z-index: 2;
@@ -108,8 +107,8 @@
         /* ===== 卡片视图 ===== */
         .card-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(380px, 1fr));
-            gap: 20px;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 16px;
         }
 
         .card-group {
@@ -117,7 +116,7 @@
             backdrop-filter: blur(12px);
             border: 1px solid rgba(48, 54, 61, 0.8);
             border-radius: 14px;
-            padding: 18px 20px;
+            padding: 16px 18px;
             transition: 0.3s;
             cursor: none;
         }
@@ -126,67 +125,73 @@
             box-shadow: 0 0 40px rgba(88, 166, 255, 0.2);
             transform: translateY(-2px);
         }
+
         .card-site {
             display: flex;
             align-items: center;
             gap: 10px;
             flex-wrap: wrap;
             border-bottom: 1px solid rgba(33, 38, 45, 0.8);
-            padding-bottom: 12px;
-            margin-bottom: 12px;
+            padding-bottom: 10px;
+            margin-bottom: 10px;
             pointer-events: none;
         }
         .card-site a {
             color: #58a6ff;
-            font-size: 17px;
+            font-size: 16px;
             font-weight: 700;
             text-decoration: none;
-            word-break: break-all;
-            transition: 0.2s;
             pointer-events: none;
-            letter-spacing: 0.5px;
+            letter-spacing: 0.3px;
+            white-space: nowrap;
         }
         .card-site a:hover {
             color: #79c0ff;
             text-decoration: underline;
         }
         .card-site .account {
-            font-size: 12px;
+            font-size: 11px;
             font-weight: 600;
             background: rgba(33, 38, 45, 0.8);
-            padding: 2px 12px;
+            padding: 2px 10px;
             border-radius: 20px;
             color: #8b949e;
             border: 1px solid rgba(48, 54, 61, 0.8);
+            white-space: nowrap;
         }
+
+        /* ===== 域名条目：强制一行不换行 ===== */
         .card-domain {
             display: flex;
-            justify-content: space-between;
             align-items: center;
-            padding: 6px 0;
-            font-size: 15px;
+            justify-content: space-between;
+            padding: 5px 0;
             gap: 10px;
-            flex-wrap: wrap;
             pointer-events: none;
+            white-space: nowrap;
         }
         .card-domain .name {
-            font-family: 'SF Mono', 'Fira Code', monospace;
+            font-family: 'SF Pro Display', 'Inter', 'Segoe UI', sans-serif;
             color: #f0f6fc;
-            word-break: break-all;
-            font-size: 15px;
+            font-size: 14px;
             font-weight: 600;
+            letter-spacing: 0.2px;
+            flex-shrink: 1;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            min-width: 0;
         }
         .card-domain .expire {
             color: #a0a8b4;
-            font-size: 14px;
+            font-size: 13px;
             font-weight: 500;
-            white-space: nowrap;
+            flex-shrink: 0;
         }
         .card-domain .days {
             font-weight: 700;
-            font-size: 15px;
+            font-size: 14px;
+            flex-shrink: 0;
             text-align: right;
-            white-space: nowrap;
         }
         .card-domain .days.urgent {
             color: #f85149;
@@ -197,7 +202,7 @@
         }
         .card-domain .no-data {
             color: #484f58;
-            font-size: 13px;
+            font-size: 12px;
             font-weight: 500;
         }
 
@@ -207,7 +212,7 @@
             backdrop-filter: blur(12px);
             border: 1px solid rgba(48, 54, 61, 0.8);
             border-radius: 14px;
-            margin-bottom: 18px;
+            margin-bottom: 16px;
             overflow: hidden;
             transition: 0.3s;
             cursor: none;
@@ -220,7 +225,7 @@
             display: flex;
             align-items: center;
             gap: 14px;
-            padding: 14px 22px;
+            padding: 12px 20px;
             background: rgba(28, 35, 51, 0.6);
             border-bottom: 1px solid rgba(48, 54, 61, 0.8);
             flex-wrap: wrap;
@@ -228,63 +233,64 @@
         }
         .list-view .site-header a {
             color: #58a6ff;
-            font-size: 18px;
+            font-size: 17px;
             font-weight: 700;
             text-decoration: none;
-            word-break: break-all;
-            transition: 0.2s;
             pointer-events: none;
-            letter-spacing: 0.5px;
+            letter-spacing: 0.3px;
+            white-space: nowrap;
         }
         .list-view .site-header a:hover {
             color: #79c0ff;
             text-decoration: underline;
         }
         .list-view .site-header .account {
-            font-size: 12px;
+            font-size: 11px;
             font-weight: 600;
             background: rgba(33, 38, 45, 0.8);
-            padding: 2px 14px;
+            padding: 2px 12px;
             border-radius: 20px;
             color: #8b949e;
             border: 1px solid rgba(48, 54, 61, 0.8);
+            white-space: nowrap;
         }
         .list-view .domain-list {
-            padding: 4px 0;
+            padding: 2px 0;
         }
         .list-view .domain-row {
             display: flex;
             align-items: center;
-            padding: 10px 22px;
+            padding: 8px 20px;
             border-bottom: 1px solid rgba(33, 38, 45, 0.8);
             gap: 14px;
-            flex-wrap: wrap;
             pointer-events: none;
+            white-space: nowrap;
         }
         .list-view .domain-row:last-child {
             border-bottom: none;
         }
         .list-view .domain-row .name {
-            font-family: 'SF Mono', 'Fira Code', monospace;
-            font-size: 15px;
+            font-family: 'SF Pro Display', 'Inter', 'Segoe UI', sans-serif;
+            font-size: 14px;
             font-weight: 600;
             color: #f0f6fc;
-            min-width: 200px;
-            flex: 2;
+            letter-spacing: 0.2px;
+            flex: 1;
+            min-width: 0;
+            overflow: hidden;
+            text-overflow: ellipsis;
         }
         .list-view .domain-row .expire {
-            font-size: 14px;
+            font-size: 13px;
             font-weight: 500;
             color: #a0a8b4;
-            min-width: 130px;
-            flex: 1;
+            flex-shrink: 0;
         }
         .list-view .domain-row .days {
-            font-size: 15px;
+            font-size: 14px;
             font-weight: 700;
-            min-width: 90px;
+            flex-shrink: 0;
             text-align: right;
-            flex: 1;
         }
         .list-view .domain-row .days.urgent {
             color: #f85149;
@@ -312,7 +318,7 @@
             color: #c9d1d9;
             text-align: center;
             border-top: 1px solid rgba(33, 38, 45, 0.8);
-            padding: 16px 20px;
+            padding: 14px 20px;
             background: rgba(13, 17, 23, 0.6);
             backdrop-filter: blur(8px);
             border-radius: 10px;
@@ -332,12 +338,8 @@
                 grid-template-columns: 1fr;
             }
             .list-view .domain-row {
-                flex-direction: column;
-                align-items: flex-start;
-                gap: 4px;
-            }
-            .list-view .domain-row .days {
-                text-align: left;
+                flex-wrap: wrap;
+                white-space: normal;
             }
             .list-view .site-header {
                 flex-direction: column;
@@ -350,6 +352,10 @@
             }
             .header h1 {
                 font-size: 24px;
+            }
+            .card-domain {
+                flex-wrap: wrap;
+                white-space: normal;
             }
         }
 
@@ -435,7 +441,6 @@
     </div>
 
     <div class="container">
-        <!-- 顶部 -->
         <div class="header">
             <h1 onclick="window.location.href='https://thanatosolo.github.io'">📋 Expiration Date</h1>
             <div class="header-controls">
@@ -452,10 +457,9 @@
 
     <script>
         // ============================================================
-        //  📌 域名数据 —— 以后添加/修改/删除都在这个数组里操作
+        //  📌 域名数据
         // ============================================================
         const domains = [
-            // 原有的
             { site: "domain.digitalplat.org", url: "https://dash.domain.digitalplat.org/dashboard", account: "hm", domain: "thanatosolo.dpdns.org", expire: "2027-05-25" },
             { site: "katabump.com", url: "https://dashboard.katabump.com/auth/login", account: "hm", domain: "thanatosolo.kdns.fr", expire: null },
             { site: "nic.chenzhizuo.com", url: "https://nic.chenzhizuo.com/user", account: "163", domain: "thanatosolo.beyond.wang", expire: null },
@@ -467,8 +471,6 @@
             { site: "localhost.cc", url: "https://localhost.cc/dashboard", account: "hm", domain: "thanatosolo.localhost.cc", expire: "2027-07-26" },
             { site: "domain.stackryze.com", url: "https://domain.stackryze.com/dashboard", account: "hm", domain: "thanatos.nx.kg", expire: "2027-08-02" },
             { site: "domain.stackryze.com", url: "https://domain.stackryze.com/dashboard", account: "hm", domain: "thanatos.indevs.in", expire: "2027-08-02" },
-
-            // ===== 新增的 =====
             { site: "duckdns.org", url: "https://www.duckdns.org/domains", account: "gm", domain: "thanatosolo.duckdns.org", expire: null },
             { site: "dynv6.com", url: "https://dynv6.com/", account: "hm", domain: "thanatosolo.v6.navy", expire: null },
             { site: "cloudns.net", url: "https://www.cloudns.net/main/", account: "hm", domain: "thanatosolo.cloud-ip.cc", expire: null },
@@ -493,18 +495,14 @@
         }
 
         // ============================================================
-        // 分组 & 排序
+        // 分组
         // ============================================================
         function getGroups() {
             const groups = {};
             domains.forEach(item => {
                 const key = item.site;
                 if (!groups[key]) {
-                    groups[key] = {
-                        site: item.site,
-                        url: item.url,
-                        domains: []
-                    };
+                    groups[key] = { site: item.site, url: item.url, domains: [] };
                 }
                 groups[key].domains.push({
                     domain: item.domain,
@@ -513,9 +511,7 @@
                 });
             });
             const sorted = {};
-            Object.keys(groups).sort().forEach(key => {
-                sorted[key] = groups[key];
-            });
+            Object.keys(groups).sort().forEach(key => { sorted[key] = groups[key]; });
             return sorted;
         }
 
@@ -533,40 +529,28 @@
                 let html = '';
                 for (const key in groups) {
                     const group = groups[key];
-
                     html += `<div class="card-group" data-url="${group.url}">`;
                     html += `<div class="card-site">`;
                     html += `<a href="${group.url}" target="_blank">🔗 ${group.site}</a>`;
                     const accounts = [...new Set(group.domains.map(d => d.account))];
-                    accounts.forEach(acc => {
-                        html += `<span class="account">${acc}</span>`;
-                    });
+                    accounts.forEach(acc => { html += `<span class="account">${acc}</span>`; });
                     html += `</div>`;
 
                     group.domains.forEach(d => {
                         const remain = daysUntil(d.expire);
                         let daysClass = 'days';
                         let daysText = '';
-                        if (remain === null) {
-                            daysClass += ' unknown';
-                            daysText = '—';
-                        } else if (remain < 0) {
-                            daysClass += ' urgent';
-                            daysText = 'Expired ⚠️';
-                        } else if (remain <= 30) {
-                            daysClass += ' urgent';
-                            daysText = `${remain} days ⚠️`;
-                        } else {
-                            daysText = `${remain} days`;
-                        }
+                        if (remain === null) { daysClass += ' unknown'; daysText = '—'; }
+                        else if (remain < 0) { daysClass += ' urgent'; daysText = 'Expired ⚠️'; }
+                        else if (remain <= 30) { daysClass += ' urgent'; daysText = `${remain}d ⚠️`; }
+                        else { daysText = `${remain}d`; }
 
                         html += `<div class="card-domain">`;
-                        html += `<span class="name">${d.domain}</span>`;
+                        html += `<span class="name" title="${d.domain}">${d.domain}</span>`;
                         html += `<span class="expire">${formatExpire(d.expire)}</span>`;
                         html += `<span class="${daysClass}">${daysText}</span>`;
                         html += `</div>`;
                     });
-
                     html += `</div>`;
                 }
                 app.innerHTML = html;
@@ -583,43 +567,29 @@
                 let html = '';
                 for (const key in groups) {
                     const group = groups[key];
-
                     html += `<div class="site-group" data-url="${group.url}">`;
                     html += `<div class="site-header">`;
                     html += `<a href="${group.url}" target="_blank">🔗 ${group.site}</a>`;
                     const accounts = [...new Set(group.domains.map(d => d.account))];
-                    accounts.forEach(acc => {
-                        html += `<span class="account">${acc}</span>`;
-                    });
-                    html += `</div>`;
-                    html += `<div class="domain-list">`;
+                    accounts.forEach(acc => { html += `<span class="account">${acc}</span>`; });
+                    html += `</div><div class="domain-list">`;
 
                     group.domains.forEach(d => {
                         const remain = daysUntil(d.expire);
                         let daysClass = 'days';
                         let daysText = '';
-                        if (remain === null) {
-                            daysClass += ' unknown';
-                            daysText = '—';
-                        } else if (remain < 0) {
-                            daysClass += ' urgent';
-                            daysText = 'Expired ⚠️';
-                        } else if (remain <= 30) {
-                            daysClass += ' urgent';
-                            daysText = `${remain} days ⚠️`;
-                        } else {
-                            daysText = `${remain} days`;
-                        }
+                        if (remain === null) { daysClass += ' unknown'; daysText = '—'; }
+                        else if (remain < 0) { daysClass += ' urgent'; daysText = 'Expired ⚠️'; }
+                        else if (remain <= 30) { daysClass += ' urgent'; daysText = `${remain}d ⚠️`; }
+                        else { daysText = `${remain}d`; }
 
                         html += `<div class="domain-row">`;
-                        html += `<span class="name">${d.domain}</span>`;
+                        html += `<span class="name" title="${d.domain}">${d.domain}</span>`;
                         html += `<span class="expire">${formatExpire(d.expire)}</span>`;
                         html += `<span class="${daysClass}">${daysText}</span>`;
                         html += `</div>`;
                     });
-
-                    html += `</div>`;
-                    html += `</div>`;
+                    html += `</div></div>`;
                 }
                 app.innerHTML = html;
 
@@ -670,35 +640,29 @@
             mouseY = e.clientY;
             cursor.style.left = mouseX + 'px';
             cursor.style.top = mouseY + 'px';
-
             trailPoints.push({ x: mouseX, y: mouseY, alpha: 1 });
             if (trailPoints.length > maxTrailLength) trailPoints.shift();
         });
 
         function drawTrail() {
             ctx.clearRect(0, 0, canvas.width, canvas.height);
-
             for (let i = 1; i < trailPoints.length; i++) {
                 const p1 = trailPoints[i - 1];
                 const p2 = trailPoints[i];
                 p1.alpha -= 0.016;
                 if (p1.alpha <= 0) continue;
-
                 const progress = i / trailPoints.length;
                 const hue = (210 + progress * 60) % 360;
                 const alphaVal = p1.alpha * 0.9;
-
                 ctx.beginPath();
                 ctx.moveTo(p1.x, p1.y);
                 ctx.lineTo(p2.x, p2.y);
-
                 const lineWidth = 3.5 + 6 * (1 - progress);
                 ctx.lineWidth = lineWidth;
                 ctx.strokeStyle = `hsla(${hue}, 90%, 70%, ${alphaVal})`;
                 ctx.shadowColor = `hsla(${hue}, 100%, 70%, 0.6)`;
                 ctx.shadowBlur = 22;
                 ctx.stroke();
-
                 ctx.beginPath();
                 ctx.moveTo(p1.x, p1.y);
                 ctx.lineTo(p2.x, p2.y);
@@ -708,7 +672,6 @@
                 ctx.shadowColor = `hsla(${hue + 20}, 100%, 80%, 0.5)`;
                 ctx.stroke();
             }
-
             if (trailPoints.length > 2) {
                 const last = trailPoints[trailPoints.length - 1];
                 ctx.shadowBlur = 80;
@@ -725,14 +688,10 @@
                     ctx.fill();
                 }
             }
-
             requestAnimationFrame(drawTrail);
         }
         drawTrail();
 
-        // ============================================================
-        // 启动
-        // ============================================================
         render();
     </script>
 </body>
