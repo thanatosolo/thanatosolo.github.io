@@ -1,11 +1,12 @@
 <!DOCTYPE html>
 <html lang="zh">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Expiration Date</title>
-    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📋</text></svg>">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📋</text></svg>" />
     <style>
+        /* ===== 全局重置 ===== */
         * {
             margin: 0;
             padding: 0;
@@ -21,7 +22,6 @@
             cursor: none;
             user-select: none;
         }
-
         body::before {
             content: '';
             position: fixed;
@@ -33,7 +33,6 @@
             z-index: 0;
             pointer-events: none;
         }
-
         .container {
             max-width: 1200px;
             margin: 0 auto;
@@ -74,8 +73,12 @@
             filter: brightness(1.3);
         }
         @keyframes textRainbowFlow {
-            0% { background-position: 0% 50%; }
-            100% { background-position: 400% 50%; }
+            0% {
+                background-position: 0% 50%;
+            }
+            100% {
+                background-position: 400% 50%;
+            }
         }
 
         .header-controls {
@@ -169,11 +172,16 @@
             pointer-events: none;
             white-space: nowrap;
         }
+
+        /* ★ 关键改动：域名字体改用系统字体 + 加粗 + 调大，和剩余天数风格统一 */
         .card-domain .name {
-            font-family: 'JetBrains Mono', 'Fira Code', 'SF Mono', monospace;
+            font-family: inherit;
+            /* 继承 body 的系统字体，和剩余天数一致 */
             color: #f0f6fc;
-            font-size: 13px;
-            font-weight: 400;
+            font-size: 14px;
+            /* 和 .days 一样大 */
+            font-weight: 600;
+            /* 加粗，接近 .days 的 700 */
             letter-spacing: 0px;
             white-space: nowrap;
             overflow: hidden;
@@ -181,6 +189,7 @@
             min-width: 0;
             flex-shrink: 1;
         }
+
         .card-domain .expire {
             color: #a0a8b4;
             font-size: 13px;
@@ -307,8 +316,13 @@
 
         /* ===== 通用 ===== */
         @keyframes blinkRed {
-            0%, 100% { opacity: 1; }
-            50% { opacity: 0.2; }
+            0%,
+            100% {
+                opacity: 1;
+            }
+            50% {
+                opacity: 0.2;
+            }
         }
 
         .footer {
@@ -404,20 +418,41 @@
         }
 
         @keyframes rotateSlow {
-            from { transform: rotate(0deg); }
-            to { transform: rotate(360deg); }
+            from {
+                transform: rotate(0deg);
+            }
+            to {
+                transform: rotate(360deg);
+            }
         }
         @keyframes rotateReverse {
-            from { transform: translate(-50%, -50%) rotate(360deg); }
-            to { transform: translate(-50%, -50%) rotate(0deg); }
+            from {
+                transform: translate(-50%, -50%) rotate(360deg);
+            }
+            to {
+                transform: translate(-50%, -50%) rotate(0deg);
+            }
         }
         @keyframes pulseGlow {
-            0%, 100% { transform: translate(-50%, -50%) scale(1); opacity: 0.8; }
-            50% { transform: translate(-50%, -50%) scale(1.3); opacity: 1; }
+            0%,
+            100% {
+                transform: translate(-50%, -50%) scale(1);
+                opacity: 0.8;
+            }
+            50% {
+                transform: translate(-50%, -50%) scale(1.3);
+                opacity: 1;
+            }
         }
         @keyframes pulseDot {
-            0% { transform: translate(-50%, -50%) scale(1); box-shadow: 0 0 30px #fff, 0 0 60px #8060ff; }
-            100% { transform: translate(-50%, -50%) scale(1.3); box-shadow: 0 0 50px #ffb0ff, 0 0 100px #a070ff; }
+            0% {
+                transform: translate(-50%, -50%) scale(1);
+                box-shadow: 0 0 30px #fff, 0 0 60px #8060ff;
+            }
+            100% {
+                transform: translate(-50%, -50%) scale(1.3);
+                box-shadow: 0 0 50px #ffb0ff, 0 0 100px #a070ff;
+            }
         }
 
         #trailCanvas {
@@ -460,20 +495,34 @@
         //  📌 域名数据
         // ============================================================
         const domains = [
-            { site: "domain.digitalplat.org", url: "https://dash.domain.digitalplat.org/dashboard", account: "hm", domain: "thanatosolo.dpdns.org", expire: "2027-05-25" },
-            { site: "katabump.com", url: "https://dashboard.katabump.com/auth/login", account: "hm", domain: "thanatosolo.kdns.fr", expire: null },
-            { site: "nic.chenzhizuo.com", url: "https://nic.chenzhizuo.com/user", account: "163", domain: "thanatosolo.beyond.wang", expire: null },
-            { site: "desec.io", url: "https://desec.io/domains", account: "163", domain: "thanatos.dedyn.io", expire: null },
-            { site: "desec.io", url: "https://desec.io/domains", account: "hm", domain: "thanatosolo.dedyn.io", expire: null },
-            { site: "dnshe.com", url: "https://my.dnshe.com/clientarea.php", account: "hm", domain: "thanatosolo.bot.cd", expire: "2027-07-25" },
-            { site: "dnshe.com", url: "https://my.dnshe.com/clientarea.php", account: "hm", domain: "thanatosolo.cn.mt", expire: "2027-07-25" },
-            { site: "dnshe.com", url: "https://my.dnshe.com/clientarea.php", account: "hm", domain: "thanatos.cc.cd", expire: "2027-07-24" },
-            { site: "localhost.cc", url: "https://localhost.cc/dashboard", account: "hm", domain: "thanatosolo.localhost.cc", expire: "2027-07-26" },
-            { site: "domain.stackryze.com", url: "https://domain.stackryze.com/dashboard", account: "hm", domain: "thanatos.nx.kg", expire: "2027-08-02" },
-            { site: "domain.stackryze.com", url: "https://domain.stackryze.com/dashboard", account: "hm", domain: "thanatos.indevs.in", expire: "2027-08-02" },
-            { site: "duckdns.org", url: "https://www.duckdns.org/domains", account: "gm", domain: "thanatosolo.duckdns.org", expire: null },
-            { site: "dynv6.com", url: "https://dynv6.com/", account: "hm", domain: "thanatosolo.v6.navy", expire: null },
-            { site: "cloudns.net", url: "https://www.cloudns.net/main/", account: "hm", domain: "thanatosolo.cloud-ip.cc", expire: null },
+            { site: "domain.digitalplat.org", url: "https://dash.domain.digitalplat.org/dashboard", account: "hm",
+                domain: "thanatosolo.dpdns.org", expire: "2027-05-25" },
+            { site: "katabump.com", url: "https://dashboard.katabump.com/auth/login", account: "hm",
+                domain: "thanatosolo.kdns.fr", expire: null },
+            { site: "nic.chenzhizuo.com", url: "https://nic.chenzhizuo.com/user", account: "163",
+                domain: "thanatosolo.beyond.wang", expire: null },
+            { site: "desec.io", url: "https://desec.io/domains", account: "163", domain: "thanatos.dedyn.io",
+            expire: null },
+            { site: "desec.io", url: "https://desec.io/domains", account: "hm", domain: "thanatosolo.dedyn.io",
+                expire: null },
+            { site: "dnshe.com", url: "https://my.dnshe.com/clientarea.php", account: "hm", domain: "thanatosolo.bot.cd",
+                expire: "2027-07-25" },
+            { site: "dnshe.com", url: "https://my.dnshe.com/clientarea.php", account: "hm", domain: "thanatosolo.cn.mt",
+                expire: "2027-07-25" },
+            { site: "dnshe.com", url: "https://my.dnshe.com/clientarea.php", account: "hm", domain: "thanatos.cc.cd",
+                expire: "2027-07-24" },
+            { site: "localhost.cc", url: "https://localhost.cc/dashboard", account: "hm",
+                domain: "thanatosolo.localhost.cc", expire: "2027-07-26" },
+            { site: "domain.stackryze.com", url: "https://domain.stackryze.com/dashboard", account: "hm",
+                domain: "thanatos.nx.kg", expire: "2027-08-02" },
+            { site: "domain.stackryze.com", url: "https://domain.stackryze.com/dashboard", account: "hm",
+                domain: "thanatos.indevs.in", expire: "2027-08-02" },
+            { site: "duckdns.org", url: "https://www.duckdns.org/domains", account: "gm", domain: "thanatosolo.duckdns.org",
+                expire: null },
+            { site: "dynv6.com", url: "https://dynv6.com/", account: "hm", domain: "thanatosolo.v6.navy",
+            expire: null },
+            { site: "cloudns.net", url: "https://www.cloudns.net/main/", account: "hm", domain: "thanatosolo.cloud-ip.cc",
+                expire: null },
             { site: "pwdns.org", url: "https://pwdns.org/", account: "163", domain: "待补充", expire: null }
         ];
 
@@ -540,10 +589,10 @@
                         const remain = daysUntil(d.expire);
                         let daysClass = 'days';
                         let daysText = '';
-                        if (remain === null) { daysClass += ' unknown'; daysText = '—'; }
-                        else if (remain < 0) { daysClass += ' urgent'; daysText = 'Expired ⚠️'; }
-                        else if (remain <= 30) { daysClass += ' urgent'; daysText = `${remain}d ⚠️`; }
-                        else { daysText = `${remain}d`; }
+                        if (remain === null) { daysClass += ' unknown';
+                            daysText = '—'; } else if (remain < 0) { daysClass += ' urgent';
+                            daysText = 'Expired ⚠️'; } else if (remain <= 30) { daysClass += ' urgent';
+                            daysText = `${remain}d ⚠️`; } else { daysText = `${remain}d`; }
 
                         html += `<div class="card-domain">`;
                         html += `<span class="name" title="${d.domain}">${d.domain}</span>`;
@@ -578,10 +627,10 @@
                         const remain = daysUntil(d.expire);
                         let daysClass = 'days';
                         let daysText = '';
-                        if (remain === null) { daysClass += ' unknown'; daysText = '—'; }
-                        else if (remain < 0) { daysClass += ' urgent'; daysText = 'Expired ⚠️'; }
-                        else if (remain <= 30) { daysClass += ' urgent'; daysText = `${remain}d ⚠️`; }
-                        else { daysText = `${remain}d`; }
+                        if (remain === null) { daysClass += ' unknown';
+                            daysText = '—'; } else if (remain < 0) { daysClass += ' urgent';
+                            daysText = 'Expired ⚠️'; } else if (remain <= 30) { daysClass += ' urgent';
+                            daysText = `${remain}d ⚠️`; } else { daysText = `${remain}d`; }
 
                         html += `<div class="domain-row">`;
                         html += `<span class="name" title="${d.domain}">${d.domain}</span>`;
@@ -633,7 +682,8 @@
 
         const trailPoints = [];
         const maxTrailLength = 64;
-        let mouseX = 0, mouseY = 0;
+        let mouseX = 0,
+            mouseY = 0;
 
         document.addEventListener('mousemove', e => {
             mouseX = e.clientX;
