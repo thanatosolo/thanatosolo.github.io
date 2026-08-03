@@ -13,12 +13,26 @@
         }
         body {
             font-family: "Microsoft YaHei", "PingFang SC", "Inter", system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
-            background: #0d1117;
+            background: url('https://pic1.imgdb.cn/i/033xh33EZ3PtL19TphPUL3.jpg') no-repeat center center fixed;
+            background-size: cover;
             color: #c9d1d9;
             padding: 30px 20px;
             min-height: 100vh;
             cursor: none;
             user-select: none;
+        }
+
+        /* 半透明遮罩提升可读性 */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(13, 17, 23, 0.75);
+            z-index: 0;
+            pointer-events: none;
         }
 
         .container {
@@ -36,7 +50,7 @@
             flex-wrap: wrap;
             gap: 16px;
             margin-bottom: 24px;
-            border-bottom: 1px solid #21262d;
+            border-bottom: 1px solid rgba(33, 38, 45, 0.8);
             padding-bottom: 16px;
         }
         .header h1 {
@@ -64,8 +78,9 @@
             gap: 12px;
         }
         .view-btn {
-            background: #21262d;
-            border: 1px solid #30363d;
+            background: rgba(33, 38, 45, 0.8);
+            backdrop-filter: blur(6px);
+            border: 1px solid rgba(48, 54, 61, 0.8);
             color: #8b949e;
             padding: 6px 14px;
             border-radius: 6px;
@@ -74,7 +89,7 @@
             transition: 0.2s;
         }
         .view-btn:hover {
-            background: #30363d;
+            background: rgba(48, 54, 61, 0.8);
         }
         .view-btn.active {
             background: #1f6feb;
@@ -92,21 +107,21 @@
         .card-group {
             background: rgba(22, 27, 34, 0.85);
             backdrop-filter: blur(10px);
-            border: 1px solid #30363d;
+            border: 1px solid rgba(48, 54, 61, 0.8);
             border-radius: 12px;
             padding: 14px 16px;
             transition: 0.2s;
         }
         .card-group:hover {
             border-color: #58a6ff;
-            box-shadow: 0 0 30px rgba(88, 166, 255, 0.1);
+            box-shadow: 0 0 30px rgba(88, 166, 255, 0.15);
         }
         .card-site {
             display: flex;
             align-items: center;
             gap: 8px;
             flex-wrap: wrap;
-            border-bottom: 1px solid #21262d;
+            border-bottom: 1px solid rgba(33, 38, 45, 0.8);
             padding-bottom: 10px;
             margin-bottom: 10px;
         }
@@ -124,11 +139,11 @@
         }
         .card-site .account {
             font-size: 11px;
-            background: #21262d;
+            background: rgba(33, 38, 45, 0.8);
             padding: 1px 10px;
             border-radius: 20px;
             color: #8b949e;
-            border: 1px solid #30363d;
+            border: 1px solid rgba(48, 54, 61, 0.8);
         }
         .card-domain {
             display: flex;
@@ -171,7 +186,7 @@
         .list-view .site-group {
             background: rgba(22, 27, 34, 0.85);
             backdrop-filter: blur(10px);
-            border: 1px solid #30363d;
+            border: 1px solid rgba(48, 54, 61, 0.8);
             border-radius: 12px;
             margin-bottom: 16px;
             overflow: hidden;
@@ -179,7 +194,7 @@
         }
         .list-view .site-group:hover {
             border-color: #58a6ff;
-            box-shadow: 0 0 30px rgba(88, 166, 255, 0.08);
+            box-shadow: 0 0 30px rgba(88, 166, 255, 0.1);
         }
         .list-view .site-header {
             display: flex;
@@ -187,7 +202,7 @@
             gap: 12px;
             padding: 12px 18px;
             background: rgba(28, 35, 51, 0.6);
-            border-bottom: 1px solid #30363d;
+            border-bottom: 1px solid rgba(48, 54, 61, 0.8);
             flex-wrap: wrap;
         }
         .list-view .site-header a {
@@ -204,11 +219,11 @@
         }
         .list-view .site-header .account {
             font-size: 12px;
-            background: #21262d;
+            background: rgba(33, 38, 45, 0.8);
             padding: 2px 12px;
             border-radius: 20px;
             color: #8b949e;
-            border: 1px solid #30363d;
+            border: 1px solid rgba(48, 54, 61, 0.8);
         }
         .list-view .domain-list {
             padding: 4px 0;
@@ -217,7 +232,7 @@
             display: flex;
             align-items: center;
             padding: 10px 18px;
-            border-bottom: 1px solid #21262d;
+            border-bottom: 1px solid rgba(33, 38, 45, 0.8);
             gap: 12px;
             flex-wrap: wrap;
         }
@@ -234,7 +249,7 @@
         .list-view .domain-row .expire {
             font-size: 14px;
             color: #8b949e;
-            min-width: 110px;
+            min-width: 130px;
             flex: 1;
         }
         .list-view .domain-row .days {
@@ -265,9 +280,9 @@
         .footer {
             margin-top: 30px;
             font-size: 13px;
-            color: #484f58;
+            color: rgba(72, 79, 88, 0.8);
             text-align: center;
-            border-top: 1px solid #21262d;
+            border-top: 1px solid rgba(33, 38, 45, 0.8);
             padding-top: 20px;
         }
         .footer code {
@@ -553,7 +568,8 @@
 
                         html += `<div class="domain-row">`;
                         html += `<span class="name">${d.domain}</span>`;
-                        html += `<span class="expire">${formatExpire(d.expire)}</span>`;
+                        // "Expiration Date" 标签
+                        html += `<span class="expire">📅 ${formatExpire(d.expire)}</span>`;
                         html += `<span class="${daysClass}">${daysText}</span>`;
                         html += `</div>`;
                     });
@@ -581,7 +597,7 @@
         });
 
         // ============================================================
-        // 光标 + 残影（从 THANATOSOLO 移植）
+        // 光标 + 残影
         // ============================================================
         const cursor = document.getElementById('cursor');
         const canvas = document.getElementById('trailCanvas');
