@@ -111,6 +111,7 @@
             border-radius: 12px;
             padding: 14px 16px;
             transition: 0.2s;
+            cursor: none;
         }
         .card-group:hover {
             border-color: #58a6ff;
@@ -124,6 +125,7 @@
             border-bottom: 1px solid rgba(33, 38, 45, 0.8);
             padding-bottom: 10px;
             margin-bottom: 10px;
+            pointer-events: none;
         }
         .card-site a {
             color: #58a6ff;
@@ -132,6 +134,7 @@
             text-decoration: none;
             word-break: break-all;
             transition: 0.2s;
+            pointer-events: none;
         }
         .card-site a:hover {
             color: #79c0ff;
@@ -153,6 +156,7 @@
             font-size: 13px;
             gap: 8px;
             flex-wrap: wrap;
+            pointer-events: none;
         }
         .card-domain .name {
             font-family: 'SF Mono', 'Fira Code', monospace;
@@ -191,6 +195,7 @@
             margin-bottom: 16px;
             overflow: hidden;
             transition: 0.2s;
+            cursor: none;
         }
         .list-view .site-group:hover {
             border-color: #58a6ff;
@@ -204,6 +209,7 @@
             background: rgba(28, 35, 51, 0.6);
             border-bottom: 1px solid rgba(48, 54, 61, 0.8);
             flex-wrap: wrap;
+            pointer-events: none;
         }
         .list-view .site-header a {
             color: #58a6ff;
@@ -212,6 +218,7 @@
             text-decoration: none;
             word-break: break-all;
             transition: 0.2s;
+            pointer-events: none;
         }
         .list-view .site-header a:hover {
             color: #79c0ff;
@@ -235,6 +242,7 @@
             border-bottom: 1px solid rgba(33, 38, 45, 0.8);
             gap: 12px;
             flex-wrap: wrap;
+            pointer-events: none;
         }
         .list-view .domain-row:last-child {
             border-bottom: none;
@@ -280,17 +288,21 @@
         .footer {
             margin-top: 30px;
             font-size: 13px;
-            color: rgba(72, 79, 88, 0.8);
+            color: #8b949e;
             text-align: center;
             border-top: 1px solid rgba(33, 38, 45, 0.8);
             padding-top: 20px;
+            background: rgba(13, 17, 23, 0.5);
+            backdrop-filter: blur(6px);
+            border-radius: 8px;
+            padding: 16px 20px;
         }
         .footer code {
-            background: rgba(22, 27, 34, 0.6);
+            background: rgba(22, 27, 34, 0.8);
             padding: 2px 10px;
             border-radius: 6px;
             font-size: 12px;
-            color: #8b949e;
+            color: #c9d1d9;
         }
 
         @media (max-width: 600px) {
@@ -496,11 +508,12 @@
                 let html = '';
                 for (const key in groups) {
                     const group = groups[key];
-                    const accounts = [...new Set(group.domains.map(d => d.account))];
 
-                    html += `<div class="card-group">`;
+                    html += `<div class="card-group" data-url="${group.url}">`;
                     html += `<div class="card-site">`;
                     html += `<a href="${group.url}" target="_blank">🔗 ${group.site}</a>`;
+                    // 收集该网站下所有不同的 account
+                    const accounts = [...new Set(group.domains.map(d => d.account))];
                     accounts.forEach(acc => {
                         html += `<span class="account">${acc}</span>`;
                     });
@@ -533,16 +546,25 @@
                     html += `</div>`;
                 }
                 app.innerHTML = html;
+
+                // 为所有卡片添加点击事件
+                document.querySelectorAll('.card-group').forEach(el => {
+                    el.addEventListener('click', function() {
+                        const url = this.dataset.url;
+                        if (url) window.open(url, '_blank');
+                    });
+                });
+
             } else {
                 app.className = 'list-view';
                 let html = '';
                 for (const key in groups) {
                     const group = groups[key];
-                    const accounts = [...new Set(group.domains.map(d => d.account))];
 
-                    html += `<div class="site-group">`;
+                    html += `<div class="site-group" data-url="${group.url}">`;
                     html += `<div class="site-header">`;
                     html += `<a href="${group.url}" target="_blank">🔗 ${group.site}</a>`;
+                    const accounts = [...new Set(group.domains.map(d => d.account))];
                     accounts.forEach(acc => {
                         html += `<span class="account">${acc}</span>`;
                     });
@@ -577,6 +599,14 @@
                     html += `</div>`;
                 }
                 app.innerHTML = html;
+
+                // 为所有列表组添加点击事件
+                document.querySelectorAll('.site-group').forEach(el => {
+                    el.addEventListener('click', function() {
+                        const url = this.dataset.url;
+                        if (url) window.open(url, '_blank');
+                    });
+                });
             }
 
             document.querySelectorAll('.view-btn').forEach(btn => {
