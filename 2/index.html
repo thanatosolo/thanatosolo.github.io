@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Domain Expiration Monitor</title>
+    <title>Expiration Date</title>
     <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📋</text></svg>">
     <style>
         * {
@@ -400,7 +400,7 @@
     <div class="container">
         <!-- 顶部 -->
         <div class="header">
-            <h1>📋 Domain Expiration Monitor</h1>
+            <h1>📋 Expiration Date</h1>
             <div class="header-controls">
                 <button class="view-btn active" data-view="card">📐 Card</button>
                 <button class="view-btn" data-view="list">📋 List</button>
@@ -568,8 +568,7 @@
 
                         html += `<div class="domain-row">`;
                         html += `<span class="name">${d.domain}</span>`;
-                        // "Expiration Date" 标签
-                        html += `<span class="expire">📅 ${formatExpire(d.expire)}</span>`;
+                        html += `<span class="expire">${formatExpire(d.expire)}</span>`;
                         html += `<span class="${daysClass}">${daysText}</span>`;
                         html += `</div>`;
                     });
