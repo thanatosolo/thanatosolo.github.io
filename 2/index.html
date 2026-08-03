@@ -160,7 +160,6 @@
             white-space: nowrap;
         }
 
-        /* ===== 域名条目：强制一行不换行 ===== */
         .card-domain {
             display: flex;
             align-items: center;
@@ -171,15 +170,16 @@
             white-space: nowrap;
         }
         .card-domain .name {
-            font-family: 'SF Pro Display', 'Inter', 'Segoe UI', sans-serif;
+            font-family: 'JetBrains Mono', 'Fira Code', 'SF Mono', monospace;
             color: #f0f6fc;
-            font-size: 14px;
-            font-weight: 600;
-            letter-spacing: 0.2px;
-            flex-shrink: 1;
+            font-size: 13px;
+            font-weight: 400;
+            letter-spacing: 0px;
+            white-space: nowrap;
             overflow: hidden;
             text-overflow: ellipsis;
             min-width: 0;
+            flex-shrink: 1;
         }
         .card-domain .expire {
             color: #a0a8b4;
@@ -270,11 +270,11 @@
             border-bottom: none;
         }
         .list-view .domain-row .name {
-            font-family: 'SF Pro Display', 'Inter', 'Segoe UI', sans-serif;
-            font-size: 14px;
-            font-weight: 600;
+            font-family: 'JetBrains Mono', 'Fira Code', 'SF Mono', monospace;
+            font-size: 13px;
+            font-weight: 400;
             color: #f0f6fc;
-            letter-spacing: 0.2px;
+            letter-spacing: 0px;
             flex: 1;
             min-width: 0;
             overflow: hidden;
