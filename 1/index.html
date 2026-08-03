@@ -65,6 +65,13 @@
             color: transparent;
             animation: textRainbowFlow 8s linear infinite;
             text-shadow: 0 0 30px rgba(255, 100, 200, 0.3);
+            cursor: pointer;
+            transition: transform 0.3s ease, filter 0.3s ease;
+        }
+
+        .title:hover {
+            transform: scale(1.04);
+            filter: brightness(1.3);
         }
 
         @keyframes textRainbowFlow {
@@ -344,7 +351,8 @@
     <div class="container">
         <div class="sticky-area" id="stickyArea">
             <div class="title-wrap">
-                <h1 class="title">THANATOSOLO</h1>
+                <!-- 点击标题返回 GitHub Pages 主页 -->
+                <h1 class="title" onclick="window.location.href='https://thanatosolo.github.io'">THANATOSOLO</h1>
             </div>
             <div class="switch-box">
                 <span style="letter-spacing:1px;">new</span>
@@ -527,43 +535,27 @@
         });
 
         // ===== 每一行在其自身位置消失 =====
-        // 原理：记录每个列表项初始的 top 位置，当滚动时，计算该项当前 top 相对于初始 top 的偏移量
-        // 偏移量越大，透明度越低，直到完全消失
         function updateFade() {
             const items = document.querySelectorAll('.domain-item');
-            // 获取固定区域底部作为参考
             const stickyRect = document.getElementById('stickyArea').getBoundingClientRect();
             const referenceBottom = stickyRect.bottom;
 
             items.forEach((item, index) => {
                 const rect = item.getBoundingClientRect();
-                
-                // 计算该项顶部到参考底部的距离
                 const distance = rect.top - referenceBottom;
-                
-                // 每行在距离参考底部多远时完全消失
-                // 第一行：消失得更早（距离更远就开始消失）
-                // 每行消失位置逐行递减
                 const itemHeight = rect.height;
-                // 第一行在距离参考底部 2.5 倍自身高度时完全消失
-                // 后续行依次递减，让每行在差不多同一位置消失
                 const baseOffset = 2.5 * itemHeight;
-                // 每往后一行，消失位置提前一点（让视觉上更连贯）
                 const extraOffset = index * 15;
                 const fadeOffset = baseOffset + extraOffset;
                 
                 let opacity = 1;
                 if (distance < fadeOffset) {
-                    // 开始淡出
                     const progress = 1 - (distance / fadeOffset);
                     opacity = Math.max(0, 1 - progress);
                 }
-                // 如果已经完全进入淡出区域，完全透明
                 if (distance < 0) {
                     opacity = 0;
                 }
-                
-                // 额外逻辑：如果该项已经完全在参考线之上，完全透明
                 if (rect.bottom < referenceBottom) {
                     opacity = 0;
                 }
