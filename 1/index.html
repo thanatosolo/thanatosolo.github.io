@@ -65,7 +65,6 @@
             color: transparent;
             animation: textRainbowFlow 8s linear infinite;
             text-shadow: 0 0 30px rgba(255, 100, 200, 0.3);
-            cursor: pointer;
             transition: transform 0.3s ease, filter 0.3s ease;
         }
 
@@ -338,6 +337,25 @@
             .domain-item .full-url { font-size: 12px; top: 110%; left: 12px; }
             #cursor { width: 44px; height: 44px; }
         }
+
+        /* 加载状态提示 */
+        .loading {
+            color: #8b949e;
+            font-size: 18px;
+            padding: 20px 0;
+            text-shadow: 0 0 12px rgba(0,0,0,0.7);
+        }
+        .loading::after {
+            content: '...';
+            animation: dots 1.2s steps(4, end) infinite;
+        }
+        @keyframes dots {
+            0% { content: ''; }
+            25% { content: '.'; }
+            50% { content: '..'; }
+            75% { content: '...'; }
+            100% { content: ''; }
+        }
     </style>
 </head>
 <body>
@@ -351,8 +369,7 @@
     <div class="container">
         <div class="sticky-area" id="stickyArea">
             <div class="title-wrap">
-                <!-- 点击标题返回 GitHub Pages 主页 -->
-                <h1 class="title" onclick="window.location.href='https://thanatosolo.github.io/2'">THANATOSOLO</h1>
+                <h1 class="title" onclick="window.location.href='/2/'">THANATOSOLO</h1>
             </div>
             <div class="switch-box">
                 <span style="letter-spacing:1px;">new</span>
@@ -364,66 +381,7 @@
         </div>
 
         <div class="domain-list" id="domainList">
-            <div class="domain-item" data-href="http://luci.thanatosolo.duckdns.org:8888">
-                <span class="icon">🖥️</span>
-                <span class="name">Istoreos</span>
-                <span class="full-url">http://luci.thanatosolo.duckdns.org:8888</span>
-            </div>
-            <div class="domain-item" data-href="http://op.thanatosolo.duckdns.org:8888">
-                <span class="icon">📦</span>
-                <span class="name">Openlist</span>
-                <span class="full-url">http://op.thanatosolo.duckdns.org:8888</span>
-            </div>
-            <div class="domain-item" data-href="http://fb.thanatosolo.duckdns.org:8888">
-                <span class="icon">📁</span>
-                <span class="name">Filebrowser</span>
-                <span class="full-url">http://fb.thanatosolo.duckdns.org:8888</span>
-            </div>
-            <div class="domain-item" data-href="http://ar.thanatosolo.duckdns.org:8888">
-                <span class="icon">📥</span>
-                <span class="name">ariaNG</span>
-                <span class="full-url">http://ar.thanatosolo.duckdns.org:8888</span>
-            </div>
-            <div class="domain-item" data-href="http://ssh.thanatosolo.duckdns.org:8888">
-                <span class="icon">💻</span>
-                <span class="name">TTYD</span>
-                <span class="full-url">http://ssh.thanatosolo.duckdns.org:8888</span>
-            </div>
-            <div class="domain-item" data-href="http://qb.thanatosolo.duckdns.org:8888">
-                <span class="icon">🌱</span>
-                <span class="name">QBittorrent</span>
-                <span class="full-url">http://qb.thanatosolo.duckdns.org:8888</span>
-            </div>
-            <div class="domain-item" data-href="http://je.thanatosolo.duckdns.org:8888">
-                <span class="icon">🎬</span>
-                <span class="name">Jellyfin</span>
-                <span class="full-url">http://je.thanatosolo.duckdns.org:8888</span>
-            </div>
-            <div class="domain-item" data-href="http://pp.thanatosolo.duckdns.org:8888">
-                <span class="icon">🖼️</span>
-                <span class="name">PhotoPrism</span>
-                <span class="full-url">http://pp.thanatosolo.duckdns.org:8888</span>
-            </div>
-            <div class="domain-item" data-href="http://kd.thanatosolo.duckdns.org:8888">
-                <span class="icon">🗂️</span>
-                <span class="name">Kod cloud</span>
-                <span class="full-url">http://kd.thanatosolo.duckdns.org:8888</span>
-            </div>
-            <div class="domain-item" data-href="http://mt.thanatosolo.duckdns.org:8888">
-                <span class="icon">📷</span>
-                <span class="name">MT Photos</span>
-                <span class="full-url">http://mt.thanatosolo.duckdns.org:8888</span>
-            </div>
-            <div class="domain-item" data-href="http://ai.thanatosolo.duckdns.org:8888">
-                <span class="icon">🤖</span>
-                <span class="name">AI</span>
-                <span class="full-url">http://ai.thanatosolo.duckdns.org:8888</span>
-            </div>
-            <div class="domain-item" data-href="http://dav.thanatosolo.duckdns.org:8888">
-                <span class="icon">☁️</span>
-                <span class="name">webdav</span>
-                <span class="full-url">http://dav.thanatosolo.duckdns.org:8888</span>
-            </div>
+            <div class="loading">加载中</div>
         </div>
     </div>
 
@@ -509,34 +467,84 @@
         }
         drawTrail();
 
-        // ---------- 开关 ----------
-        const targetSwitch = document.getElementById('targetSwitch');
-        const domainItems = document.querySelectorAll('.domain-item');
+        // ---------- 从 data.json 加载数据 ----------
         const STORAGE_KEY = 'linkTargetMode';
 
-        let openNewTab = localStorage.getItem(STORAGE_KEY) === '1';
-        targetSwitch.checked = openNewTab;
+        function getOpenNewTab() {
+            return localStorage.getItem(STORAGE_KEY) === '1';
+        }
+
+        function renderDomains(domains) {
+            const container = document.getElementById('domainList');
+            container.innerHTML = '';
+
+            if (!domains || domains.length === 0) {
+                container.innerHTML = '<div style="color:#8b949e;font-size:16px;">暂无数据</div>';
+                return;
+            }
+
+            domains.forEach(item => {
+                const div = document.createElement('div');
+                div.className = 'domain-item';
+                div.dataset.href = item.url;
+                div.innerHTML = `
+                    <span class="icon">${item.icon}</span>
+                    <span class="name">${item.name}</span>
+                    <span class="full-url">${item.url}</span>
+                `;
+                container.appendChild(div);
+            });
+
+            // 重新绑定点击事件
+            document.querySelectorAll('.domain-item').forEach(el => {
+                el.addEventListener('click', function(e) {
+                    e.stopPropagation();
+                    const url = this.dataset.href;
+                    if (getOpenNewTab()) {
+                        window.open(url, '_blank');
+                    } else {
+                        location.href = url;
+                    }
+                });
+            });
+
+            // 重新应用滚动淡出效果
+            updateFade();
+        }
+
+        async function loadDomains() {
+            try {
+                const response = await fetch('data.json?t=' + Date.now());
+                if (!response.ok) {
+                    throw new Error('HTTP ' + response.status);
+                }
+                const data = await response.json();
+                renderDomains(data.domains);
+            } catch (error) {
+                console.error('加载数据失败:', error);
+                const container = document.getElementById('domainList');
+                container.innerHTML = `
+                    <div style="color:#f85149;font-size:16px;">
+                        ⚠️ 加载数据失败，请检查 data.json 文件是否存在
+                        <br><span style="font-size:13px;color:#8b949e;">${error.message}</span>
+                    </div>
+                `;
+            }
+        }
+
+        // ---------- 开关 ----------
+        const targetSwitch = document.getElementById('targetSwitch');
+        targetSwitch.checked = getOpenNewTab();
 
         targetSwitch.addEventListener('change', () => {
-            openNewTab = targetSwitch.checked;
-            localStorage.setItem(STORAGE_KEY, openNewTab ? '1' : '0');
+            localStorage.setItem(STORAGE_KEY, targetSwitch.checked ? '1' : '0');
         });
 
-        domainItems.forEach(item => {
-            item.addEventListener('click', e => {
-                e.stopPropagation();
-                const url = item.dataset.href;
-                if (openNewTab) {
-                    window.open(url, '_blank');
-                } else {
-                    location.href = url;
-                }
-            });
-        });
-
-        // ===== 每一行在其自身位置消失 =====
+        // ---------- 滚动淡出 ----------
         function updateFade() {
             const items = document.querySelectorAll('.domain-item');
+            if (items.length === 0) return;
+
             const stickyRect = document.getElementById('stickyArea').getBoundingClientRect();
             const referenceBottom = stickyRect.bottom;
 
@@ -547,7 +555,7 @@
                 const baseOffset = 2.5 * itemHeight;
                 const extraOffset = index * 15;
                 const fadeOffset = baseOffset + extraOffset;
-                
+
                 let opacity = 1;
                 if (distance < fadeOffset) {
                     const progress = 1 - (distance / fadeOffset);
@@ -577,7 +585,9 @@
         });
 
         window.addEventListener('resize', updateFade);
-        updateFade();
+
+        // ---------- 启动 ----------
+        loadDomains();
     </script>
 </body>
 </html>
