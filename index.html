@@ -65,8 +65,7 @@
             color: transparent;
             animation: textRainbowFlow 8s linear infinite;
             text-shadow: 0 0 30px rgba(255, 100, 200, 0.3);
-            cursor: pointer;
-            transition: transform 0.3s ease, filter 0.3s ease;
+            transition: transform 0.25s ease, filter 0.25s ease;
         }
 
         .title:hover {
@@ -75,8 +74,12 @@
         }
 
         @keyframes textRainbowFlow {
-            0% { background-position: 0% 50%; }
-            100% { background-position: 400% 50%; }
+            0% {
+                background-position: 0% 50%;
+            }
+            100% {
+                background-position: 400% 50%;
+            }
         }
 
         .switch-box {
@@ -86,12 +89,11 @@
             color: #d6e0f0;
             font-size: 15px;
             font-weight: 500;
-            text-shadow: 0 0 12px rgba(0,0,0,0.7), 0 0 4px #000;
+            text-shadow: 0 0 12px rgba(0, 0, 0, 0.7), 0 0 4px #000;
             padding: 0;
             background: transparent;
             border: none;
             backdrop-filter: none;
-            flex-shrink: 0;
         }
 
         .switch {
@@ -109,7 +111,6 @@
 
         .slider {
             position: absolute;
-            cursor: none;
             top: 0;
             left: 0;
             right: 0;
@@ -119,7 +120,7 @@
             border-radius: 24px;
             transition: 0.4s cubic-bezier(0.23, 1, 0.32, 1);
             border: 1px solid rgba(255, 255, 255, 0.2);
-            box-shadow: inset 0 0 6px rgba(0,0,0,0.6);
+            box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.6);
         }
 
         .slider:before {
@@ -135,13 +136,13 @@
             box-shadow: 0 0 16px #9f7aff, 0 0 30px #7f5aff;
         }
 
-        input:checked + .slider {
+        input:checked+.slider {
             background: rgba(140, 70, 200, 0.45);
             border-color: #b580ff;
             box-shadow: 0 0 24px rgba(170, 100, 255, 0.4), inset 0 0 10px rgba(200, 150, 255, 0.3);
         }
 
-        input:checked + .slider:before {
+        input:checked+.slider:before {
             transform: translateX(26px);
             background: radial-gradient(circle at 30% 30%, #ffffff, #c8a0ff);
             box-shadow: 0 0 30px #b080ff, 0 0 60px #9055ff;
@@ -150,51 +151,73 @@
         .domain-list {
             display: flex;
             flex-direction: column;
-            gap: 22px;
+            gap: 48px;
             align-items: flex-start;
             width: 100%;
-            max-width: 750px;
+            padding-bottom: 100px;
+        }
+
+        #domainItemsContainer {
+            display: flex;
+            flex-direction: column;
+            gap: 30px;
+            width: 100%;
         }
 
         .domain-item {
             position: relative;
-            padding: 8px 8px 8px 18px;
-            font-size: 22px;
+            padding: 10px 8px 10px 18px;
+            font-size: 25px;
             font-weight: 600;
-            letter-spacing: 0.8px;
-            cursor: none !important;
+            letter-spacing: 1.2px;
             transition: all 0.32s cubic-bezier(0.2, 0.9, 0.4, 1);
             white-space: nowrap;
             color: #f0f0f8;
-            text-shadow:
-                0 0 2px #000,
+            text-shadow: 0 0 2px #000,
                 1px 1px 2px #000,
                 -1px -1px 2px #000,
                 0 0 8px #9468b0,
                 0 0 16px #523880;
             border-left: 2px solid transparent;
-            display: flex;
-            align-items: center;
-            gap: 12px;
+            width: auto;
+            display: inline-block;
+        }
+
+        .domain-name {
+            display: inline-block;
+            transition: all 0.32s cubic-bezier(0.2, 0.9, 0.4, 1);
+        }
+
+        .domain-name:hover {
+            transform: translateY(-4px) scale(1.02);
+            color: #ffffff;
+            text-shadow: 0 0 2px #000,
+                1px 1px 2px #000,
+                -1px -1px 2px #000,
+                0 0 12px #d080ff,
+                0 0 28px #8050c0;
+        }
+
+        .domain-name::after {
+            content: '';
+            position: absolute;
+            left: 0;
+            bottom: -4px;
+            width: 0;
+            height: 2px;
+            background: linear-gradient(90deg, #f0a0ff, #80b0ff, #a0f0ff);
+            transition: width 0.4s ease;
+            filter: blur(1px);
+            box-shadow: 0 0 12px #a070ff;
+        }
+
+        .domain-name:hover::after {
             width: 100%;
-            flex-wrap: wrap;
-        }
-
-        .domain-item .icon {
-            font-size: 26px;
-            line-height: 1;
-            filter: drop-shadow(0 0 6px rgba(180, 130, 255, 0.3));
-        }
-
-        .domain-item .name {
-            font-weight: 600;
-            color: #f0f0f8;
-            letter-spacing: 1px;
         }
 
         .domain-item .full-url {
             position: absolute;
-            top: 112%;
+            top: 100%;
             left: 18px;
             white-space: nowrap;
             font-size: 14px;
@@ -205,50 +228,76 @@
             transform: translateY(-3px) scale(0.96);
             transition: all 0.28s cubic-bezier(0.2, 0.9, 0.4, 1);
             pointer-events: none;
-            text-shadow:
-                1px 1px 4px #000,
+            text-shadow: 1px 1px 4px #000,
                 -1px -1px 4px #000,
-                0 0 12px rgba(0,0,0,0.9);
-            background: rgba(0,0,0,0.25);
+                0 0 12px rgba(0, 0, 0, 0.9);
+            background: rgba(0, 0, 0, 0.2);
             backdrop-filter: blur(4px);
-            padding: 2px 14px 2px 10px;
+            padding: 2px 12px 2px 8px;
             border-radius: 40px;
-            border: 1px solid rgba(255,255,255,0.08);
-            z-index: 10;
+            border: 1px solid rgba(255, 255, 255, 0.08);
         }
 
-        .domain-item:hover .full-url {
+        .domain-name:hover + .full-url,
+        .domain-name:hover ~ .full-url {
             opacity: 1;
             transform: translateY(0) scale(1);
         }
 
-        .domain-item::after {
-            content: '';
-            position: absolute;
-            left: 0;
-            bottom: 8px;
-            width: 0;
-            height: 2px;
-            background: linear-gradient(90deg, #f0a0ff, #80b0ff, #a0f0ff);
-            transition: width 0.4s ease;
-            filter: blur(1px);
-            box-shadow: 0 0 12px #a070ff;
+        .music-box {
+            position: fixed;
+            left: 4vw;
+            bottom: 4vh;
+            z-index: 100;
+            width: 300px;
+            padding: 0;
+            background: transparent;
+            border: none;
+            box-shadow: none;
+            filter: drop-shadow(0 0 10px rgba(150, 80, 200, 0.2));
+            pointer-events: auto;
         }
 
-        .domain-item:hover {
-            transform: translateY(-3px) scale(1.01);
-            color: #ffffff;
-            text-shadow:
-                0 0 2px #000,
-                1px 1px 2px #000,
-                -1px -1px 2px #000,
-                0 0 12px #d080ff,
-                0 0 28px #8050c0;
-            border-left: 2px solid rgba(200, 150, 255, 0.7);
+        #audio {
+            width: 100%;
+            height: 38px;
+            border-radius: 60px;
+            background: transparent;
+            border: none;
+            outline: none;
+            cursor: pointer !important;
         }
 
-        .domain-item:hover::after {
-            width: calc(100% - 18px);
+        #audio::-webkit-media-controls-panel {
+            background: rgba(10, 5, 20, 0.25) !important;
+            backdrop-filter: blur(10px) !important;
+            border-radius: 60px !important;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+        }
+
+        #audio::-webkit-media-controls-play-button,
+        #audio::-webkit-media-controls-mute-button {
+            filter: drop-shadow(0 0 4px #b080ff) brightness(1.6);
+        }
+
+        #audio::-webkit-slider-runnable-track {
+            background: rgba(255, 255, 255, 0.15);
+            border-radius: 20px;
+        }
+
+        #audio::-webkit-slider-thumb {
+            background: radial-gradient(circle, #f0e0ff, #a070ff);
+            box-shadow: 0 0 20px #b080ff;
+            border-radius: 50%;
+            height: 14px;
+            width: 14px;
+        }
+
+        #audio::-webkit-media-controls-current-time-display,
+        #audio::-webkit-media-controls-time-remaining-display {
+            color: #fff;
+            text-shadow: 0 0 12px #000, 0 0 20px #000;
+            font-weight: 500;
         }
 
         #cursor {
@@ -298,20 +347,44 @@
         }
 
         @keyframes rotateSlow {
-            from { transform: rotate(0deg); }
-            to { transform: rotate(360deg); }
+            from {
+                transform: rotate(0deg);
+            }
+            to {
+                transform: rotate(360deg);
+            }
         }
+
         @keyframes rotateReverse {
-            from { transform: translate(-50%, -50%) rotate(360deg); }
-            to { transform: translate(-50%, -50%) rotate(0deg); }
+            from {
+                transform: translate(-50%, -50%) rotate(360deg);
+            }
+            to {
+                transform: translate(-50%, -50%) rotate(0deg);
+            }
         }
+
         @keyframes pulseGlow {
-            0%, 100% { transform: translate(-50%, -50%) scale(1); opacity: 0.8; }
-            50% { transform: translate(-50%, -50%) scale(1.3); opacity: 1; }
+            0%,
+            100% {
+                transform: translate(-50%, -50%) scale(1);
+                opacity: 0.8;
+            }
+            50% {
+                transform: translate(-50%, -50%) scale(1.3);
+                opacity: 1;
+            }
         }
+
         @keyframes pulseDot {
-            0% { transform: translate(-50%, -50%) scale(1); box-shadow: 0 0 30px #fff, 0 0 60px #8060ff; }
-            100% { transform: translate(-50%, -50%) scale(1.3); box-shadow: 0 0 50px #ffb0ff, 0 0 100px #a070ff; }
+            0% {
+                transform: translate(-50%, -50%) scale(1);
+                box-shadow: 0 0 30px #fff, 0 0 60px #8060ff;
+            }
+            100% {
+                transform: translate(-50%, -50%) scale(1.3);
+                box-shadow: 0 0 50px #ffb0ff, 0 0 100px #a070ff;
+            }
         }
 
         #trailCanvas {
@@ -326,36 +399,51 @@
         }
 
         @media (max-width: 600px) {
-            .container { padding: 4vh 4vw; gap: 32px; }
-            .sticky-area { top: 4vh; gap: 32px; }
-            .title { font-size: 24px; letter-spacing: 4px; }
-            .switch-box { font-size: 13px; }
-            .switch { width: 42px; height: 20px; }
-            .slider:before { height: 14px; width: 14px; left: 3px; bottom: 2px; }
-            input:checked + .slider:before { transform: translateX(22px); }
-            .domain-item { font-size: 18px; padding: 6px 4px 6px 12px; gap: 8px; }
-            .domain-item .icon { font-size: 22px; }
-            .domain-item .full-url { font-size: 12px; top: 110%; left: 12px; }
-            #cursor { width: 44px; height: 44px; }
-        }
-
-        /* 加载状态提示 */
-        .loading {
-            color: #8b949e;
-            font-size: 18px;
-            padding: 20px 0;
-            text-shadow: 0 0 12px rgba(0,0,0,0.7);
-        }
-        .loading::after {
-            content: '...';
-            animation: dots 1.2s steps(4, end) infinite;
-        }
-        @keyframes dots {
-            0% { content: ''; }
-            25% { content: '.'; }
-            50% { content: '..'; }
-            75% { content: '...'; }
-            100% { content: ''; }
+            .title {
+                font-size: 24px;
+                letter-spacing: 4px;
+            }
+            .domain-item {
+                font-size: 20px;
+            }
+            .music-box {
+                width: 220px;
+                left: 2vw;
+                bottom: 2vh;
+            }
+            #cursor {
+                width: 44px;
+                height: 44px;
+            }
+            .container {
+                padding: 4vh 4vw;
+                gap: 32px;
+            }
+            .sticky-area {
+                top: 4vh;
+                gap: 32px;
+            }
+            .switch {
+                width: 42px;
+                height: 20px;
+            }
+            .slider:before {
+                height: 14px;
+                width: 14px;
+                left: 3px;
+                bottom: 2px;
+            }
+            input:checked+.slider:before {
+                transform: translateX(22px);
+            }
+            .domain-item .full-url {
+                font-size: 12px;
+                top: 100%;
+                left: 12px;
+            }
+            #domainItemsContainer {
+                gap: 20px;
+            }
         }
     </style>
 </head>
@@ -370,7 +458,7 @@
     <div class="container">
         <div class="sticky-area" id="stickyArea">
             <div class="title-wrap">
-                <h1 class="title" onclick="window.location.href='./2/'">THANATOSOLO</h1>
+                <h1 class="title" id="mainTitle">THANATOSOLO</h1>
             </div>
             <div class="switch-box">
                 <span style="letter-spacing:1px;">new</span>
@@ -382,12 +470,213 @@
         </div>
 
         <div class="domain-list" id="domainList">
-            <div class="loading">加载中</div>
+            <div id="domainItemsContainer"></div>
         </div>
     </div>
 
+    <div class="music-box" id="musicContainer">
+        <audio id="audio" controls preload="auto" playsinline></audio>
+    </div>
+
     <script>
-        // ---------- 光标 + 残影 ----------
+        document.getElementById('mainTitle').addEventListener('click', function(e) {
+            e.stopPropagation();
+            window.location.href = '/1/';
+        });
+
+        const STORAGE_KEY = 'linkTargetMode';
+
+        function getOpenNewTab() {
+            return localStorage.getItem(STORAGE_KEY) === '1';
+        }
+
+        function renderDomains(domains) {
+            const container = document.getElementById('domainItemsContainer');
+            container.innerHTML = '';
+
+            if (!domains || domains.length === 0) {
+                container.innerHTML = '<div style="color:#8b949e;font-size:16px;padding-left:18px;">暂无数据</div>';
+                return;
+            }
+
+            domains.forEach(function(item) {
+                const div = document.createElement('div');
+                div.className = 'domain-item';
+
+                const nameSpan = document.createElement('span');
+                nameSpan.className = 'domain-name';
+                nameSpan.textContent = item.name;
+                nameSpan.dataset.href = item.url;
+
+                const urlSpan = document.createElement('span');
+                urlSpan.className = 'full-url';
+                urlSpan.textContent = item.url;
+
+                div.appendChild(nameSpan);
+                div.appendChild(urlSpan);
+                container.appendChild(div);
+            });
+
+            document.querySelectorAll('.domain-name').forEach(function(el) {
+                el.addEventListener('click', function(e) {
+                    e.stopPropagation();
+                    const url = this.dataset.href;
+                    if (getOpenNewTab()) {
+                        window.open(url, '_blank');
+                    } else {
+                        location.href = url;
+                    }
+                });
+            });
+
+            updateFade();
+        }
+
+        fetch('data.json?t=' + Date.now())
+            .then(function(res) {
+                if (!res.ok) throw new Error('HTTP ' + res.status);
+                return res.json();
+            })
+            .then(function(data) {
+                renderDomains(data.domains);
+            })
+            .catch(function(err) {
+                console.error('加载 data.json 失败:', err);
+                document.getElementById('domainItemsContainer').innerHTML =
+                    '<div style="color:#f85149;font-size:16px;padding-left:18px;">⚠️ 加载 data.json 失败</div>';
+            });
+
+        let mp3List = [];
+        const audio = document.getElementById('audio');
+        audio.volume = 0.3;
+        audio.loop = true;
+
+        function randomPlay() {
+            if (mp3List.length === 0) return;
+            var randomUrl = mp3List[Math.floor(Math.random() * mp3List.length)];
+            audio.src = randomUrl;
+            audio.load();
+            audio.play().catch(function() {});
+        }
+
+        fetch('music.json?t=' + Date.now())
+            .then(function(res) {
+                if (!res.ok) throw new Error('HTTP ' + res.status);
+                return res.json();
+            })
+            .then(function(data) {
+                mp3List = data.songs || [];
+                if (mp3List.length > 0) {
+                    randomPlay();
+                }
+            })
+            .catch(function(err) {
+                console.error('加载 music.json 失败:', err);
+                mp3List = [
+                    "https://music.163.com/song/media/outer/url?id=36089001.mp3",
+                    "https://music.163.com/song/media/outer/url?id=27599066.mp3",
+                    "https://music.163.com/song/media/outer/url?id=4154863.mp3",
+                    "https://music.163.com/song/media/outer/url?id=33527503.mp3",
+                    "https://music.163.com/song/media/outer/url?id=29017025.mp3"
+                ];
+                randomPlay();
+            });
+
+        // ★ 首次点击空白处触发音乐播放（只触发一次） ★
+        let musicTriggered = false;
+
+        document.body.addEventListener('click', function(e) {
+            // 如果已经触发过，或者音频已经在播放，就不重复触发
+            if (musicTriggered || !audio.paused) return;
+
+            var isDomainName = e.target.closest('.domain-name');
+            var isSwitch = e.target.closest('.switch');
+            var isPlayer = e.target.closest('.music-box');
+            var isTitle = e.target.closest('.title');
+
+            // 只有点击非交互区域（非域名、非开关、非播放器、非标题）才触发
+            if (!isDomainName && !isSwitch && !isPlayer && !isTitle) {
+                if (mp3List.length > 0) {
+                    randomPlay();
+                    musicTriggered = true;
+                }
+            }
+        });
+
+        audio.addEventListener('ended', function() {
+            if (mp3List.length > 0) {
+                var currentSrc = audio.src;
+                var available = mp3List.filter(function(url) { return url !== currentSrc; });
+                if (available.length === 0) available = mp3List;
+                var randomUrl = available[Math.floor(Math.random() * available.length)];
+                audio.src = randomUrl;
+                audio.load();
+                audio.play().catch(function() {});
+            }
+        });
+
+        const targetSwitch = document.getElementById('targetSwitch');
+        targetSwitch.checked = getOpenNewTab();
+
+        targetSwitch.addEventListener('change', function() {
+            localStorage.setItem(STORAGE_KEY, this.checked ? '1' : '0');
+        });
+
+        function updateFade() {
+            var items = document.querySelectorAll('.domain-item');
+            if (items.length === 0) return;
+
+            var stickyRect = document.getElementById('stickyArea').getBoundingClientRect();
+            var topFadeLine = stickyRect.bottom;
+
+            var bottomFadeLine = window.innerHeight;
+            var bottomReserve = 100;
+
+            items.forEach(function(item) {
+                var rect = item.getBoundingClientRect();
+                var itemCenter = rect.top + rect.height / 2;
+
+                var distanceFromTop = itemCenter - topFadeLine;
+                var topFadeDistance = rect.height * 2;
+                var topOpacity = 1;
+                if (distanceFromTop < 0) {
+                    topOpacity = 0;
+                } else if (distanceFromTop < topFadeDistance) {
+                    topOpacity = 1 - (1 - distanceFromTop / topFadeDistance);
+                }
+
+                var distanceFromBottom = bottomFadeLine - bottomReserve - itemCenter;
+                var bottomFadeDistance = rect.height * 2;
+                var bottomOpacity = 1;
+                if (distanceFromBottom < 0) {
+                    bottomOpacity = 0;
+                } else if (distanceFromBottom < bottomFadeDistance) {
+                    bottomOpacity = 1 - (1 - distanceFromBottom / bottomFadeDistance);
+                }
+
+                var finalOpacity = Math.min(topOpacity, bottomOpacity);
+                finalOpacity = Math.max(0, Math.min(1, finalOpacity));
+
+                item.style.opacity = finalOpacity;
+                item.style.pointerEvents = finalOpacity < 0.1 ? 'none' : 'auto';
+            });
+        }
+
+        var ticking = false;
+        window.addEventListener('scroll', function() {
+            if (!ticking) {
+                requestAnimationFrame(function() {
+                    updateFade();
+                    ticking = false;
+                });
+                ticking = true;
+            }
+        });
+
+        window.addEventListener('resize', function() {
+            updateFade();
+        });
+
         const cursor = document.getElementById('cursor');
         const canvas = document.getElementById('trailCanvas');
         const ctx = canvas.getContext('2d');
@@ -401,194 +690,69 @@
 
         const trailPoints = [];
         const maxTrailLength = 64;
-        let mouseX = 0, mouseY = 0;
+        let mouseX = 0,
+            mouseY = 0;
 
-        document.addEventListener('mousemove', e => {
+        document.addEventListener('mousemove', function(e) {
             mouseX = e.clientX;
             mouseY = e.clientY;
             cursor.style.left = mouseX + 'px';
             cursor.style.top = mouseY + 'px';
-
-            trailPoints.push({ x: mouseX, y: mouseY, alpha: 1, size: 1 });
+            trailPoints.push({ x: mouseX, y: mouseY, alpha: 1 });
             if (trailPoints.length > maxTrailLength) trailPoints.shift();
         });
 
         function drawTrail() {
             ctx.clearRect(0, 0, canvas.width, canvas.height);
-
-            for (let i = 1; i < trailPoints.length; i++) {
-                const p1 = trailPoints[i - 1];
-                const p2 = trailPoints[i];
+            for (var i = 1; i < trailPoints.length; i++) {
+                var p1 = trailPoints[i - 1];
+                var p2 = trailPoints[i];
                 p1.alpha -= 0.016;
                 if (p1.alpha <= 0) continue;
-
-                const progress = i / trailPoints.length;
-                const hue = (280 + progress * 60) % 360;
-                const alphaVal = p1.alpha * 0.9;
-
+                var progress = i / trailPoints.length;
+                var hue = (280 + progress * 60) % 360;
+                var alphaVal = p1.alpha * 0.9;
                 ctx.beginPath();
                 ctx.moveTo(p1.x, p1.y);
                 ctx.lineTo(p2.x, p2.y);
-
-                const lineWidth = 3.5 + 6 * (1 - progress);
+                var lineWidth = 3.5 + 6 * (1 - progress);
                 ctx.lineWidth = lineWidth;
-                ctx.strokeStyle = `hsla(${hue}, 90%, 70%, ${alphaVal})`;
-                ctx.shadowColor = `hsla(${hue}, 100%, 70%, 0.6)`;
+                ctx.strokeStyle = 'hsla(' + hue + ', 90%, 70%, ' + alphaVal + ')';
+                ctx.shadowColor = 'hsla(' + hue + ', 100%, 70%, 0.6)';
                 ctx.shadowBlur = 22;
                 ctx.stroke();
-
                 ctx.beginPath();
                 ctx.moveTo(p1.x, p1.y);
                 ctx.lineTo(p2.x, p2.y);
                 ctx.lineWidth = lineWidth * 0.35;
-                ctx.strokeStyle = `hsla(${hue + 30}, 100%, 90%, ${alphaVal * 0.7})`;
+                ctx.strokeStyle = 'hsla(' + (hue + 30) + ', 100%, 90%, ' + (alphaVal * 0.7) + ')';
                 ctx.shadowBlur = 40;
-                ctx.shadowColor = `hsla(${hue + 20}, 100%, 80%, 0.5)`;
+                ctx.shadowColor = 'hsla(' + (hue + 20) + ', 100%, 80%, 0.5)';
                 ctx.stroke();
             }
-
             if (trailPoints.length > 2) {
-                const last = trailPoints[trailPoints.length - 1];
+                var last = trailPoints[trailPoints.length - 1];
                 ctx.shadowBlur = 80;
-                for (let j = 0; j < 6; j++) {
-                    const angle = j * 1.2 + Date.now() * 0.001;
-                    const dist = 12 + Math.sin(Date.now() * 0.005 + j) * 6;
-                    const px = last.x + Math.cos(angle) * dist;
-                    const py = last.y + Math.sin(angle) * dist;
+                for (var j = 0; j < 6; j++) {
+                    var angle = j * 1.2 + Date.now() * 0.001;
+                    var dist = 12 + Math.sin(Date.now() * 0.005 + j) * 6;
+                    var px = last.x + Math.cos(angle) * dist;
+                    var py = last.y + Math.sin(angle) * dist;
                     ctx.beginPath();
                     ctx.arc(px, py, 2 + Math.sin(Date.now() * 0.01 + j) * 1.5, 0, Math.PI * 2);
-                    ctx.fillStyle = `hsla(${300 + j * 20}, 100%, 80%, 0.5)`;
-                    ctx.shadowColor = `hsla(${300 + j * 20}, 100%, 70%, 0.7)`;
+                    ctx.fillStyle = 'hsla(' + (300 + j * 20) + ', 100%, 80%, 0.5)';
+                    ctx.shadowColor = 'hsla(' + (300 + j * 20) + ', 100%, 70%, 0.7)';
                     ctx.shadowBlur = 40;
                     ctx.fill();
                 }
             }
-
             requestAnimationFrame(drawTrail);
         }
         drawTrail();
 
-        // ---------- 从 data.json 加载数据 ----------
-        const STORAGE_KEY = 'linkTargetMode';
-
-        function getOpenNewTab() {
-            return localStorage.getItem(STORAGE_KEY) === '1';
-        }
-
-        function renderDomains(domains) {
-            const container = document.getElementById('domainList');
-            container.innerHTML = '';
-
-            if (!domains || domains.length === 0) {
-                container.innerHTML = '<div style="color:#8b949e;font-size:16px;">暂无数据</div>';
-                return;
-            }
-
-            domains.forEach(item => {
-                const div = document.createElement('div');
-                div.className = 'domain-item';
-                div.dataset.href = item.url;
-                div.innerHTML = `
-                    <span class="icon">${item.icon}</span>
-                    <span class="name">${item.name}</span>
-                    <span class="full-url">${item.url}</span>
-                `;
-                container.appendChild(div);
-            });
-
-            // 重新绑定点击事件
-            document.querySelectorAll('.domain-item').forEach(el => {
-                el.addEventListener('click', function(e) {
-                    e.stopPropagation();
-                    const url = this.dataset.href;
-                    if (getOpenNewTab()) {
-                        window.open(url, '_blank');
-                    } else {
-                        location.href = url;
-                    }
-                });
-            });
-
-            // 重新应用滚动淡出效果
+        setTimeout(function() {
             updateFade();
-        }
-
-        async function loadDomains() {
-            try {
-                const response = await fetch('data.json?t=' + Date.now());
-                if (!response.ok) {
-                    throw new Error('HTTP ' + response.status);
-                }
-                const data = await response.json();
-                renderDomains(data.domains);
-            } catch (error) {
-                console.error('加载数据失败:', error);
-                const container = document.getElementById('domainList');
-                container.innerHTML = `
-                    <div style="color:#f85149;font-size:16px;">
-                        ⚠️ 加载数据失败，请检查 data.json 文件是否存在
-                        <br><span style="font-size:13px;color:#8b949e;">${error.message}</span>
-                    </div>
-                `;
-            }
-        }
-
-        // ---------- 开关 ----------
-        const targetSwitch = document.getElementById('targetSwitch');
-        targetSwitch.checked = getOpenNewTab();
-
-        targetSwitch.addEventListener('change', () => {
-            localStorage.setItem(STORAGE_KEY, targetSwitch.checked ? '1' : '0');
-        });
-
-        // ---------- 滚动淡出 ----------
-        function updateFade() {
-            const items = document.querySelectorAll('.domain-item');
-            if (items.length === 0) return;
-
-            const stickyRect = document.getElementById('stickyArea').getBoundingClientRect();
-            const referenceBottom = stickyRect.bottom;
-
-            items.forEach((item, index) => {
-                const rect = item.getBoundingClientRect();
-                const distance = rect.top - referenceBottom;
-                const itemHeight = rect.height;
-                const baseOffset = 2.5 * itemHeight;
-                const extraOffset = index * 15;
-                const fadeOffset = baseOffset + extraOffset;
-
-                let opacity = 1;
-                if (distance < fadeOffset) {
-                    const progress = 1 - (distance / fadeOffset);
-                    opacity = Math.max(0, 1 - progress);
-                }
-                if (distance < 0) {
-                    opacity = 0;
-                }
-                if (rect.bottom < referenceBottom) {
-                    opacity = 0;
-                }
-
-                item.style.opacity = opacity;
-                item.style.pointerEvents = opacity === 0 ? 'none' : 'auto';
-            });
-        }
-
-        let ticking = false;
-        window.addEventListener('scroll', () => {
-            if (!ticking) {
-                requestAnimationFrame(() => {
-                    updateFade();
-                    ticking = false;
-                });
-                ticking = true;
-            }
-        });
-
-        window.addEventListener('resize', updateFade);
-
-        // ---------- 启动 ----------
-        loadDomains();
+        }, 100);
     </script>
 </body>
 </html>
