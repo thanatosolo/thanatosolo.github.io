@@ -3,7 +3,7 @@
     { "name": "DPDNS.ORG", "url": "https://thanatosolo.dpdns.org" },
     { "name": "KDNS.FR", "url": "https://thanatosolo.kdns.fr" },
     { "name": "DE5.NET", "url": "https://thanatosolo.de5.net" },
-    { "name": "DDNS.GE", "url": "http://www.thanatosolo.ddns.ge" },
+    { "name": "DDNS.GE", "url": "http://thanatosolo.ddns.ge" },
     { "name": "L.CD", "url": "http://thanatos.l.cd" }
   ]
 }
