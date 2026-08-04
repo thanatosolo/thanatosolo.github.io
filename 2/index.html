@@ -173,15 +173,11 @@
             white-space: nowrap;
         }
 
-        /* ★ 关键改动：域名字体改用系统字体 + 加粗 + 调大，和剩余天数风格统一 */
         .card-domain .name {
             font-family: inherit;
-            /* 继承 body 的系统字体，和剩余天数一致 */
             color: #f0f6fc;
             font-size: 14px;
-            /* 和 .days 一样大 */
             font-weight: 600;
-            /* 加粗，接近 .days 的 700 */
             letter-spacing: 0px;
             white-space: nowrap;
             overflow: hidden;
@@ -347,6 +343,26 @@
             color: #f0f6fc;
         }
 
+        /* 加载状态 */
+        .loading {
+            color: #8b949e;
+            font-size: 18px;
+            padding: 40px 0;
+            text-align: center;
+            text-shadow: 0 0 12px rgba(0,0,0,0.7);
+        }
+        .loading::after {
+            content: '...';
+            animation: dots 1.2s steps(4, end) infinite;
+        }
+        @keyframes dots {
+            0% { content: ''; }
+            25% { content: '.'; }
+            50% { content: '..'; }
+            75% { content: '...'; }
+            100% { content: ''; }
+        }
+
         @media (max-width: 600px) {
             .card-grid {
                 grid-template-columns: 1fr;
@@ -477,55 +493,20 @@
 
     <div class="container">
         <div class="header">
-            <h1 onclick="window.location.href='https://thanatosolo.github.io'">📋 Expiration Date</h1>
+            <h1 onclick="window.location.href='../'">📋 Expiration Date</h1>
             <div class="header-controls">
                 <button class="view-btn active" data-view="card">📐 Card</button>
                 <button class="view-btn" data-view="list">📋 List</button>
             </div>
         </div>
 
-        <div id="app"></div>
+        <div id="app"><div class="loading">加载中</div></div>
         <div class="footer">
-            💡 Click site name to renew · Red blink ≤30 days · Edit data in <code>domains</code> array
+            💡 Click site name to renew · Red blink ≤30 days · Edit data in <code>domains.json</code>
         </div>
     </div>
 
     <script>
-        // ============================================================
-        //  📌 域名数据
-        // ============================================================
-        const domains = [
-            { site: "domain.digitalplat.org", url: "https://dash.domain.digitalplat.org/dashboard", account: "hm",
-                domain: "thanatosolo.dpdns.org", expire: "2027-05-25" },
-            { site: "katabump.com", url: "https://dashboard.katabump.com/auth/login", account: "hm",
-                domain: "thanatosolo.kdns.fr", expire: null },
-            { site: "nic.chenzhizuo.com", url: "https://nic.chenzhizuo.com/user", account: "163",
-                domain: "thanatosolo.beyond.wang", expire: null },
-            { site: "desec.io", url: "https://desec.io/domains", account: "163", domain: "thanatos.dedyn.io",
-            expire: null },
-            { site: "desec.io", url: "https://desec.io/domains", account: "hm", domain: "thanatosolo.dedyn.io",
-                expire: null },
-            { site: "dnshe.com", url: "https://my.dnshe.com/clientarea.php", account: "hm", domain: "thanatosolo.bot.cd",
-                expire: "2027-07-25" },
-            { site: "dnshe.com", url: "https://my.dnshe.com/clientarea.php", account: "hm", domain: "thanatosolo.cn.mt",
-                expire: "2027-07-25" },
-            { site: "dnshe.com", url: "https://my.dnshe.com/clientarea.php", account: "hm", domain: "thanatos.cc.cd",
-                expire: "2027-07-24" },
-            { site: "localhost.cc", url: "https://localhost.cc/dashboard", account: "hm",
-                domain: "thanatosolo.localhost.cc", expire: "2027-07-26" },
-            { site: "domain.stackryze.com", url: "https://domain.stackryze.com/dashboard", account: "hm",
-                domain: "thanatos.nx.kg", expire: "2027-08-02" },
-            { site: "domain.stackryze.com", url: "https://domain.stackryze.com/dashboard", account: "hm",
-                domain: "thanatos.indevs.in", expire: "2027-08-02" },
-            { site: "duckdns.org", url: "https://www.duckdns.org/domains", account: "gm", domain: "thanatosolo.duckdns.org",
-                expire: null },
-            { site: "dynv6.com", url: "https://dynv6.com/", account: "hm", domain: "thanatosolo.v6.navy",
-            expire: null },
-            { site: "cloudns.net", url: "https://www.cloudns.net/main/", account: "hm", domain: "thanatosolo.cloud-ip.cc",
-                expire: null },
-            { site: "pwdns.org", url: "https://pwdns.org/", account: "163", domain: "待补充", expire: null }
-        ];
-
         // ============================================================
         // 工具函数
         // ============================================================
@@ -546,7 +527,7 @@
         // ============================================================
         // 分组
         // ============================================================
-        function getGroups() {
+        function getGroups(domains) {
             const groups = {};
             domains.forEach(item => {
                 const key = item.site;
@@ -569,8 +550,8 @@
         // ============================================================
         let currentView = localStorage.getItem('domainView') || 'card';
 
-        function render() {
-            const groups = getGroups();
+        function render(domains) {
+            const groups = getGroups(domains);
             const app = document.getElementById('app');
 
             if (currentView === 'card') {
@@ -656,13 +637,37 @@
         }
 
         // ============================================================
+        // 从 domains.json 加载数据
+        // ============================================================
+        async function loadDomains() {
+            try {
+                const response = await fetch('domains.json?t=' + Date.now());
+                if (!response.ok) {
+                    throw new Error('HTTP ' + response.status);
+                }
+                const data = await response.json();
+                render(data.domains);
+            } catch (error) {
+                console.error('加载数据失败:', error);
+                const app = document.getElementById('app');
+                app.innerHTML = `
+                    <div style="color:#f85149;font-size:16px;padding:40px 0;text-align:center;">
+                        ⚠️ 加载数据失败，请检查 domains.json 文件是否存在
+                        <br><span style="font-size:13px;color:#8b949e;">${error.message}</span>
+                    </div>
+                `;
+            }
+        }
+
+        // ============================================================
         // 切换视图
         // ============================================================
         document.querySelectorAll('.view-btn').forEach(btn => {
             btn.addEventListener('click', () => {
                 currentView = btn.dataset.view;
                 localStorage.setItem('domainView', currentView);
-                render();
+                // 重新加载数据并渲染
+                loadDomains();
             });
         });
 
@@ -742,7 +747,10 @@
         }
         drawTrail();
 
-        render();
+        // ============================================================
+        // 启动
+        // ============================================================
+        loadDomains();
     </script>
 </body>
 </html>

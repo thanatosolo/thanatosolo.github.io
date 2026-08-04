@@ -1,0 +1,20 @@
+{
+  "domains": [
+    { "site": "domain.digitalplat.org", "url": "https://dash.domain.digitalplat.org/dashboard", "account": "hm", "domain": "thanatosolo.dpdns.org", "expire": "2027-05-25" },
+    { "site": "katabump.com", "url": "https://dashboard.katabump.com/auth/login", "account": "hm", "domain": "thanatosolo.kdns.fr", "expire": null },
+    { "site": "nic.chenzhizuo.com", "url": "https://nic.chenzhizuo.com/user", "account": "163", "domain": "thanatosolo.beyond.wang", "expire": null },
+    { "site": "desec.io", "url": "https://desec.io/domains", "account": "163", "domain": "thanatos.dedyn.io", "expire": null },
+    { "site": "desec.io", "url": "https://desec.io/domains", "account": "hm", "domain": "thanatosolo.dedyn.io", "expire": null },
+    { "site": "dnshe.com", "url": "https://my.dnshe.com/clientarea.php", "account": "hm", "domain": "thanatosolo.bot.cd", "expire": "2027-07-25" },
+    { "site": "dnshe.com", "url": "https://my.dnshe.com/clientarea.php", "account": "hm", "domain": "thanatosolo.cn.mt", "expire": "2027-07-25" },
+    { "site": "dnshe.com", "url": "https://my.dnshe.com/clientarea.php", "account": "hm", "domain": "thanatos.cc.cd", "expire": "2027-07-24" },
+    { "site": "localhost.cc", "url": "https://localhost.cc/dashboard", "account": "hm", "domain": "thanatosolo.localhost.cc", "expire": "2027-07-26" },
+    { "site": "domain.stackryze.com", "url": "https://domain.stackryze.com/dashboard", "account": "hm", "domain": "thanatos.nx.kg", "expire": "2027-08-02" },
+    { "site": "domain.stackryze.com", "url": "https://domain.stackryze.com/dashboard", "account": "hm", "domain": "thanatos.indevs.in", "expire": "2027-08-02" },
+    { "site": "duckdns.org", "url": "https://www.duckdns.org/domains", "account": "gm", "domain": "thanatosolo.duckdns.org", "expire": null },
+    { "site": "dynv6.com", "url": "https://dynv6.com/", "account": "hm", "domain": "thanatosolo.v6.navy", "expire": null },
+    { "site": "cloudns.net", "url": "https://www.cloudns.net/main/", "account": "hm", "domain": "thanatosolo.cloud-ip.cc", "expire": null },
+    { "site": "pwdns.org", "url": "https://pwdns.org/", "account": "163", "domain": " ", "expire": null },
+    { "site": "DnsNeko", "url": "https://www.dnsneko.com//", "account": " ", "domain": "thanatos.zh.kg", "expire": "2027-08-02" }
+  ]
+}
