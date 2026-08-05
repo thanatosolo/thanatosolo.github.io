@@ -5,7 +5,6 @@
     { "site": "nic.chenzhizuo.com", "url": "https://nic.chenzhizuo.com/user", "account": "163", "domain": "thanatosolo.beyond.wang", "expire": null },
     { "site": "desec.io", "url": "https://desec.io/domains", "account": "163", "domain": "thanatos.dedyn.io", "expire": null },
     { "site": "desec.io", "url": "https://desec.io/domains", "account": "hm", "domain": "thanatosolo.dedyn.io", "expire": null },
-    { "site": "dnshe.com", "url": "https://my.dnshe.com/clientarea.php", "account": "hm", "domain": "thanatosolo.bot.cd", "expire": "2027-07-25" },
     { "site": "dnshe.com", "url": "https://my.dnshe.com/clientarea.php", "account": "hm", "domain": "thanatosolo.cn.mt", "expire": "2027-07-25" },
     { "site": "dnshe.com", "url": "https://my.dnshe.com/clientarea.php", "account": "hm", "domain": "thanatos.cc.cd", "expire": "2027-07-24" },
     { "site": "localhost.cc", "url": "https://localhost.cc/dashboard", "account": "hm", "domain": "thanatosolo.localhost.cc", "expire": "2027-07-26" },
