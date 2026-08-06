@@ -7,7 +7,7 @@
     { "icon": "💻", "name": "TTYD", "url": "http://ssh.thanatosolo.duckdns.org:8888" },
     { "icon": "🌱", "name": "QBittorrent", "url": "http://qb.thanatosolo.duckdns.org:8888" },
     { "icon": "🎬", "name": "Jellyfin", "url": "http://je.thanatosolo.duckdns.org:8888" },
-    { "icon": "🤖", "name": "111AI", "url": "http://ai.thanatosolo.duckdns.org:8888" },
+    { "icon": "🤖", "name": "AI", "url": "http://ai.thanatosolo.duckdns.org:8888" },
     { "icon": "☁️", "name": "webdav", "url": "http://dav.thanatosolo.duckdns.org:8888" }
   ]
 }
