@@ -148,10 +148,6 @@
             letter-spacing: 0.3px;
             white-space: nowrap;
         }
-        .card-site a:hover {
-            color: #79c0ff;
-            text-decoration: underline;
-        }
         .card-site .account {
             font-size: 11px;
             font-weight: 600;
@@ -169,13 +165,11 @@
             justify-content: space-between;
             padding: 5px 0;
             gap: 10px;
-            pointer-events: none;
             white-space: nowrap;
         }
 
         .card-domain .name {
             font-family: inherit;
-            color: #f0f6fc;
             font-size: 14px;
             font-weight: 600;
             letter-spacing: 0px;
@@ -184,6 +178,14 @@
             text-overflow: ellipsis;
             min-width: 0;
             flex-shrink: 1;
+        }
+        .card-domain .name a {
+            color:#79c0ff;
+            text-decoration:none;
+        }
+        .card-domain .name a:hover {
+            color:#a5d6ff;
+            text-decoration:underline;
         }
 
         .card-domain .expire {
@@ -245,10 +247,6 @@
             letter-spacing: 0.3px;
             white-space: nowrap;
         }
-        .list-view .site-header a:hover {
-            color: #79c0ff;
-            text-decoration: underline;
-        }
         .list-view .site-header .account {
             font-size: 11px;
             font-weight: 600;
@@ -268,7 +266,6 @@
             padding: 8px 20px;
             border-bottom: 1px solid rgba(33, 38, 45, 0.8);
             gap: 14px;
-            pointer-events: none;
             white-space: nowrap;
         }
         .list-view .domain-row:last-child {
@@ -278,12 +275,19 @@
             font-family: 'JetBrains Mono', 'Fira Code', 'SF Mono', monospace;
             font-size: 13px;
             font-weight: 400;
-            color: #f0f6fc;
             letter-spacing: 0px;
             flex: 1;
             min-width: 0;
             overflow: hidden;
             text-overflow: ellipsis;
+        }
+        .list-view .domain-row .name a {
+            color:#79c0ff;
+            text-decoration:none;
+        }
+        .list-view .domain-row .name a:hover {
+            color:#a5d6ff;
+            text-decoration:underline;
         }
         .list-view .domain-row .expire {
             font-size: 13px;
@@ -576,7 +580,7 @@
                             daysText = `${remain}d ⚠️`; } else { daysText = `${remain}d`; }
 
                         html += `<div class="card-domain">`;
-                        html += `<span class="name" title="${d.domain}">${d.domain}</span>`;
+                        html += `<span class="name" title="${d.domain}"><a href="https://${d.domain}" target="_blank" onclick="event.stopPropagation()">${d.domain}</a></span>`;
                         html += `<span class="expire">${formatExpire(d.expire)}</span>`;
                         html += `<span class="${daysClass}">${daysText}</span>`;
                         html += `</div>`;
@@ -614,7 +618,7 @@
                             daysText = `${remain}d ⚠️`; } else { daysText = `${remain}d`; }
 
                         html += `<div class="domain-row">`;
-                        html += `<span class="name" title="${d.domain}">${d.domain}</span>`;
+                        html += `<span class="name" title="${d.domain}"><a href="https://${d.domain}" target="_blank" onclick="event.stopPropagation()">${d.domain}</a></span>`;
                         html += `<span class="expire">${formatExpire(d.expire)}</span>`;
                         html += `<span class="${daysClass}">${daysText}</span>`;
                         html += `</div>`;
