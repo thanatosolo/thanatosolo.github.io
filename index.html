@@ -7,7 +7,6 @@
     <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>💀</text></svg>">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/aplayer@1.10.1/dist/APlayer.min.css">
     <style>
-        /* 全局重置与背景 */
         * {
             margin: 0;
             padding: 0;
@@ -15,7 +14,7 @@
         }
         body {
             min-height: 100vh;
-            background: url('https://pic1.imgdb.cn/i/033xh33EZ3PtL19TphPUL3.jpg') no-repeat center center;
+            background: url('111.jpg') no-repeat center center;
             background-size: cover;
             background-attachment: fixed;
             font-family: "Microsoft YaHei", "PingFang SC", "Inter", sans-serif;
@@ -209,18 +208,14 @@
             opacity: 1;
             transform: translateY(0) scale(1);
         }
-
-        /* ===== APlayer 固定模式 - 靠左，歌单宽度与播放器一致 ===== */
         .aplayer.aplayer-fixed {
             z-index: 999;
             max-width: 30% !important;
             width: 30% !important;
             min-width: 30% !important;
-            left: 0 !important;          /* 靠左 */
+            left: 0 !important;
             right: auto !important;
         }
-
-        /* 歌单列表：宽度与播放器完全一致 */
         .aplayer.aplayer-fixed .aplayer-list {
             width: 100% !important;
             max-width: 100% !important;
@@ -236,16 +231,12 @@
             box-shadow: 0 4px 20px rgba(0,0,0,0.1);
             box-sizing: border-box !important;
         }
-
-        /* 去除 ol 默认内边距 */
         .aplayer.aplayer-fixed .aplayer-list ol {
             padding: 0 !important;
             margin: 0 !important;
             list-style: none !important;
             width: 100% !important;
         }
-
-        /* 每一行：flex 布局，歌名与歌手均匀分布 */
         .aplayer.aplayer-fixed .aplayer-list ol li {
             display: flex !important;
             justify-content: space-between !important;
@@ -263,8 +254,6 @@
         .aplayer.aplayer-fixed .aplayer-list ol li:hover {
             background: #f5f5f5 !important;
         }
-
-        /* 歌名：flex:1 占据剩余空间 */
         .aplayer.aplayer-fixed .aplayer-list ol li .aplayer-list-title {
             color: #222 !important;
             font-weight: 500;
@@ -275,8 +264,6 @@
             padding-right: 8px !important;
             min-width: 0;
         }
-
-        /* 歌手：固定宽度，靠右 */
         .aplayer.aplayer-fixed .aplayer-list ol li .aplayer-list-author {
             color: #999 !important;
             font-size: 12px;
@@ -288,16 +275,12 @@
             margin-left: 0 !important;
             text-align: right;
         }
-
-        /* 当前播放高亮 */
         .aplayer.aplayer-fixed .aplayer-list ol li.aplayer-list-light {
             background: #e8f4ff !important;
         }
         .aplayer.aplayer-fixed .aplayer-list ol li.aplayer-list-light .aplayer-list-title {
             color: #2196F3 !important;
         }
-
-        /* 滚动条样式 */
         .aplayer.aplayer-fixed .aplayer-list::-webkit-scrollbar {
             width: 4px;
         }
@@ -312,8 +295,6 @@
         .aplayer.aplayer-fixed .aplayer-list::-webkit-scrollbar-thumb:hover {
             background: #aaa;
         }
-
-        /* 移动端适配 */
         @media (max-width: 600px) {
             .aplayer.aplayer-fixed {
                 max-width: 100% !important;
@@ -371,8 +352,6 @@
                 max-width: 35%;
             }
         }
-
-        /* ===== 自定义光标 ===== */
         #cursor {
             position: fixed;
             width: 60px;
@@ -468,20 +447,16 @@
         </div>
     </div>
     <div id="aplayer"></div>
-
     <script src="https://cdn.jsdelivr.net/npm/aplayer@1.10.1/dist/APlayer.min.js"></script>
     <script>
         document.getElementById('mainTitle').addEventListener('click', function(e) {
             e.stopPropagation();
             window.location.href = '/1/';
         });
-
         const STORAGE_KEY = 'linkTargetMode';
-
         function getOpenNewTab() {
             return localStorage.getItem(STORAGE_KEY) === '1';
         }
-
         function renderDomains(domains) {
             const container = document.getElementById('domainItemsContainer');
             container.innerHTML = '';
@@ -516,7 +491,6 @@
             });
             updateFade();
         }
-
         fetch('data.json?t=' + Date.now())
             .then(function(res) {
                 if (!res.ok) throw new Error('HTTP ' + res.status);
@@ -530,7 +504,6 @@
                 document.getElementById('domainItemsContainer').innerHTML =
                     '<div style="color:#f85149;font-size:16px;padding-left:18px;">⚠️ 加载 data.json 失败</div>';
             });
-
         let meting_music_api = "https://meting.noome.cn/api";
         let music_server = "netease";
         let music_type = "playlist";
@@ -538,7 +511,6 @@
         let music_volume = 0.3;
         let music_order = "random";
         let music_loop = "all";
-
         let ap = null;
         let musicTriggered = false;
 
@@ -556,6 +528,7 @@
                     order: music_order,
                     mutex: true
                 });
+                ap.volume(0.1);
             })
             .catch(err => {
                 console.error("Meting接口异常", err);
@@ -572,20 +545,21 @@
                         { name: "示例歌曲2", artist: "未知", url: "https://music.163.com/song/media/outer/url?id=27599066.mp3", cover: "" }
                     ]
                 });
+                ap.volume(0.1);
             });
 
+        // 修复：点击空白一次立刻锁死，后续永远不再触发播放
         document.body.addEventListener('click', function(e) {
             if (musicTriggered) return;
-            if (!ap) return;
-            if (!ap.audio.paused) return;
-
             var isDomainName = e.target.closest('.domain-name');
             var isSwitch = e.target.closest('.switch');
             var isPlayer = e.target.closest('.aplayer');
             var isTitle = e.target.closest('.title');
             if (!isDomainName && !isSwitch && !isPlayer && !isTitle) {
-                ap.play().catch(err => console.log("播放被浏览器阻止", err));
                 musicTriggered = true;
+                if (ap && ap.audio) {
+                    ap.play().catch(err => console.log("播放被浏览器阻止", err));
+                }
             }
         });
 
@@ -645,18 +619,15 @@
         const cursor = document.getElementById('cursor');
         const canvas = document.getElementById('trailCanvas');
         const ctx = canvas.getContext('2d');
-
         function resizeCanvas() {
             canvas.width = window.innerWidth;
             canvas.height = window.innerHeight;
         }
         resizeCanvas();
         window.addEventListener('resize', resizeCanvas);
-
         const trailPoints = [];
         const maxTrailLength = 64;
         let mouseX = 0, mouseY = 0;
-
         document.addEventListener('mousemove', function(e) {
             mouseX = e.clientX;
             mouseY = e.clientY;
@@ -665,7 +636,6 @@
             trailPoints.push({ x: mouseX, y: mouseY, alpha: 1 });
             if (trailPoints.length > maxTrailLength) trailPoints.shift();
         });
-
         function drawTrail() {
             ctx.clearRect(0, 0, canvas.width, canvas.height);
             for (var i = 1; i < trailPoints.length; i++) {
@@ -713,7 +683,6 @@
             requestAnimationFrame(drawTrail);
         }
         drawTrail();
-
         setTimeout(function() {
             updateFade();
         }, 100);
