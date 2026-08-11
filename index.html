@@ -606,43 +606,67 @@
         drawTrail();
         setTimeout(function() { updateFade(); }, 100);
 
-        // ============================================================
-        // 🎯 背景加载：完全消除从上往下扫描
-        // ============================================================
-        (function() {
-            const bgDiv = document.querySelector('.bg-layer');
-            const imageUrl = '111.jpg';
-            
-            // 创建隐藏的 Image 对象预加载图片
-            const img = new Image();
-            
-            img.onload = function() {
-                // ✅ 图片已完全解码，此时设置背景不会出现扫描
-                bgDiv.style.backgroundImage = "url('" + imageUrl + "')";
-                bgDiv.style.backgroundSize = 'cover';
-                bgDiv.style.backgroundPosition = 'center';
-                bgDiv.style.backgroundRepeat = 'no-repeat';
-                
-                // 先模糊
-                bgDiv.style.filter = 'blur(20px) scale(1.05)';
-                bgDiv.classList.add('ready');
-                
-                // 再清晰
-                setTimeout(function() {
-                    bgDiv.style.filter = 'blur(0px) scale(1)';
-                    bgDiv.classList.add('clear');
-                }, 150);
-            };
-            
-            img.onerror = function() {
-                bgDiv.style.background = '#1c1c2c';
-                bgDiv.classList.add('ready', 'clear');
-                console.warn('背景图片加载失败，使用纯色背景');
-            };
-            
-            // 开始预加载
-            img.src = imageUrl;
-        })();
+// ============================================================
+// 🎯 背景加载：多链接竞速 + 先模糊后清晰
+// ============================================================
+(function() {
+    const bgDiv = document.querySelector('.bg-layer');
+
+    // 📌 在这里配置你的多个图片链接（按速度从快到慢排列）
+    const imageUrls = [
+        'https://pic1.imgdb.cn/i/033xh33EZ3PtL19TphPUL3.jpg', // 图床（最快）
+        'https://www.thanatosolo.duckdns.org:8888/111.jpg',   // 你的服务器
+        '111.jpg'                                              // 本地兜底
+    ];
+
+    let isImageLoaded = false;
+
+    imageUrls.forEach((url) => {
+        const img = new Image();
+
+        img.onload = function() {
+            // 只处理第一个加载完成的
+            if (isImageLoaded) return;
+            isImageLoaded = true;
+
+            console.log('✅ 使用图片:', url);
+
+            // 设置背景
+            bgDiv.style.backgroundImage = "url('" + url + "')";
+            bgDiv.style.backgroundSize = 'cover';
+            bgDiv.style.backgroundPosition = 'center';
+            bgDiv.style.backgroundRepeat = 'no-repeat';
+
+            // 先模糊
+            bgDiv.style.filter = 'blur(20px) scale(1.05)';
+            bgDiv.classList.add('ready');
+
+            // 再清晰
+            setTimeout(function() {
+                bgDiv.style.filter = 'blur(0px) scale(1)';
+                bgDiv.classList.add('clear');
+            }, 150);
+        };
+
+        img.onerror = function() {
+            console.warn('❌ 图片加载失败:', url);
+            // 如果所有链接都失败，用纯色背景
+            // 但这里我们不需要额外操作，因为最后一个失败后会自动用纯色
+        };
+
+        // 开始加载
+        img.src = url;
+    });
+
+    // 兜底：如果所有链接都失败，5秒后强制显示纯色
+    setTimeout(function() {
+        if (!isImageLoaded) {
+            bgDiv.style.background = '#1c1c2c';
+            bgDiv.classList.add('ready', 'clear');
+            console.warn('所有图片加载失败，使用纯色背景');
+        }
+    }, 5000);
+})();
     </script>
 </body>
 </html>
