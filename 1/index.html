@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>THANATOSOLO</title>
     <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>💀</text></svg>">
-    <link rel="preload" href="111.jpg" as="image" fetchpriority="high">
     <style>
         * {
             margin: 0;
@@ -24,8 +23,6 @@
             position: fixed;
             inset: 0;
             z-index: 1;
-            /* 初始：没有背景图！！只有纯色底色 */
-            /* background:url 移走，JS加载完成再注入 */
             filter: blur(16px) scale(1.04);
             transition: filter 1.2s ease-out, transform 1.2s ease-out;
             opacity:0;
@@ -323,7 +320,6 @@
             .domain-item .full-url { font-size: 12px; top: 110%; left: 12px; }
             #cursor { width: 44px; height: 44px; }
         }
-        /* 加载状态提示 */
         .loading {
             color: #8b949e;
             font-size: 18px;
@@ -460,7 +456,6 @@
                 `;
                 container.appendChild(div);
             });
-            // 重新绑定点击事件
             document.querySelectorAll('.domain-item').forEach(el => {
                 el.addEventListener('click', function(e) {
                     e.stopPropagation();
@@ -472,7 +467,6 @@
                     }
                 });
             });
-            // 重新应用滚动淡出效果
             updateFade();
         }
         async function loadDomains() {
@@ -542,20 +536,46 @@
         // ---------- 启动 ----------
         loadDomains();
 
-        // 背景：完整下载解码完，才显示图片，杜绝从上往下扫描
-        const bgImg = new Image();
-        bgImg.src = "111.jpg";
-        bgImg.decode().then(()=>{
+        // ============================================================
+        // 🎯 背景加载：多链接竞速 + 先模糊后清晰（无播放器版）
+        // ============================================================
+        (function() {
             const bgDiv = document.querySelector('.bg-layer');
-            bgDiv.style.background = "url('111.jpg') center/cover no-repeat";
-            bgDiv.classList.add('ready');
-            // 短暂延时，先完整显示模糊整张，再过渡清晰
-            setTimeout(()=>{
-                bgDiv.classList.add('load-done');
-            }, 80);
-        }).catch(err=>{
-            console.warn("背景图加载失败",err);
-        });
+
+            const imageUrls = [
+                'https://pic1.imgdb.cn/i/033xh33EZ3PtL19TphPUL3.jpg',
+                'https://www.thanatosolo.duckdns.org:8888/111.jpg',
+                '111.jpg'
+            ];
+
+            let isImageLoaded = false;
+
+            imageUrls.forEach((url) => {
+                const img = new Image();
+                img.onload = function() {
+                    if (isImageLoaded) return;
+                    isImageLoaded = true;
+                    console.log('✅ 使用图片:', url);
+                    bgDiv.style.background = "url('" + url + "') center/cover no-repeat";
+                    bgDiv.classList.add('ready');
+                    setTimeout(function() {
+                        bgDiv.classList.add('load-done');
+                    }, 150);
+                };
+                img.onerror = function() {
+                    console.warn('❌ 图片加载失败:', url);
+                };
+                img.src = url;
+            });
+
+            setTimeout(function() {
+                if (!isImageLoaded) {
+                    bgDiv.style.background = '#1c1c2c';
+                    bgDiv.classList.add('ready', 'load-done');
+                    console.warn('所有图片加载失败，使用纯色背景');
+                }
+            }, 5000);
+        })();
     </script>
 </body>
 </html>
