@@ -5,14 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>THANATOSOLO</title>
     <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>💀</text></svg>">
-    <link rel="preload" href="111.jpg" as="image" fetchpriority="high">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/aplayer@1.10.1/dist/APlayer.min.css">
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
             min-height: 100vh;
             background-color: #1c1c2c;
@@ -22,25 +17,27 @@
             user-select: none;
             padding-bottom: 70px;
         }
+        /* ===== 背景层：完全由 JS 控制显示 ===== */
         .bg-layer {
             position: fixed;
             inset: 0;
             z-index: 1;
-            background: #1c1c2c; /* 占位色，和 body 背景一致 */
+            background: #1c1c2c; /* 始终保留占位色，防止白屏 */
             background-size: cover;
             background-position: center;
             background-repeat: no-repeat;
             opacity: 0;
-            transition: opacity 0.6s ease-out, filter 1.2s ease-out, transform 1.2s ease-out;
+            transition: opacity 0.8s ease-out, filter 1.2s ease-out, transform 1.2s ease-out;
             filter: blur(20px) scale(1.05);
+            will-change: opacity, filter, transform;
         }
         .bg-layer.ready {
-            opacity: 1;
+            opacity: 1; /* 图片加载完后才淡入 */
         }
         .bg-layer.clear {
-            filter: blur(0px) scale(1);
+            filter: blur(0px) scale(1); /* 变清晰 */
         }
-        /* 其余样式保持不变... */
+        /* ===== 其余样式保持不变 ===== */
         .container {
             position: relative;
             z-index: 2;
@@ -109,17 +106,10 @@
             width: 50px;
             height: 24px;
         }
-        .switch input {
-            opacity: 0;
-            width: 0;
-            height: 0;
-        }
+        .switch input { opacity: 0; width: 0; height: 0; }
         .slider {
             position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
+            top: 0; left: 0; right: 0; bottom: 0;
             background: rgba(20, 30, 50, 0.5);
             backdrop-filter: blur(6px);
             border-radius: 24px;
@@ -130,10 +120,8 @@
         .slider:before {
             position: absolute;
             content: "";
-            height: 18px;
-            width: 18px;
-            left: 3px;
-            bottom: 2px;
+            height: 18px; width: 18px;
+            left: 3px; bottom: 2px;
             background: radial-gradient(circle at 30% 30%, #f0f0ff, #b0b8ff);
             border-radius: 50%;
             transition: 0.4s cubic-bezier(0.23, 1, 0.32, 1);
@@ -198,9 +186,7 @@
             filter: blur(1px);
             box-shadow: 0 0 12px #a070ff;
         }
-        .domain-name:hover::after {
-            width: 100%;
-        }
+        .domain-name:hover::after { width: 100%; }
         .domain-item .full-url {
             position: absolute;
             top: 100%;
@@ -246,7 +232,7 @@
             max-height: 300px;
             overflow-y: auto;
             background: #ffffff !important;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
             box-sizing: border-box !important;
         }
         .aplayer.aplayer-fixed .aplayer-list ol {
@@ -269,9 +255,7 @@
             box-sizing: border-box !important;
             list-style: none !important;
         }
-        .aplayer.aplayer-fixed .aplayer-list ol li:hover {
-            background: #f5f5f5 !important;
-        }
+        .aplayer.aplayer-fixed .aplayer-list ol li:hover { background: #f5f5f5 !important; }
         .aplayer.aplayer-fixed .aplayer-list ol li .aplayer-list-title {
             color: #222 !important;
             font-weight: 500;
@@ -293,26 +277,12 @@
             margin-left: 0 !important;
             text-align: right;
         }
-        .aplayer.aplayer-fixed .aplayer-list ol li.aplayer-list-light {
-            background: #e8f4ff !important;
-        }
-        .aplayer.aplayer-fixed .aplayer-list ol li.aplayer-list-light .aplayer-list-title {
-            color: #2196F3 !important;
-        }
-        .aplayer.aplayer-fixed .aplayer-list::-webkit-scrollbar {
-            width: 4px;
-        }
-        .aplayer.aplayer-fixed .aplayer-list::-webkit-scrollbar-track {
-            background: #f0f0f0;
-            border-radius: 4px;
-        }
-        .aplayer.aplayer-fixed .aplayer-list::-webkit-scrollbar-thumb {
-            background: #ccc;
-            border-radius: 4px;
-        }
-        .aplayer.aplayer-fixed .aplayer-list::-webkit-scrollbar-thumb:hover {
-            background: #aaa;
-        }
+        .aplayer.aplayer-fixed .aplayer-list ol li.aplayer-list-light { background: #e8f4ff !important; }
+        .aplayer.aplayer-fixed .aplayer-list ol li.aplayer-list-light .aplayer-list-title { color: #2196F3 !important; }
+        .aplayer.aplayer-fixed .aplayer-list::-webkit-scrollbar { width: 4px; }
+        .aplayer.aplayer-fixed .aplayer-list::-webkit-scrollbar-track { background: #f0f0f0; border-radius: 4px; }
+        .aplayer.aplayer-fixed .aplayer-list::-webkit-scrollbar-thumb { background: #ccc; border-radius: 4px; }
+        .aplayer.aplayer-fixed .aplayer-list::-webkit-scrollbar-thumb:hover { background: #aaa; }
         @media (max-width: 600px) {
             .aplayer.aplayer-fixed {
                 max-width: 100% !important;
@@ -320,55 +290,19 @@
                 min-width: 100% !important;
                 left: 0 !important;
             }
-            .aplayer.aplayer-fixed .aplayer-list {
-                max-height: 200px;
-            }
-            body {
-                padding-bottom: 60px;
-            }
-            .title {
-                font-size: 24px;
-                letter-spacing: 4px;
-            }
-            .domain-item {
-                font-size: 20px;
-            }
-            #cursor {
-                width: 44px;
-                height: 44px;
-            }
-            .container {
-                padding: 4vh 4vw;
-                gap: 32px;
-            }
-            .sticky-area {
-                top: 4vh;
-                gap: 32px;
-            }
-            .switch {
-                width: 42px;
-                height: 20px;
-            }
-            .slider:before {
-                height: 14px;
-                width: 14px;
-                left: 3px;
-                bottom: 2px;
-            }
-            input:checked+.slider:before {
-                transform: translateX(22px);
-            }
-            .domain-item .full-url {
-                font-size: 12px;
-                top: 100%;
-                left: 12px;
-            }
-            #domainItemsContainer {
-                gap: 20px;
-            }
-            .aplayer.aplayer-fixed .aplayer-list ol li .aplayer-list-author {
-                max-width: 35%;
-            }
+            .aplayer.aplayer-fixed .aplayer-list { max-height: 200px; }
+            body { padding-bottom: 60px; }
+            .title { font-size: 24px; letter-spacing: 4px; }
+            .domain-item { font-size: 20px; }
+            #cursor { width: 44px; height: 44px; }
+            .container { padding: 4vh 4vw; gap: 32px; }
+            .sticky-area { top: 4vh; gap: 32px; }
+            .switch { width: 42px; height: 20px; }
+            .slider:before { height: 14px; width: 14px; left: 3px; bottom: 2px; }
+            input:checked+.slider:before { transform: translateX(22px); }
+            .domain-item .full-url { font-size: 12px; top: 100%; left: 12px; }
+            #domainItemsContainer { gap: 20px; }
+            .aplayer.aplayer-fixed .aplayer-list ol li .aplayer-list-author { max-width: 35%; }
         }
         #cursor {
             position: fixed;
@@ -381,8 +315,7 @@
             filter: drop-shadow(0 0 20px #b080ff);
         }
         .ring-outer {
-            width: 100%;
-            height: 100%;
+            width: 100%; height: 100%;
             border: 1.8px solid rgba(160, 220, 255, 0.9);
             border-radius: 50%;
             animation: rotateSlow 12s linear infinite;
@@ -390,71 +323,44 @@
         }
         .ring-inner {
             position: absolute;
-            width: 60%;
-            height: 60%;
+            width: 60%; height: 60%;
             border: 2.5px solid rgba(255, 140, 220, 0.9);
             border-radius: 50%;
-            top: 50%;
-            left: 50%;
+            top: 50%; left: 50%;
             transform: translate(-50%, -50%);
             animation: rotateReverse 8s linear infinite, pulseGlow 2.8s ease-in-out infinite;
             box-shadow: 0 0 28px #ff70c0, 0 0 50px #b050ff;
         }
         .center-dot {
             position: absolute;
-            width: 10px;
-            height: 10px;
+            width: 10px; height: 10px;
             background: radial-gradient(circle, #ffffff, #b0a0ff);
             border-radius: 50%;
-            top: 50%;
-            left: 50%;
+            top: 50%; left: 50%;
             transform: translate(-50%, -50%);
             box-shadow: 0 0 30px #ffffff, 0 0 60px #8060ff, 0 0 100px #a070ff;
             animation: pulseDot 2s ease-in-out infinite alternate;
         }
         @keyframes rotateSlow {
-            from {
-                transform: rotate(0deg);
-            }
-            to {
-                transform: rotate(360deg);
-            }
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
         }
         @keyframes rotateReverse {
-            from {
-                transform: translate(-50%, -50%) rotate(360deg);
-            }
-            to {
-                transform: translate(-50%, -50%) rotate(0deg);
-            }
+            from { transform: translate(-50%, -50%) rotate(360deg); }
+            to { transform: translate(-50%, -50%) rotate(0deg); }
         }
         @keyframes pulseGlow {
-            0%,
-            100% {
-                transform: translate(-50%, -50%) scale(1);
-                opacity: 0.8;
-            }
-            50% {
-                transform: translate(-50%, -50%) scale(1.3);
-                opacity: 1;
-            }
+            0%, 100% { transform: translate(-50%, -50%) scale(1); opacity: 0.8; }
+            50% { transform: translate(-50%, -50%) scale(1.3); opacity: 1; }
         }
         @keyframes pulseDot {
-            0% {
-                transform: translate(-50%, -50%) scale(1);
-                box-shadow: 0 0 30px #fff, 0 0 60px #8060ff;
-            }
-            100% {
-                transform: translate(-50%, -50%) scale(1.3);
-                box-shadow: 0 0 50px #ffb0ff, 0 0 100px #a070ff;
-            }
+            0% { transform: translate(-50%, -50%) scale(1); box-shadow: 0 0 30px #fff, 0 0 60px #8060ff; }
+            100% { transform: translate(-50%, -50%) scale(1.3); box-shadow: 0 0 50px #ffb0ff, 0 0 100px #a070ff; }
         }
         #trailCanvas {
             position: fixed;
-            top: 0;
-            left: 0;
-            width: 100vw;
-            height: 100vh;
+            top: 0; left: 0;
+            width: 100vw; height: 100vh;
             pointer-events: none;
             z-index: 9998;
             mix-blend-mode: screen;
@@ -487,19 +393,14 @@
         </div>
     </div>
     <div id="aplayer"></div>
-    <script src="https://cdn.jsdelivr.net/npm/aplayer@1.10.1/dist/APlayer.min.js">
-    </script>
+    <script src="https://cdn.jsdelivr.net/npm/aplayer@1.10.1/dist/APlayer.min.js"></script>
     <script>
         document.getElementById('mainTitle').addEventListener('click', function(e) {
             e.stopPropagation();
             window.location.href = '/1/';
         });
         const STORAGE_KEY = 'linkTargetMode';
-
-        function getOpenNewTab() {
-            return localStorage.getItem(STORAGE_KEY) === '1';
-        }
-
+        function getOpenNewTab() { return localStorage.getItem(STORAGE_KEY) === '1'; }
         function renderDomains(domains) {
             const container = document.getElementById('domainItemsContainer');
             container.innerHTML = '';
@@ -525,11 +426,8 @@
                 el.addEventListener('click', function(e) {
                     e.stopPropagation();
                     const url = this.dataset.href;
-                    if (getOpenNewTab()) {
-                        window.open(url, '_blank');
-                    } else {
-                        location.href = url;
-                    }
+                    if (getOpenNewTab()) window.open(url, '_blank');
+                    else location.href = url;
                 });
             });
             updateFade();
@@ -539,13 +437,10 @@
                 if (!res.ok) throw new Error('HTTP ' + res.status);
                 return res.json();
             })
-            .then(function(data) {
-                renderDomains(data.domains);
-            })
+            .then(function(data) { renderDomains(data.domains); })
             .catch(function(err) {
                 console.error('加载 data.json 失败:', err);
-                document.getElementById('domainItemsContainer').innerHTML =
-                    '<div style="color:#f85149;font-size:16px;padding-left:18px;">⚠️ 加载 data.json 失败</div>';
+                document.getElementById('domainItemsContainer').innerHTML = '<div style="color:#f85149;font-size:16px;padding-left:18px;">⚠️ 加载 data.json 失败</div>';
             });
         let meting_music_api = "https://meting.noome.cn/api";
         let music_server = "netease";
@@ -597,9 +492,7 @@
             var isTitle = e.target.closest('.title');
             if (!isDomainName && !isSwitch && !isPlayer && !isTitle) {
                 musicTriggered = true;
-                if (ap && ap.audio) {
-                    ap.play().catch(err => console.log("播放被浏览器阻止", err));
-                }
+                if (ap && ap.audio) ap.play().catch(err => console.log("播放被浏览器阻止", err));
             }
         });
         const targetSwitch = document.getElementById('targetSwitch');
@@ -607,7 +500,6 @@
         targetSwitch.addEventListener('change', function() {
             localStorage.setItem(STORAGE_KEY, this.checked ? '1' : '0');
         });
-
         function updateFade() {
             var items = document.querySelectorAll('.domain-item');
             if (items.length === 0) return;
@@ -621,19 +513,13 @@
                 var distanceFromTop = itemCenter - topFadeLine;
                 var topFadeDistance = rect.height * 2;
                 var topOpacity = 1;
-                if (distanceFromTop < 0) {
-                    topOpacity = 0;
-                } else if (distanceFromTop < topFadeDistance) {
-                    topOpacity = 1 - (1 - distanceFromTop / topFadeDistance);
-                }
+                if (distanceFromTop < 0) topOpacity = 0;
+                else if (distanceFromTop < topFadeDistance) topOpacity = 1 - (1 - distanceFromTop / topFadeDistance);
                 var distanceFromBottom = bottomFadeLine - bottomReserve - itemCenter;
                 var bottomFadeDistance = rect.height * 2;
                 var bottomOpacity = 1;
-                if (distanceFromBottom < 0) {
-                    bottomOpacity = 0;
-                } else if (distanceFromBottom < bottomFadeDistance) {
-                    bottomOpacity = 1 - (1 - distanceFromBottom / bottomFadeDistance);
-                }
+                if (distanceFromBottom < 0) bottomOpacity = 0;
+                else if (distanceFromBottom < bottomFadeDistance) bottomOpacity = 1 - (1 - distanceFromBottom / bottomFadeDistance);
                 var finalOpacity = Math.min(topOpacity, bottomOpacity);
                 finalOpacity = Math.max(0, Math.min(1, finalOpacity));
                 item.style.opacity = finalOpacity;
@@ -650,13 +536,10 @@
                 ticking = true;
             }
         });
-        window.addEventListener('resize', function() {
-            updateFade();
-        });
+        window.addEventListener('resize', function() { updateFade(); });
         const cursor = document.getElementById('cursor');
         const canvas = document.getElementById('trailCanvas');
         const ctx = canvas.getContext('2d');
-
         function resizeCanvas() {
             canvas.width = window.innerWidth;
             canvas.height = window.innerHeight;
@@ -665,8 +548,7 @@
         window.addEventListener('resize', resizeCanvas);
         const trailPoints = [];
         const maxTrailLength = 64;
-        let mouseX = 0,
-            mouseY = 0;
+        let mouseX = 0, mouseY = 0;
         document.addEventListener('mousemove', function(e) {
             mouseX = e.clientX;
             mouseY = e.clientY;
@@ -675,7 +557,6 @@
             trailPoints.push({ x: mouseX, y: mouseY, alpha: 1 });
             if (trailPoints.length > maxTrailLength) trailPoints.shift();
         });
-
         function drawTrail() {
             ctx.clearRect(0, 0, canvas.width, canvas.height);
             for (var i = 1; i < trailPoints.length; i++) {
@@ -723,37 +604,45 @@
             requestAnimationFrame(drawTrail);
         }
         drawTrail();
-        setTimeout(function() {
-            updateFade();
-        }, 100);
+        setTimeout(function() { updateFade(); }, 100);
 
-// ============================================================
-// 🎯 背景加载：先模糊后清晰（使用本地图片）
-// ============================================================
-(function() {
-    const bgDiv = document.querySelector('.bg-layer');
-    const imageUrl = '111.jpg'; // 直接用同目录下的图片
-    
-    // 立即显示模糊背景
-    bgDiv.style.backgroundImage = "url('" + imageUrl + "')";
-    bgDiv.style.backgroundSize = 'cover';
-    bgDiv.style.backgroundPosition = 'center';
-    bgDiv.classList.add('ready');
-    
-    // 加载完成后变清晰
-    const img = new Image();
-    img.onload = function() {
-        setTimeout(function() {
-            bgDiv.classList.add('clear');
-        }, 150);
-    };
-    img.onerror = function() {
-        // 加载失败 → 纯色
-        bgDiv.style.backgroundImage = 'none';
-        bgDiv.style.backgroundColor = '#1c1c2c';
-        bgDiv.classList.add('clear');
-    };
-    img.src = imageUrl;
-})();    </script>
+        // ============================================================
+        // 🎯 背景加载：完全消除从上往下扫描
+        // ============================================================
+        (function() {
+            const bgDiv = document.querySelector('.bg-layer');
+            const imageUrl = '111.jpg';
+            
+            // 创建隐藏的 Image 对象预加载图片
+            const img = new Image();
+            
+            img.onload = function() {
+                // ✅ 图片已完全解码，此时设置背景不会出现扫描
+                bgDiv.style.backgroundImage = "url('" + imageUrl + "')";
+                bgDiv.style.backgroundSize = 'cover';
+                bgDiv.style.backgroundPosition = 'center';
+                bgDiv.style.backgroundRepeat = 'no-repeat';
+                
+                // 先模糊
+                bgDiv.style.filter = 'blur(20px) scale(1.05)';
+                bgDiv.classList.add('ready');
+                
+                // 再清晰
+                setTimeout(function() {
+                    bgDiv.style.filter = 'blur(0px) scale(1)';
+                    bgDiv.classList.add('clear');
+                }, 150);
+            };
+            
+            img.onerror = function() {
+                bgDiv.style.background = '#1c1c2c';
+                bgDiv.classList.add('ready', 'clear');
+                console.warn('背景图片加载失败，使用纯色背景');
+            };
+            
+            // 开始预加载
+            img.src = imageUrl;
+        })();
+    </script>
 </body>
 </html>
