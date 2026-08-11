@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>THANATOSOLO</title>
     <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>💀</text></svg>">
+    <link rel="preload" href="111.jpg" as="image" fetchpriority="high">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/aplayer@1.10.1/dist/APlayer.min.css">
     <style>
         * {
@@ -14,14 +15,23 @@
         }
         body {
             min-height: 100vh;
-            background: url('111.jpg') no-repeat center center;
-            background-size: cover;
-            background-attachment: fixed;
+            background-color:#1c1c2c;
             font-family: "Microsoft YaHei", "PingFang SC", "Inter", sans-serif;
             overflow-x: hidden;
             cursor: none;
             user-select: none;
             padding-bottom: 70px;
+        }
+        .bg-layer{
+            position: fixed;
+            inset: 0;
+            z-index: 1;
+            background: url("111.jpg") center/cover no-repeat;
+            filter: blur(16px) scale(1.04);
+            transition: filter 1.2s ease-out, transform 1.2s ease-out;
+        }
+        .bg-layer.load-done{
+            filter: blur(0px) scale(1);
         }
         .container {
             position: relative;
@@ -423,6 +433,7 @@
     </style>
 </head>
 <body>
+    <div class="bg-layer"></div>
     <canvas id="trailCanvas"></canvas>
     <div id="cursor">
         <div class="ring-outer"></div>
@@ -513,7 +524,6 @@
         let music_loop = "all";
         let ap = null;
         let musicTriggered = false;
-
         fetch(`${meting_music_api}?server=${music_server}&type=${music_type}&id=${music_id}`)
             .then(res => res.json())
             .then(songList => {
@@ -547,7 +557,6 @@
                 });
                 ap.volume(0.1);
             });
-
         // 修复：点击空白一次立刻锁死，后续永远不再触发播放
         document.body.addEventListener('click', function(e) {
             if (musicTriggered) return;
@@ -562,13 +571,11 @@
                 }
             }
         });
-
         const targetSwitch = document.getElementById('targetSwitch');
         targetSwitch.checked = getOpenNewTab();
         targetSwitch.addEventListener('change', function() {
             localStorage.setItem(STORAGE_KEY, this.checked ? '1' : '0');
         });
-
         function updateFade() {
             var items = document.querySelectorAll('.domain-item');
             if (items.length === 0) return;
@@ -601,7 +608,6 @@
                 item.style.pointerEvents = finalOpacity < 0.1 ? 'none' : 'auto';
             });
         }
-
         var ticking = false;
         window.addEventListener('scroll', function() {
             if (!ticking) {
@@ -615,7 +621,6 @@
         window.addEventListener('resize', function() {
             updateFade();
         });
-
         const cursor = document.getElementById('cursor');
         const canvas = document.getElementById('trailCanvas');
         const ctx = canvas.getContext('2d');
@@ -686,6 +691,12 @@
         setTimeout(function() {
             updateFade();
         }, 100);
+        //背景图模糊转清晰
+        const bgImg = new Image();
+        bgImg.src = "111.jpg";
+        bgImg.onload = function(){
+            document.querySelector('.bg-layer').classList.add('load-done');
+        }
     </script>
 </body>
 </html>
