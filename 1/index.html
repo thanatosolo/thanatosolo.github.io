@@ -5,24 +5,37 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>THANATOSOLO</title>
     <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>💀</text></svg>">
+    <link rel="preload" href="111.jpg" as="image" fetchpriority="high">
     <style>
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
         }
-
         body {
             min-height: 100vh;
-            background: url('111.jpg') no-repeat center center;
-            background-size: cover;
-            background-attachment: fixed;
+            background-color:#1c1c2c;
             font-family: "Microsoft YaHei", "PingFang SC", "Inter", sans-serif;
             overflow-x: hidden;
             cursor: none;
             user-select: none;
         }
-
+        .bg-layer{
+            position: fixed;
+            inset: 0;
+            z-index: 1;
+            /* 初始：没有背景图！！只有纯色底色 */
+            /* background:url 移走，JS加载完成再注入 */
+            filter: blur(16px) scale(1.04);
+            transition: filter 1.2s ease-out, transform 1.2s ease-out;
+            opacity:0;
+        }
+        .bg-layer.ready{
+            opacity:1;
+        }
+        .bg-layer.load-done{
+            filter: blur(0px) scale(1);
+        }
         .container {
             position: relative;
             z-index: 2;
@@ -34,7 +47,6 @@
             padding: 6vh 4vw;
             gap: 48px;
         }
-
         .sticky-area {
             position: sticky;
             top: 6vh;
@@ -45,14 +57,12 @@
             gap: 48px;
             background: transparent;
         }
-
         .title-wrap {
             display: flex;
             align-items: center;
             gap: 26px;
             flex-wrap: wrap;
         }
-
         .title {
             font-size: 32px;
             font-weight: 800;
@@ -68,17 +78,14 @@
             cursor: pointer;
             transition: transform 0.3s ease, filter 0.3s ease;
         }
-
         .title:hover {
             transform: scale(1.04);
             filter: brightness(1.3);
         }
-
         @keyframes textRainbowFlow {
             0% { background-position: 0% 50%; }
             100% { background-position: 400% 50%; }
         }
-
         .switch-box {
             display: flex;
             align-items: center;
@@ -93,20 +100,17 @@
             backdrop-filter: none;
             flex-shrink: 0;
         }
-
         .switch {
             position: relative;
             display: inline-block;
             width: 50px;
             height: 24px;
         }
-
         .switch input {
             opacity: 0;
             width: 0;
             height: 0;
         }
-
         .slider {
             position: absolute;
             cursor: none;
@@ -121,7 +125,6 @@
             border: 1px solid rgba(255, 255, 255, 0.2);
             box-shadow: inset 0 0 6px rgba(0,0,0,0.6);
         }
-
         .slider:before {
             position: absolute;
             content: "";
@@ -134,19 +137,16 @@
             transition: 0.4s cubic-bezier(0.23, 1, 0.32, 1);
             box-shadow: 0 0 16px #9f7aff, 0 0 30px #7f5aff;
         }
-
         input:checked + .slider {
             background: rgba(140, 70, 200, 0.45);
             border-color: #b580ff;
             box-shadow: 0 0 24px rgba(170, 100, 255, 0.4), inset 0 0 10px rgba(200, 150, 255, 0.3);
         }
-
         input:checked + .slider:before {
             transform: translateX(26px);
             background: radial-gradient(circle at 30% 30%, #ffffff, #c8a0ff);
             box-shadow: 0 0 30px #b080ff, 0 0 60px #9055ff;
         }
-
         .domain-list {
             display: flex;
             flex-direction: column;
@@ -155,7 +155,6 @@
             width: 100%;
             max-width: 750px;
         }
-
         .domain-item {
             position: relative;
             padding: 8px 8px 8px 18px;
@@ -179,19 +178,16 @@
             width: 100%;
             flex-wrap: wrap;
         }
-
         .domain-item .icon {
             font-size: 26px;
             line-height: 1;
             filter: drop-shadow(0 0 6px rgba(180, 130, 255, 0.3));
         }
-
         .domain-item .name {
             font-weight: 600;
             color: #f0f0f8;
             letter-spacing: 1px;
         }
-
         .domain-item .full-url {
             position: absolute;
             top: 112%;
@@ -216,12 +212,10 @@
             border: 1px solid rgba(255,255,255,0.08);
             z-index: 10;
         }
-
         .domain-item:hover .full-url {
             opacity: 1;
             transform: translateY(0) scale(1);
         }
-
         .domain-item::after {
             content: '';
             position: absolute;
@@ -234,7 +228,6 @@
             filter: blur(1px);
             box-shadow: 0 0 12px #a070ff;
         }
-
         .domain-item:hover {
             transform: translateY(-3px) scale(1.01);
             color: #ffffff;
@@ -246,11 +239,9 @@
                 0 0 28px #8050c0;
             border-left: 2px solid rgba(200, 150, 255, 0.7);
         }
-
         .domain-item:hover::after {
             width: calc(100% - 18px);
         }
-
         #cursor {
             position: fixed;
             width: 60px;
@@ -261,7 +252,6 @@
             mix-blend-mode: screen;
             filter: drop-shadow(0 0 20px #b080ff);
         }
-
         .ring-outer {
             width: 100%;
             height: 100%;
@@ -270,7 +260,6 @@
             animation: rotateSlow 12s linear infinite;
             box-shadow: 0 0 30px rgba(100, 180, 255, 0.3), inset 0 0 30px rgba(100, 180, 255, 0.1);
         }
-
         .ring-inner {
             position: absolute;
             width: 60%;
@@ -283,7 +272,6 @@
             animation: rotateReverse 8s linear infinite, pulseGlow 2.8s ease-in-out infinite;
             box-shadow: 0 0 28px #ff70c0, 0 0 50px #b050ff;
         }
-
         .center-dot {
             position: absolute;
             width: 10px;
@@ -296,7 +284,6 @@
             box-shadow: 0 0 30px #ffffff, 0 0 60px #8060ff, 0 0 100px #a070ff;
             animation: pulseDot 2s ease-in-out infinite alternate;
         }
-
         @keyframes rotateSlow {
             from { transform: rotate(0deg); }
             to { transform: rotate(360deg); }
@@ -313,7 +300,6 @@
             0% { transform: translate(-50%, -50%) scale(1); box-shadow: 0 0 30px #fff, 0 0 60px #8060ff; }
             100% { transform: translate(-50%, -50%) scale(1.3); box-shadow: 0 0 50px #ffb0ff, 0 0 100px #a070ff; }
         }
-
         #trailCanvas {
             position: fixed;
             top: 0;
@@ -324,7 +310,6 @@
             z-index: 9998;
             mix-blend-mode: screen;
         }
-
         @media (max-width: 600px) {
             .container { padding: 4vh 4vw; gap: 32px; }
             .sticky-area { top: 4vh; gap: 32px; }
@@ -338,7 +323,6 @@
             .domain-item .full-url { font-size: 12px; top: 110%; left: 12px; }
             #cursor { width: 44px; height: 44px; }
         }
-
         /* 加载状态提示 */
         .loading {
             color: #8b949e;
@@ -360,13 +344,13 @@
     </style>
 </head>
 <body>
+    <div class="bg-layer"></div>
     <canvas id="trailCanvas"></canvas>
     <div id="cursor">
         <div class="ring-outer"></div>
         <div class="ring-inner"></div>
         <div class="center-dot"></div>
     </div>
-
     <div class="container">
         <div class="sticky-area" id="stickyArea">
             <div class="title-wrap">
@@ -380,63 +364,51 @@
                 </label>
             </div>
         </div>
-
         <div class="domain-list" id="domainList">
             <div class="loading">加载中</div>
         </div>
     </div>
-
     <script>
         // ---------- 光标 + 残影 ----------
         const cursor = document.getElementById('cursor');
         const canvas = document.getElementById('trailCanvas');
         const ctx = canvas.getContext('2d');
-
         function resizeCanvas() {
             canvas.width = window.innerWidth;
             canvas.height = window.innerHeight;
         }
         resizeCanvas();
         window.addEventListener('resize', resizeCanvas);
-
         const trailPoints = [];
         const maxTrailLength = 64;
         let mouseX = 0, mouseY = 0;
-
         document.addEventListener('mousemove', e => {
             mouseX = e.clientX;
             mouseY = e.clientY;
             cursor.style.left = mouseX + 'px';
             cursor.style.top = mouseY + 'px';
-
             trailPoints.push({ x: mouseX, y: mouseY, alpha: 1, size: 1 });
             if (trailPoints.length > maxTrailLength) trailPoints.shift();
         });
-
         function drawTrail() {
             ctx.clearRect(0, 0, canvas.width, canvas.height);
-
             for (let i = 1; i < trailPoints.length; i++) {
                 const p1 = trailPoints[i - 1];
                 const p2 = trailPoints[i];
                 p1.alpha -= 0.016;
                 if (p1.alpha <= 0) continue;
-
                 const progress = i / trailPoints.length;
                 const hue = (280 + progress * 60) % 360;
                 const alphaVal = p1.alpha * 0.9;
-
                 ctx.beginPath();
                 ctx.moveTo(p1.x, p1.y);
                 ctx.lineTo(p2.x, p2.y);
-
                 const lineWidth = 3.5 + 6 * (1 - progress);
                 ctx.lineWidth = lineWidth;
                 ctx.strokeStyle = `hsla(${hue}, 90%, 70%, ${alphaVal})`;
                 ctx.shadowColor = `hsla(${hue}, 100%, 70%, 0.6)`;
                 ctx.shadowBlur = 22;
                 ctx.stroke();
-
                 ctx.beginPath();
                 ctx.moveTo(p1.x, p1.y);
                 ctx.lineTo(p2.x, p2.y);
@@ -446,7 +418,6 @@
                 ctx.shadowColor = `hsla(${hue + 20}, 100%, 80%, 0.5)`;
                 ctx.stroke();
             }
-
             if (trailPoints.length > 2) {
                 const last = trailPoints[trailPoints.length - 1];
                 ctx.shadowBlur = 80;
@@ -463,27 +434,21 @@
                     ctx.fill();
                 }
             }
-
             requestAnimationFrame(drawTrail);
         }
         drawTrail();
-
         // ---------- 从 data.json 加载数据 ----------
         const STORAGE_KEY = 'linkTargetMode';
-
         function getOpenNewTab() {
             return localStorage.getItem(STORAGE_KEY) === '1';
         }
-
         function renderDomains(domains) {
             const container = document.getElementById('domainList');
             container.innerHTML = '';
-
             if (!domains || domains.length === 0) {
                 container.innerHTML = '<div style="color:#8b949e;font-size:16px;">暂无数据</div>';
                 return;
             }
-
             domains.forEach(item => {
                 const div = document.createElement('div');
                 div.className = 'domain-item';
@@ -495,7 +460,6 @@
                 `;
                 container.appendChild(div);
             });
-
             // 重新绑定点击事件
             document.querySelectorAll('.domain-item').forEach(el => {
                 el.addEventListener('click', function(e) {
@@ -508,11 +472,9 @@
                     }
                 });
             });
-
             // 重新应用滚动淡出效果
             updateFade();
         }
-
         async function loadDomains() {
             try {
                 const response = await fetch('data.json?t=' + Date.now());
@@ -532,23 +494,18 @@
                 `;
             }
         }
-
         // ---------- 开关 ----------
         const targetSwitch = document.getElementById('targetSwitch');
         targetSwitch.checked = getOpenNewTab();
-
         targetSwitch.addEventListener('change', () => {
             localStorage.setItem(STORAGE_KEY, targetSwitch.checked ? '1' : '0');
         });
-
         // ---------- 滚动淡出 ----------
         function updateFade() {
             const items = document.querySelectorAll('.domain-item');
             if (items.length === 0) return;
-
             const stickyRect = document.getElementById('stickyArea').getBoundingClientRect();
             const referenceBottom = stickyRect.bottom;
-
             items.forEach((item, index) => {
                 const rect = item.getBoundingClientRect();
                 const distance = rect.top - referenceBottom;
@@ -556,7 +513,6 @@
                 const baseOffset = 2.5 * itemHeight;
                 const extraOffset = index * 15;
                 const fadeOffset = baseOffset + extraOffset;
-
                 let opacity = 1;
                 if (distance < fadeOffset) {
                     const progress = 1 - (distance / fadeOffset);
@@ -568,12 +524,10 @@
                 if (rect.bottom < referenceBottom) {
                     opacity = 0;
                 }
-
                 item.style.opacity = opacity;
                 item.style.pointerEvents = opacity === 0 ? 'none' : 'auto';
             });
         }
-
         let ticking = false;
         window.addEventListener('scroll', () => {
             if (!ticking) {
@@ -584,11 +538,24 @@
                 ticking = true;
             }
         });
-
         window.addEventListener('resize', updateFade);
-
         // ---------- 启动 ----------
         loadDomains();
+
+        // 背景：完整下载解码完，才显示图片，杜绝从上往下扫描
+        const bgImg = new Image();
+        bgImg.src = "111.jpg";
+        bgImg.decode().then(()=>{
+            const bgDiv = document.querySelector('.bg-layer');
+            bgDiv.style.background = "url('111.jpg') center/cover no-repeat";
+            bgDiv.classList.add('ready');
+            // 短暂延时，先完整显示模糊整张，再过渡清晰
+            setTimeout(()=>{
+                bgDiv.classList.add('load-done');
+            }, 80);
+        }).catch(err=>{
+            console.warn("背景图加载失败",err);
+        });
     </script>
 </body>
 </html>
