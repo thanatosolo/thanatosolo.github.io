@@ -15,27 +15,32 @@
         }
         body {
             min-height: 100vh;
-            background-color:#1c1c2c;
+            background-color: #1c1c2c;
             font-family: "Microsoft YaHei", "PingFang SC", "Inter", sans-serif;
             overflow-x: hidden;
             cursor: none;
             user-select: none;
             padding-bottom: 70px;
         }
-        .bg-layer{
+        .bg-layer {
             position: fixed;
             inset: 0;
             z-index: 1;
-            filter: blur(16px) scale(1.04);
-            transition: filter 1.2s ease-out, transform 1.2s ease-out;
-            opacity:0;
+            background: #1c1c2c; /* 占位色，和 body 背景一致 */
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            opacity: 0;
+            transition: opacity 0.6s ease-out, filter 1.2s ease-out, transform 1.2s ease-out;
+            filter: blur(20px) scale(1.05);
         }
-        .bg-layer.ready{
-            opacity:1;
+        .bg-layer.ready {
+            opacity: 1;
         }
-        .bg-layer.load-done{
+        .bg-layer.clear {
             filter: blur(0px) scale(1);
         }
+        /* 其余样式保持不变... */
         .container {
             position: relative;
             z-index: 2;
@@ -216,8 +221,8 @@
             border-radius: 40px;
             border: 1px solid rgba(255, 255, 255, 0.08);
         }
-        .domain-name:hover + .full-url,
-        .domain-name:hover ~ .full-url {
+        .domain-name:hover+.full-url,
+        .domain-name:hover~.full-url {
             opacity: 1;
             transform: translateY(0) scale(1);
         }
@@ -241,7 +246,7 @@
             max-height: 300px;
             overflow-y: auto;
             background: #ffffff !important;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
             box-sizing: border-box !important;
         }
         .aplayer.aplayer-fixed .aplayer-list ol {
@@ -408,20 +413,41 @@
             animation: pulseDot 2s ease-in-out infinite alternate;
         }
         @keyframes rotateSlow {
-            from { transform: rotate(0deg); }
-            to { transform: rotate(360deg); }
+            from {
+                transform: rotate(0deg);
+            }
+            to {
+                transform: rotate(360deg);
+            }
         }
         @keyframes rotateReverse {
-            from { transform: translate(-50%, -50%) rotate(360deg); }
-            to { transform: translate(-50%, -50%) rotate(0deg); }
+            from {
+                transform: translate(-50%, -50%) rotate(360deg);
+            }
+            to {
+                transform: translate(-50%, -50%) rotate(0deg);
+            }
         }
         @keyframes pulseGlow {
-            0%, 100% { transform: translate(-50%, -50%) scale(1); opacity: 0.8; }
-            50% { transform: translate(-50%, -50%) scale(1.3); opacity: 1; }
+            0%,
+            100% {
+                transform: translate(-50%, -50%) scale(1);
+                opacity: 0.8;
+            }
+            50% {
+                transform: translate(-50%, -50%) scale(1.3);
+                opacity: 1;
+            }
         }
         @keyframes pulseDot {
-            0% { transform: translate(-50%, -50%) scale(1); box-shadow: 0 0 30px #fff, 0 0 60px #8060ff; }
-            100% { transform: translate(-50%, -50%) scale(1.3); box-shadow: 0 0 50px #ffb0ff, 0 0 100px #a070ff; }
+            0% {
+                transform: translate(-50%, -50%) scale(1);
+                box-shadow: 0 0 30px #fff, 0 0 60px #8060ff;
+            }
+            100% {
+                transform: translate(-50%, -50%) scale(1.3);
+                box-shadow: 0 0 50px #ffb0ff, 0 0 100px #a070ff;
+            }
         }
         #trailCanvas {
             position: fixed;
@@ -461,16 +487,19 @@
         </div>
     </div>
     <div id="aplayer"></div>
-    <script src="https://cdn.jsdelivr.net/npm/aplayer@1.10.1/dist/APlayer.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/aplayer@1.10.1/dist/APlayer.min.js">
+    </script>
     <script>
         document.getElementById('mainTitle').addEventListener('click', function(e) {
             e.stopPropagation();
             window.location.href = '/1/';
         });
         const STORAGE_KEY = 'linkTargetMode';
+
         function getOpenNewTab() {
             return localStorage.getItem(STORAGE_KEY) === '1';
         }
+
         function renderDomains(domains) {
             const container = document.getElementById('domainItemsContainer');
             container.innerHTML = '';
@@ -578,6 +607,7 @@
         targetSwitch.addEventListener('change', function() {
             localStorage.setItem(STORAGE_KEY, this.checked ? '1' : '0');
         });
+
         function updateFade() {
             var items = document.querySelectorAll('.domain-item');
             if (items.length === 0) return;
@@ -626,6 +656,7 @@
         const cursor = document.getElementById('cursor');
         const canvas = document.getElementById('trailCanvas');
         const ctx = canvas.getContext('2d');
+
         function resizeCanvas() {
             canvas.width = window.innerWidth;
             canvas.height = window.innerHeight;
@@ -634,7 +665,8 @@
         window.addEventListener('resize', resizeCanvas);
         const trailPoints = [];
         const maxTrailLength = 64;
-        let mouseX = 0, mouseY = 0;
+        let mouseX = 0,
+            mouseY = 0;
         document.addEventListener('mousemove', function(e) {
             mouseX = e.clientX;
             mouseY = e.clientY;
@@ -643,6 +675,7 @@
             trailPoints.push({ x: mouseX, y: mouseY, alpha: 1 });
             if (trailPoints.length > maxTrailLength) trailPoints.shift();
         });
+
         function drawTrail() {
             ctx.clearRect(0, 0, canvas.width, canvas.height);
             for (var i = 1; i < trailPoints.length; i++) {
@@ -694,19 +727,33 @@
             updateFade();
         }, 100);
 
-        // 背景：必须全部下载+解码完毕，才渲染图片，消除从上往下扫描展开
-        const bgImg = new Image();
-        bgImg.src = "111.jpg";
-        bgImg.decode().then(()=>{
-            const bgDiv = document.querySelector('.bg-layer');
-            bgDiv.style.background = "url('111.jpg') center/cover no-repeat";
-            bgDiv.classList.add('ready');
-            setTimeout(()=>{
-                bgDiv.classList.add('load-done');
-            },80);
-        }).catch(err=>{
-            console.warn("背景图片加载失败",err);
-        });
-    </script>
+// ============================================================
+// 🎯 背景加载：先模糊后清晰（使用本地图片）
+// ============================================================
+(function() {
+    const bgDiv = document.querySelector('.bg-layer');
+    const imageUrl = '111.jpg'; // 直接用同目录下的图片
+    
+    // 立即显示模糊背景
+    bgDiv.style.backgroundImage = "url('" + imageUrl + "')";
+    bgDiv.style.backgroundSize = 'cover';
+    bgDiv.style.backgroundPosition = 'center';
+    bgDiv.classList.add('ready');
+    
+    // 加载完成后变清晰
+    const img = new Image();
+    img.onload = function() {
+        setTimeout(function() {
+            bgDiv.classList.add('clear');
+        }, 150);
+    };
+    img.onerror = function() {
+        // 加载失败 → 纯色
+        bgDiv.style.backgroundImage = 'none';
+        bgDiv.style.backgroundColor = '#1c1c2c';
+        bgDiv.classList.add('clear');
+    };
+    img.src = imageUrl;
+})();    </script>
 </body>
 </html>
