@@ -1,10 +1,11 @@
 {
   "domains": [
-    { "name": "DPDNS.ORG", "url": "https://thanatosolo.dpdns.org" },
-    { "name": "KDNS.FR", "url": "https://thanatosolo.kdns.fr" },
-    { "name": "DE5.NET", "url": "https://thanatosolo.de5.net" },
-    { "name": "DDNS.GE", "url": "http://thanatosolo.ddns.ge" },
-    { "name": "L.CD", "url": "http://thanatos.l.cd" },
-    { "name": "V6.ROCKS", "url": "https://thanatosolo.v6.rocks" }
+    { "name": "CF-DPDNS.ORG", "url": "https://thanatosolo.dpdns.org" },
+    { "name": "CF-KDNS.FR", "url": "https://thanatosolo.kdns.fr" },
+    { "name": "CF-DE5.NET", "url": "https://thanatosolo.de5.net" },
+    { "name": "FD-DDNS.GE", "url": "http://thanatosolo.ddns.ge" },
+    { "name": "FD-L.CD", "url": "http://thanatos.l.cd" },
+    { "name": "GB-V6.ROCKS", "url": "https://thanatosolo.v6.rocks" },
+    { "name": "GB-DDNS.GE", "url": "httpS://thanatos.ddns.ge" }
   ]
 }
