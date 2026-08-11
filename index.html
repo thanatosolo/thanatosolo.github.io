@@ -26,9 +26,12 @@
             position: fixed;
             inset: 0;
             z-index: 1;
-            background: url("111.jpg") center/cover no-repeat;
             filter: blur(16px) scale(1.04);
             transition: filter 1.2s ease-out, transform 1.2s ease-out;
+            opacity:0;
+        }
+        .bg-layer.ready{
+            opacity:1;
         }
         .bg-layer.load-done{
             filter: blur(0px) scale(1);
@@ -557,7 +560,6 @@
                 });
                 ap.volume(0.1);
             });
-        // 修复：点击空白一次立刻锁死，后续永远不再触发播放
         document.body.addEventListener('click', function(e) {
             if (musicTriggered) return;
             var isDomainName = e.target.closest('.domain-name');
@@ -691,12 +693,20 @@
         setTimeout(function() {
             updateFade();
         }, 100);
-        //背景图模糊转清晰
+
+        // 背景：必须全部下载+解码完毕，才渲染图片，消除从上往下扫描展开
         const bgImg = new Image();
         bgImg.src = "111.jpg";
-        bgImg.onload = function(){
-            document.querySelector('.bg-layer').classList.add('load-done');
-        }
+        bgImg.decode().then(()=>{
+            const bgDiv = document.querySelector('.bg-layer');
+            bgDiv.style.background = "url('111.jpg') center/cover no-repeat";
+            bgDiv.classList.add('ready');
+            setTimeout(()=>{
+                bgDiv.classList.add('load-done');
+            },80);
+        }).catch(err=>{
+            console.warn("背景图片加载失败",err);
+        });
     </script>
 </body>
 </html>
