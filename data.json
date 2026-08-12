@@ -6,6 +6,7 @@
     { "name": "FD-DDNS.GE", "url": "http://thanatosolo.ddns.ge" },
     { "name": "FD-L.CD", "url": "http://thanatos.l.cd" },
     { "name": "GB-V6.ROCKS", "url": "https://thanatosolo.v6.rocks" },
-    { "name": "GB-DDNS.GE", "url": "https://thanatos.ddns.ge" }
+    { "name": "GB-DDNS.GE", "url": "https://thanatos.ddns.ge" },
+    { "name": "EO-L.CD", "url": "https://thanatosolo.l.cd" }
   ]
 }
