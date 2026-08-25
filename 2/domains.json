@@ -15,6 +15,7 @@
     { "site": "cloudns.net", "url": "https://www.cloudns.net/main/", "account": "hm", "domain": "thanatosolo.cloud-ip.cc", "expire": null },
     { "site": "pwdns.org", "url": "https://pwdns.org/", "account": "163", "domain": " ", "expire": null },
     { "site": "DnsNeko", "url": "https://www.dnsneko.com//", "account": " ", "domain": "thanatos.zh.kg", "expire": "2027-08-02" },
+    { "site": "Dynu", "url": "https://www.dynu.com/", "account": " ", "domain": "thanatos.ddnsfree.com", "expire": null },
     { "site": "changeip", "url": "https://changeip.com", "account": "hm", "domain": "thanatosolo.myddns.com", "expire": null },
     { "site": "changeip", "url": "https://changeip.com", "account": "hm", "domain": "thanatos.myddns.com", "expire": null }
   ]
