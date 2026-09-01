@@ -1,13 +1,14 @@
 {
   "domains": [
     { "name": "CF-DPDNS.ORG", "url": "https://thanatosolo.dpdns.org" },
-    { "name": "FN-DDNS.GE", "url": "http://thanatosolo.ddns.ge" },
     { "name": "VC-DDNS.GE", "url": "https://thanatos.ddns.ge" },
     { "name": "VC-L.CD", "url": "https://thanatos.l.cd" },
-    { "name": "EO-l.cd", "url": "https://thanatosolo.l.cd" },
+    { "name": "EO-L.CD", "url": "https://thanatosolo.l.cd" },
     { "name": "GB-V6.ROCKS", "url": "https://thanatosolo.v6.rocks" },
     { "name": "VPS-DESEC", "url": "https://thanatos.dedyn.io" },
     { "name": "VPS-DYNU", "url": "https://thanatos.ddnsfree.com" },
+    { "name": "QWEN-CF-Tunnel", "url": "https://thanatoss.dpdns.org" },
+    { "name": "QWEN-S-FRP", "url": "https://thanatosolo.ddns.ge" },
     { "name": "InfinityFree", "url": "https://thanatosolo.xo.je" },
     { "name": "changeip", "url": "https://thanatos.myddns.com" }
   ]
