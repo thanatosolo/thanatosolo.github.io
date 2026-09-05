@@ -1,0 +1,409 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>THANATOSOLO</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20100%20100'%3E%3Ctext%20y='.9em'%20font-size='90'%3E%F0%9F%92%80%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://miaoda.feishu.cn">
+<link rel="stylesheet" href="https://miaoda.feishu.cn/fonts/css2?family=Outfit:wght@400;500;600;700&family=Noto+Sans+SC:wght@400;500;700&family=JetBrains+Mono:wght@400;500;600&display=swap">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/aplayer@1.10.1/dist/APlayer.min.css" integrity="sha384-tLMkTWh2pfXNWGFlUS0w1TFtRG5xZ9lPWFOooj+vDDLIL+xBGQU/voDBY5XE2lVh" crossorigin="anonymous">
+<style>
+:root{
+  --bg:#05070f;
+  --ink:#eaf2fd;
+  --ink-dim:#9db0c9;
+  --line:rgba(150,170,205,.20);
+  --c1:#4ad6f7; --c2:#b6a0ff; --c3:#42e2a6;
+  --font-display:"Outfit","Noto Sans SC","PingFang SC","Microsoft YaHei",sans-serif;
+  --font-body:"Noto Sans SC","PingFang SC","Microsoft YaHei","Segoe UI",sans-serif;
+  --font-mono:"JetBrains Mono","Consolas","SFMono-Regular",monospace;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{height:100%}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--ink);font-family:var(--font-body);height:100%;overflow:hidden;line-height:1.55;display:flex;flex-direction:column}
+a{color:inherit;text-decoration:none}
+button{font-family:inherit;color:inherit}
+.grid > *{min-width:0}
+
+/* ===== 背景视差层（尽量露出背景） ===== */
+.bg-parallax{position:fixed;inset:0;z-index:0;overflow:hidden;pointer-events:none}
+.bg-img{position:absolute;inset:-70px;background:url("https://aka.doubaocdn.com/s/HUM3RIuX8V") center/cover no-repeat;opacity:1;will-change:transform}
+.bg-veil{position:absolute;inset:0;background:linear-gradient(180deg,rgba(5,7,15,.12) 0%,rgba(5,7,15,.30) 42%,rgba(5,7,15,.68) 100%)}
+.bg-grid{position:absolute;inset:0;will-change:transform;
+  background-image:linear-gradient(rgba(150,175,215,.05) 1px,transparent 1px),linear-gradient(90deg,rgba(150,175,215,.05) 1px,transparent 1px);
+  background-size:70px 70px;-webkit-mask-image:radial-gradient(90% 80% at 50% 12%,#000 20%,transparent 100%);mask-image:radial-gradient(90% 80% at 50% 12%,#000 20%,transparent 100%)}
+
+/* ===== 顶部：透明栏，标题与播放器一起居中 ===== */
+.topbar{position:sticky;top:0;z-index:20;flex:none;display:flex;justify-content:center;align-items:center;
+  padding:16px 22px;border-bottom:1px solid rgba(150,170,205,.12);
+  background:linear-gradient(180deg,rgba(5,7,15,.38),rgba(5,7,15,.06));
+  backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px)}
+.center-group{display:flex;align-items:center;gap:22px;flex-wrap:wrap;justify-content:center;min-width:0}
+.logo{font-family:var(--font-display);font-weight:700;font-size:clamp(32px,5.4vw,52px);letter-spacing:.08em;line-height:1;
+  background:linear-gradient(100deg,#eaf7ff 10%,#bfe9ff 40%,#d9ccff 75%,#d5f9ec 100%);
+  -webkit-background-clip:text;background-clip:text;color:transparent;
+  filter:drop-shadow(0 2px 14px rgba(2,6,14,.9));white-space:nowrap}
+
+/* 新开切换 */
+.ntab{display:inline-flex;align-items:center;gap:7px;padding:8px 14px;border:1px solid var(--line);border-radius:999px;flex:none;margin-bottom:-1px;
+  background:rgba(9,14,27,.55);cursor:pointer;font-size:12.5px;color:var(--ink-dim);
+  backdrop-filter:blur(6px);transition:border-color .25s ease,color .25s ease,box-shadow .25s ease}
+.ntab .nt-ic{width:15px;height:15px;border-radius:5px;border:1.5px solid currentColor;position:relative}
+.ntab .nt-ic::after{content:"";position:absolute;inset:3px;border-radius:2px;background:transparent;transition:background .25s ease}
+.ntab.on{color:#dff4ff;border-color:rgba(74,214,247,.55);box-shadow:0 0 16px -6px var(--c1)}
+.ntab.on .nt-ic::after{background:var(--c1)}
+.player-box{min-width:0}
+#aplayer{width:520px;max-width:100%}
+
+/* ===== 播放器配色 + 上一首/下一首显式可见 ===== */
+.aplayer{--aplayer-bg:rgba(8,13,25,.82)!important;--aplayer-list-bg:rgba(8,13,25,.97)!important;
+  --aplayer-list-light-bg:rgba(74,214,247,.10)!important;--aplayer-list-color:#c7d6ea!important;
+  --aplayer-color:#dfe8f6!important;--aplayer-border-color:var(--line)!important;
+  width:520px!important;max-width:100%!important;margin:0!important;
+  border:1px solid var(--line)!important;border-radius:12px!important;
+  box-shadow:0 14px 38px -18px rgba(0,0,0,.75)!important;font-family:var(--font-body)!important}
+.aplayer .aplayer-pic{border-radius:8px!important;margin:6px!important}
+.aplayer .aplayer-pic .aplayer-play{background:rgba(5,7,15,.45)!important}
+.aplayer .aplayer-info{padding:9px 12px 9px 0!important;overflow:visible!important}
+.aplayer .aplayer-music .aplayer-title{color:#eef5ff!important;font-weight:600}
+.aplayer .aplayer-music .aplayer-author{color:var(--ink-dim)!important}
+.aplayer .aplayer-info .aplayer-controller .aplayer-bar-wrap{flex:1;padding:6px 0!important}
+.aplayer .aplayer-info .aplayer-controller .aplayer-bar-wrap .aplayer-bar{height:4px!important;background:rgba(148,168,200,.25)!important}
+.aplayer .aplayer-info .aplayer-controller .aplayer-bar-wrap .aplayer-bar .aplayer-loaded,
+.aplayer .aplayer-info .aplayer-controller .aplayer-bar-wrap .aplayer-bar .aplayer-played{height:4px!important}
+.aplayer .aplayer-info .aplayer-controller .aplayer-bar-wrap .aplayer-bar .aplayer-played .aplayer-thumb{margin-top:-3px!important}
+.aplayer .aplayer-time{flex:0 0 auto!important;overflow:visible!important}
+.aplayer .aplayer-time .aplayer-icon{width:26px;height:26px;margin:0 1px;display:inline-flex!important;align-items:center;justify-content:center;opacity:.95!important}
+.aplayer .aplayer-time .aplayer-icon-back,
+.aplayer .aplayer-time .aplayer-icon-forward,
+.aplayer .aplayer-time .aplayer-icon-play,
+.aplayer .aplayer-time .aplayer-icon-order,
+.aplayer .aplayer-time .aplayer-icon-volume-down,
+.aplayer .aplayer-time .aplayer-icon-menu,
+.aplayer .aplayer-time .aplayer-icon-loop{display:inline-flex!important}
+.aplayer .aplayer-time .aplayer-icon svg{width:16px;height:16px;fill:currentColor}
+.aplayer .aplayer-list ol li{color:var(--ink-dim)!important;border-top:1px solid rgba(148,168,200,.08)!important}
+.aplayer .aplayer-list ol li:hover{background:rgba(148,168,200,.05)!important}
+
+/* ===== 主体 ===== */
+.page{position:relative;z-index:1;flex:1;min-height:0;width:100%;max-width:1020px;margin:0 auto;padding:18px 22px 20px;display:flex;flex-direction:column;overflow:hidden}
+/* 工具栏已并入标签栏 */
+
+/* ===== 浏览器标签页式切换 ===== */
+.tabbar{display:flex;align-items:flex-end;gap:10px;margin-top:18px;padding:0 10px;border-bottom:1px solid var(--line);flex:none}
+.tabs{display:flex;gap:6px;align-items:flex-end;overflow-x:auto;overflow-y:hidden;flex:1;min-width:0;padding:0;border-bottom:none;margin-top:0;scrollbar-width:none;-ms-overflow-style:none}
+.tabs::-webkit-scrollbar{display:none}
+.tab{position:relative;flex:none;border:1px solid var(--line);border-bottom:none;border-radius:10px 10px 0 0;
+  background:rgba(8,13,25,.52);padding:11px 18px;cursor:pointer;color:var(--ink-dim);
+  display:flex;align-items:center;gap:8px;font-size:14px;margin-bottom:-1px;white-space:nowrap;
+  transition:background .25s ease,color .25s ease,box-shadow .25s ease}
+.tab .tnum{font-family:var(--font-mono);font-size:11px;color:var(--ac);opacity:.95}
+.tab .tcount{font-family:var(--font-mono);font-size:11px;padding:1px 8px;border-radius:999px;background:rgba(148,168,200,.14);color:var(--ink)}
+.tab[data-l="1"]{--ac:var(--c1)}.tab[data-l="2"]{--ac:var(--c2)}.tab[data-l="3"]{--ac:var(--c3)}
+.tab:hover{color:var(--ink)}
+.tab.on{color:var(--ink);background:rgba(12,19,35,.92);border-color:rgba(150,170,205,.30);
+  box-shadow:inset 0 2px 0 var(--ac),0 -10px 30px -22px var(--ac)}
+.pane-wrap{position:relative;border:1px solid rgba(150,170,205,.24);border-top:none;border-radius:0 14px 14px 14px;
+  background:linear-gradient(160deg,rgba(10,16,31,.64),rgba(6,10,21,.60));
+  backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);
+  padding:22px 24px 26px;flex:none;min-height:120px;max-height:calc(100vh - 235px);overflow-y:auto;overscroll-behavior:contain;
+  scrollbar-width:none;-ms-overflow-style:none}
+.pane-wrap::-webkit-scrollbar{display:none}
+.pane{display:none}
+.pane.on{display:block;animation:paneIn .38s ease}
+@keyframes paneIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+
+.grid{display:grid;gap:12px}
+.g1{grid-template-columns:repeat(auto-fit,minmax(210px,1fr))}
+.g2{grid-template-columns:repeat(auto-fit,minmax(280px,1fr))}
+.g3{grid-template-columns:repeat(auto-fit,minmax(250px,1fr))}
+
+/* 层一：公网域名 */
+.dchip{display:flex;flex-direction:column;gap:6px;padding:14px 16px;border:1px solid var(--line);border-radius:12px;
+  background:rgba(255,255,255,.02);transition:transform .2s ease,border-color .2s ease,background .2s ease}
+.dchip:hover{border-color:var(--c1);background:rgba(74,214,247,.06);transform:translateY(-2px)}
+.dchip .dn{font-family:var(--font-mono);font-size:14px;font-weight:600;color:var(--ink);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.dchip .du{font-family:var(--font-mono);font-size:11.5px;color:var(--ink-dim);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+
+/* 层二：内网服务（放不下自动换行） */
+.scard{display:flex;align-items:flex-start;gap:12px;padding:13px 14px;border:1px solid var(--line);border-radius:12px;
+  background:rgba(255,255,255,.02);transition:transform .2s ease,border-color .2s ease,background .2s ease}
+.scard:hover{border-color:var(--c2);background:rgba(182,160,255,.07);transform:translateY(-2px)}
+.scard .ico{font-size:21px;width:38px;height:38px;display:grid;place-items:center;border-radius:10px;background:rgba(182,160,255,.10);border:1px solid rgba(182,160,255,.25);flex:none}
+.scard .body{min-width:0;flex:1}
+.scard .sn{display:block;font-size:14.5px;font-weight:600;line-height:1.35;word-break:normal;overflow-wrap:anywhere}
+.scard .su{display:block;font-family:var(--font-mono);font-size:11px;color:var(--ink-dim);line-height:1.45;word-break:normal;overflow-wrap:anywhere}
+
+/* 层三：DNS 面板（合并） */
+.pcard{display:flex;flex-direction:column;gap:10px;padding:15px 16px;border:1px solid var(--line);border-radius:12px;
+  background:rgba(255,255,255,.02);transition:transform .2s ease,border-color .2s ease,background .2s ease}
+.pcard:hover{border-color:var(--c3);background:rgba(66,226,166,.05);transform:translateY(-2px)}
+.pcard .ptop{display:flex;align-items:center;gap:8px;min-width:0}
+.pcard .psite{font-size:14.5px;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.pcard .psite a:hover{color:var(--c3)}
+.pacc{margin-left:auto;flex:none;font-family:var(--font-mono);font-size:11px;color:var(--c3);
+  border:1px solid rgba(66,226,166,.3);border-radius:999px;padding:3px 9px;background:rgba(66,226,166,.08)}
+.pacc.muted{color:var(--ink-dim);border-color:var(--line);background:transparent}
+.pdom{display:flex;flex-wrap:wrap;gap:6px}
+.pdom a,.pdom span{font-family:var(--font-mono);font-size:11.5px;color:#c6d8ec;
+  border:1px solid var(--line);border-radius:8px;padding:4px 9px;background:rgba(5,10,20,.5);transition:border-color .2s ease,color .2s ease}
+.pdom a:hover{border-color:var(--c3);color:#eafff5}
+.pexp{align-self:flex-start;font-family:var(--font-mono);font-size:11.5px;border-radius:8px;padding:3px 9px}
+.pexp.ok{color:#8ff0c2;background:rgba(66,226,166,.10);border:1px solid rgba(66,226,166,.28)}
+.pexp.warn{color:#ffd08a;background:rgba(255,170,60,.10);border:1px solid rgba(255,170,60,.30)}
+.pexp.long{color:var(--ink-dim);background:rgba(148,168,200,.08);border:1px solid var(--line)}
+
+.foot{flex:none;margin-top:14px;text-align:center;color:#6a7a92;font-family:var(--font-mono);font-size:12px;letter-spacing:.05em}
+.foot .dot{display:inline-block;width:7px;height:7px;border-radius:50%;background:var(--c1);margin-right:6px;vertical-align:1px;box-shadow:0 0 10px var(--c1);animation:blink 2.4s ease-in-out infinite}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:.25}}
+
+a:focus-visible{outline:2px solid var(--c1);outline-offset:2px;border-radius:4px}
+@media (max-width:760px){
+  .topbar{padding:12px 14px}
+  .center-group{gap:12px}
+  .logo{font-size:clamp(28px,8.5vw,40px);letter-spacing:.06em}
+  .player-box{width:100%;max-width:560px}
+  #aplayer{width:100%}
+  .ntab{padding:7px 11px;font-size:12px}
+  .page{padding:14px 12px 24px}
+  .tabbar{margin-top:14px;padding:0 6px}
+  .tabs{padding:0 2px}
+  .tab{padding:9px 11px;font-size:12.5px}
+  .tab .tcount{padding:1px 6px}
+  .pane-wrap{padding:16px 14px 20px;flex:1;min-height:120px;max-height:none}
+  .g1,.g2,.g3{grid-template-columns:1fr}
+  .dchip .dn,.dchip .du{white-space:normal;overflow:visible;text-overflow:clip}
+  .pcard .psite{white-space:normal}
+}
+@media (prefers-reduced-motion:reduce){
+  *{animation:none!important;transition:none!important}
+  .bg-parallax [data-depth]{transform:none!important}
+}
+</style>
+</head>
+<body>
+
+<!-- ===== 背景视差层 ===== -->
+<div class="bg-parallax" id="bgParallax" aria-hidden="true">
+  <div class="bg-img" data-depth="1"></div>
+  <div class="bg-veil"></div>
+  <div class="bg-grid" data-depth="0.5"></div>
+</div>
+
+<!-- ===== 顶部：透明栏，标题与播放器一起居中 ===== -->
+<header class="topbar">
+  <div class="center-group">
+    <h1 class="logo">THANATOSOLO</h1>
+    <div class="player-box"><div id="aplayer"></div></div>
+  </div>
+</header>
+
+<main class="page">
+  <!-- 浏览器标签页式切换 + 新开按钮（与标签平行） -->
+  <div class="tabbar">
+    <div class="tabs" id="tabs" role="tablist"></div>
+    <button id="newtabBtn" class="ntab on" aria-pressed="true" title="链接打开方式">
+      <span class="nt-ic" aria-hidden="true"></span><span id="ntLabel">新开</span>
+    </button>
+  </div>
+  <div class="pane-wrap" id="panes"></div>
+
+  <footer class="foot"><span class="dot"></span>THANATOSOLO · NAVIGATION · 2026</footer>
+</main>
+
+<script src="https://cdn.jsdelivr.net/npm/aplayer@1.10.1/dist/APlayer.min.js" integrity="sha384-gdGYZwHnfJM54evoZhpO0s6ZF5BQiybkiyW7VXr+h5UfruuRL/aORyw+5+HZoU6e" crossorigin="anonymous"></script>
+<script>
+/* ===== 数据文件加载：自动带时间戳绕过 CDN 缓存，改 data.js 上传后刷新即新版 ===== */
+(function(){
+  var s = document.createElement("script");
+  s.src = "data.js?v=" + new Date().getTime();
+  s.onload = initApp;
+  s.onerror = function(){
+    var d = document.createElement("div");
+    d.style.cssText = "position:fixed;left:50%;top:50%;transform:translate(-50%,-50%);background:#3a0d0d;color:#ffd7d7;padding:14px 20px;border-radius:10px;border:1px solid #ff6b6b;z-index:99;font-size:14px;";
+    d.textContent = "data.js 加载失败：请确认 data.js 和 index.html 在同一个目录。";
+    document.body.appendChild(d);
+  };
+  document.head.appendChild(s);
+})();
+
+/* ===== 主程序：数据加载完成后执行 ===== */
+function initApp(){
+/* 数据已移到外部文件 data.js（与 index.html 同目录），改卡片直接编辑 data.js */
+
+/* ===== 工具函数 ===== */
+
+/* ===== 工具函数 ===== */
+function esc(s){
+  return String(s).replace(/[&<>"']/g, function(c){
+    return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c];
+  });
+}
+function hostOf(url){
+  try{ return new URL(url).host; }catch(e){ return url; }
+}
+function hostSeg(url){
+  return esc(hostOf(url)).replace(/\./g,".<wbr>").replace(/:/g,":<wbr>");
+}
+function expireHtml(dateStr){
+  if(!dateStr){ return '<span class="pexp long">长期</span>'; }
+  var days = Math.round((new Date(dateStr + "T00:00:00") - new Date()) / 86400000);
+  if(days < 0){ days = 0; }
+  var cls = days < 180 ? "warn" : "ok";
+  return '<span class="pexp ' + cls + '">' + esc(dateStr) + ' · ' + days + ' 天</span>';
+}
+
+/* ===== 渲染三块面板 ===== */
+var g1 = L1.map(function(d){
+  return '<a class="dchip" href="' + esc(d.url) + '">' +
+         '<span class="dn">' + esc(d.name) + '</span>' +
+         '<span class="du">' + esc(hostOf(d.url)) + '</span></a>';
+}).join("");
+var g2 = L2.map(function(d){
+  return '<a class="scard" href="' + esc(d.url) + '">' +
+         '<span class="ico">' + d.icon + '</span>' +
+         '<span class="body"><span class="sn">' + esc(d.name) + '</span>' +
+         '<span class="su">' + hostSeg(d.url) + '</span></span></a>';
+}).join("");
+var g3 = L3.map(function(p){
+  var dom = (p.domains && p.domains.length)
+    ? p.domains.map(function(dd){ return '<a href="https://' + esc(dd) + '">' + esc(dd) + '</a>'; }).join("")
+    : '<span>—</span>';
+  var acc = p.account
+    ? '<span class="pacc">' + esc(p.account) + '</span>'
+    : '<span class="pacc muted">—</span>';
+  return '<div class="pcard">' +
+         '<div class="ptop"><span class="psite"><a href="' + esc(p.url) + '">' + esc(p.site) + '</a></span>' + acc + '</div>' +
+         '<div class="pdom">' + dom + '</div>' +
+         expireHtml(p.expire) +
+         '</div>';
+}).join("");
+
+var layers = [
+  { l:1, num:TABS[0].num, title:TABS[0].title, count:L1.length, html:'<div class="grid g1">' + g1 + '</div>' },
+  { l:2, num:TABS[1].num, title:TABS[1].title, count:L2.length, html:'<div class="grid g2">' + g2 + '</div>' },
+  { l:3, num:TABS[2].num, title:TABS[2].title, count:L3.length, html:'<div class="grid g3">' + g3 + '</div>' }
+];
+
+document.getElementById("tabs").innerHTML = layers.map(function(x, i){
+  return '<button class="tab' + (i === 0 ? ' on' : '') + '" data-i="' + i + '" data-l="' + x.l + '" role="tab">' +
+         (x.num ? '<span class="tnum">' + esc(x.num) + '</span>' : '') + x.title +
+         '<span class="tcount">' + x.count + '</span></button>';
+}).join("");
+
+document.getElementById("panes").innerHTML = layers.map(function(x, i){
+  return '<div class="pane' + (i === 0 ? ' on' : '') + '" data-i="' + i + '">' + x.html + '</div>';
+}).join("");
+
+/* ===== 标签页切换：点哪个显示哪个 ===== */
+function switchTab(i){
+  document.querySelectorAll(".tab").forEach(function(t, idx){ t.classList.toggle("on", idx === i); });
+  document.querySelectorAll(".pane").forEach(function(p, idx){ p.classList.toggle("on", idx === i); });
+}
+document.querySelectorAll(".tab").forEach(function(t, i){
+  t.addEventListener("click", function(){ switchTab(i); });
+});
+
+/* ===== 新开/本页 切换（本地记住选择） ===== */
+var newtab = localStorage.getItem("thana_newtab") !== "0";
+var ntBtn = document.getElementById("newtabBtn");
+var ntLabel = document.getElementById("ntLabel");
+function applyTargets(){
+  document.querySelectorAll(".pane a").forEach(function(a){
+    if(newtab){ a.setAttribute("target","_blank"); a.setAttribute("rel","noopener"); }
+    else      { a.removeAttribute("target"); a.removeAttribute("rel"); }
+  });
+  ntBtn.classList.toggle("on", newtab);
+  ntBtn.setAttribute("aria-pressed", newtab ? "true" : "false");
+  ntLabel.textContent = newtab ? "新开" : "本页";
+}
+ntBtn.addEventListener("click", function(){
+  newtab = !newtab;
+  localStorage.setItem("thana_newtab", newtab ? "1" : "0");
+  applyTargets();
+});
+applyTargets();
+
+/* ===== 背景视差：背景图跟随鼠标移动 ===== */
+(function(){
+  var els = Array.prototype.slice.call(document.querySelectorAll("[data-depth]"));
+  var MAX = 30;
+  var raf = false;
+  document.addEventListener("mousemove", function(e){
+    var cx = window.innerWidth / 2;
+    var cy = window.innerHeight / 2;
+    var dx = (e.clientX - cx) / cx;
+    var dy = (e.clientY - cy) / cy;
+    if(!raf){
+      raf = true;
+      requestAnimationFrame(function(){
+        els.forEach(function(el){
+          var d = parseFloat(el.getAttribute("data-depth") || "1");
+          el.style.transform =
+            "translate3d(" + (dx * MAX * d).toFixed(1) + "px," + (dy * MAX * d).toFixed(1) + "px,0)";
+        });
+        raf = false;
+      });
+    }
+  });
+})();
+
+/* ===== 播放器：Meting + APlayer（修正 title→name / author→artist 映射） ===== */
+(function(){
+  var meting_music_api = "https://meting.noome.cn/api";
+  var music_server = "netease";
+  var music_type = "playlist";
+  var music_id = "517505383";
+  var music_volume = 0.3;
+  var music_order = "random";
+  var music_loop = "all";
+  var ap = null;
+  var musicTriggered = false;
+
+  function mapList(songList){
+    return (songList || []).map(function(s){
+      return {
+        name:   s.title  || s.name,
+        artist: s.author || s.artist,
+        url:    s.url,
+        cover:  s.pic || s.cover,
+        lrc:    s.lrc
+      };
+    });
+  }
+  function build(audio){
+    ap = new APlayer({
+      container: document.getElementById("aplayer"),
+      fixed: false,
+      theme: "#87CEFA",
+      audio: audio,
+      volume: music_volume,
+      autoplay: false,
+      loop: music_loop,
+      order: music_order,
+      mutex: true,
+      listFolded: true
+    });
+    ap.volume(0.1);
+  }
+  function load(){
+    fetch(meting_music_api + "?server=" + music_server + "&type=" + music_type + "&id=" + music_id)
+      .then(function(res){ return res.json(); })
+      .then(function(songList){
+        var audio = mapList(songList);
+        if(!audio.length){ throw new Error("空歌单"); }
+        build(audio);
+      })
+      .catch(function(err){
+        console.error("Meting接口异常", err);
+        build([{ name:"歌单加载失败", artist:"请检查网络后刷新", url:"" }]);
+      });
+  }
+  load();
+})();
+}
+</script>
+</body>
+</html>
