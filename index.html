@@ -24,7 +24,6 @@
   --font-body:"Noto Sans SC","PingFang SC","Microsoft YaHei","Segoe UI",sans-serif;
   --font-mono:"JetBrains Mono","Consolas","SFMono-Regular",monospace;
 }
-/* ===== 小清新主题 ===== */
 body.fresh{
   --bg:#f0f4ff;
   --ink:#2d3a5c;
@@ -37,20 +36,18 @@ body.fresh{
   --veil:linear-gradient(180deg,rgba(240,244,255,.1) 0%,rgba(240,244,255,.2) 42%,rgba(240,244,255,.5) 100%);
   --logo-grad:linear-gradient(100deg,#ff9ec7 10%,#ffb8d9 35%,#8ec5ff 65%,#95e1c3 100%);
 }
-body.fresh .bg-img{filter:brightness(1.1) saturate(1.1) hue-rotate(-10deg);opacity:.55!important}
 body.fresh .bg-grid{background-image:linear-gradient(rgba(255,158,199,.08) 1px,transparent 1px),linear-gradient(90deg,rgba(142,197,255,.08) 1px,transparent 1px)!important}
 body.fresh .aplayer{--aplayer-bg:rgba(255,255,255,.9)!important;--aplayer-list-bg:rgba(255,255,255,.97)!important;--aplayer-color:#2d3a5c!important;--aplayer-list-color:#5a6a8c!important}
 body.fresh .aplayer .aplayer-music .aplayer-title{color:#2d3a5c!important}
 
-*{margin:0;padding:0;box-sizing:border-box}
+*{margin:0;padding:0;box-sizing:border-box;cursor:inherit}
 html,body{height:100%}
 html{scroll-behavior:smooth}
-body{background:var(--bg);color:var(--ink);font-family:var(--font-body);height:100%;overflow:hidden;line-height:1.55;display:flex;flex-direction:column;transition:background .6s ease,color .6s ease}
+body{background:var(--bg);color:var(--ink);font-family:var(--font-body);height:100%;overflow:hidden;line-height:1.55;display:flex;flex-direction:column;transition:background .6s ease,color .6s ease;cursor:none}
 a{color:inherit;text-decoration:none}
 button{font-family:inherit;color:inherit}
 .grid > *{min-width:0}
 
-/* ===== 动态光标 ===== */
 .cursor-dot{position:fixed;top:0;left:0;width:8px;height:8px;border-radius:50%;background:var(--c1);pointer-events:none;z-index:9999;transform:translate(-50%,-50%);transition:width .25s ease,height .25s ease,background .25s ease,opacity .3s ease;mix-blend-mode:screen;box-shadow:0 0 12px var(--c1),0 0 24px var(--c1)}
 .cursor-ring{position:fixed;top:0;left:0;width:36px;height:36px;border-radius:50%;border:1.5px solid var(--c2);pointer-events:none;z-index:9998;transform:translate(-50%,-50%);transition:width .3s ease,height .3s ease,border-color .3s ease,opacity .3s ease;opacity:.7}
 body.cursor-hover .cursor-dot{width:14px;height:14px;background:var(--c3);box-shadow:0 0 16px var(--c3),0 0 32px var(--c3)}
@@ -58,10 +55,8 @@ body.cursor-hover .cursor-ring{width:52px;height:52px;border-color:var(--c3);opa
 body.fresh .cursor-dot{mix-blend-mode:multiply}
 @media (hover:none){.cursor-dot,.cursor-ring{display:none}}
 
-/* ===== 鼠标拖尾画布 ===== */
 #trailCanvas{position:fixed;inset:0;pointer-events:none;z-index:9997}
 
-/* ===== 背景视差层 ===== */
 .bg-parallax{position:fixed;inset:0;z-index:0;overflow:hidden;pointer-events:none}
 .bg-img{position:absolute;inset:-70px;background:url("https://aka.doubaocdn.com/s/HUM3RIuX8V") center/cover no-repeat;opacity:1;will-change:transform;transition:opacity .6s ease,filter .6s ease}
 .bg-veil{position:absolute;inset:0;background:var(--veil);transition:background .6s ease}
@@ -69,7 +64,6 @@ body.fresh .cursor-dot{mix-blend-mode:multiply}
   background-image:linear-gradient(rgba(150,175,215,.05) 1px,transparent 1px),linear-gradient(90deg,rgba(150,175,215,.05) 1px,transparent 1px);
   background-size:70px 70px;-webkit-mask-image:radial-gradient(90% 80% at 50% 12%,#000 20%,transparent 100%);mask-image:radial-gradient(90% 80% at 50% 12%,#000 20%,transparent 100%);transition:background-image .6s ease}
 
-/* ===== 顶部 ===== */
 .topbar{position:sticky;top:0;z-index:20;flex:none;display:flex;justify-content:center;align-items:center;
   padding:16px 22px;border-bottom:1px solid rgba(150,170,205,.12);
   background:var(--topbar-bg);
@@ -83,7 +77,6 @@ body.fresh .cursor-dot{mix-blend-mode:multiply}
 .logo:active{transform:scale(0.97)}
 body.fresh .logo{filter:drop-shadow(0 2px 10px rgba(255,158,199,.4))}
 
-/* 新开切换 */
 .ntab{display:inline-flex;align-items:center;gap:7px;padding:8px 14px;border:1px solid var(--line);border-radius:999px;flex:none;margin-bottom:-1px;
   background:rgba(9,14,27,.55);cursor:pointer;font-size:12.5px;color:var(--ink-dim);
   backdrop-filter:blur(6px);transition:border-color .25s ease,color .25s ease,box-shadow .25s ease,background .6s ease}
@@ -96,7 +89,6 @@ body.fresh .ntab.on{color:#c44a7e;border-color:rgba(255,158,199,.6);box-shadow:0
 .player-box{min-width:0}
 #aplayer{width:520px;max-width:100%}
 
-/* ===== 播放器配色 ===== */
 .aplayer{--aplayer-bg:rgba(8,13,25,.82)!important;--aplayer-list-bg:rgba(8,13,25,.97)!important;
   --aplayer-list-light-bg:rgba(74,214,247,.10)!important;--aplayer-list-color:#c7d6ea!important;
   --aplayer-color:#dfe8f6!important;--aplayer-border-color:var(--line)!important;
@@ -126,10 +118,8 @@ body.fresh .ntab.on{color:#c44a7e;border-color:rgba(255,158,199,.6);box-shadow:0
 .aplayer .aplayer-list ol li{color:var(--ink-dim)!important;border-top:1px solid rgba(148,168,200,.08)!important}
 .aplayer .aplayer-list ol li:hover{background:rgba(148,168,200,.05)!important}
 
-/* ===== 主体 ===== */
 .page{position:relative;z-index:1;flex:1;min-height:0;width:100%;max-width:1020px;margin:0 auto;padding:18px 22px 20px;display:flex;flex-direction:column;overflow:hidden}
 
-/* ===== 浏览器标签页式切换 ===== */
 .tabbar{display:flex;align-items:flex-end;gap:10px;margin-top:18px;padding:0 10px;border-bottom:1px solid var(--line);flex:none;transition:border-color .6s ease}
 .tabs{display:flex;gap:6px;align-items:flex-end;overflow-x:auto;overflow-y:hidden;flex:1;min-width:0;padding:0;border-bottom:none;margin-top:0;scrollbar-width:none;-ms-overflow-style:none}
 .tabs::-webkit-scrollbar{display:none}
@@ -160,7 +150,6 @@ body.fresh .tab.on{background:rgba(255,255,255,.9)}
 .g2{grid-template-columns:repeat(auto-fit,minmax(280px,1fr))}
 .g3{grid-template-columns:repeat(auto-fit,minmax(250px,1fr))}
 
-/* 层一：公网域名 */
 .dchip{display:flex;flex-direction:column;gap:6px;padding:14px 16px;border:1px solid var(--line);border-radius:12px;
   background:var(--card-bg);transition:transform .2s ease,border-color .2s ease,background .2s ease}
 .dchip:hover{border-color:var(--c1);background:rgba(74,214,247,.06);transform:translateY(-2px)}
@@ -168,7 +157,6 @@ body.fresh .dchip:hover{background:rgba(255,158,199,.1)}
 .dchip .dn{font-family:var(--font-mono);font-size:14px;font-weight:600;color:var(--ink);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .dchip .du{font-family:var(--font-mono);font-size:11.5px;color:var(--ink-dim);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 
-/* 层二：内网服务 */
 .scard{display:flex;align-items:flex-start;gap:12px;padding:13px 14px;border:1px solid var(--line);border-radius:12px;
   background:var(--card-bg);transition:transform .2s ease,border-color .2s ease,background .2s ease}
 .scard:hover{border-color:var(--c2);background:rgba(182,160,255,.07);transform:translateY(-2px)}
@@ -178,7 +166,6 @@ body.fresh .scard:hover{background:rgba(142,197,255,.12)}
 .scard .sn{display:block;font-size:14.5px;font-weight:600;line-height:1.35;word-break:normal;overflow-wrap:anywhere}
 .scard .su{display:block;font-family:var(--font-mono);font-size:11px;color:var(--ink-dim);line-height:1.45;word-break:normal;overflow-wrap:anywhere}
 
-/* 层三：DNS 面板 */
 .pcard{display:flex;flex-direction:column;gap:10px;padding:15px 16px;border:1px solid var(--line);border-radius:12px;
   background:var(--card-bg);transition:transform .2s ease,border-color .2s ease,background .2s ease}
 .pcard:hover{border-color:var(--c3);background:rgba(66,226,166,.05);transform:translateY(-2px)}
@@ -192,7 +179,7 @@ body.fresh .pcard:hover{background:rgba(149,225,195,.15)}
 .pdom{display:flex;flex-wrap:wrap;gap:6px}
 .pdom a,.pdom span{font-family:var(--font-mono);font-size:11.5px;color:#c6d8ec;
   border:1px solid var(--line);border-radius:8px;padding:4px 9px;background:rgba(5,10,20,.5);transition:border-color .2s ease,color .2s ease}
-body.fresh .pdom a,body.fresh .pdom span{color:#5a6a8c;background:rgba(255,255,255,.6)}
+body.fresh .pdom a,body.fresh .pdom span{color:#3d4a6c;background:rgba(255,255,255,.88);border-color:rgba(120,140,180,.3)}
 .pdom a:hover{border-color:var(--c3);color:#eafff5}
 .pexp{align-self:flex-start;font-family:var(--font-mono);font-size:11.5px;border-radius:8px;padding:3px 9px}
 .pexp.ok{color:#8ff0c2;background:rgba(66,226,166,.10);border:1px solid rgba(66,226,166,.28)}
@@ -230,20 +217,16 @@ a:focus-visible{outline:2px solid var(--c1);outline-offset:2px;border-radius:4px
 </head>
 <body>
 
-<!-- 动态光标 -->
 <div class="cursor-dot" id="cursorDot"></div>
 <div class="cursor-ring" id="cursorRing"></div>
-<!-- 鼠标拖尾画布 -->
 <canvas id="trailCanvas"></canvas>
 
-<!-- ===== 背景视差层 ===== -->
 <div class="bg-parallax" id="bgParallax" aria-hidden="true">
   <div class="bg-img" data-depth="1"></div>
   <div class="bg-veil"></div>
   <div class="bg-grid" data-depth="0.5"></div>
 </div>
 
-<!-- ===== 顶部 ===== -->
 <header class="topbar">
   <div class="center-group">
     <h1 class="logo" id="logoTitle" title="点击切换主题">THANATOSOLO</h1>
@@ -265,7 +248,6 @@ a:focus-visible{outline:2px solid var(--c1);outline-offset:2px;border-radius:4px
 
 <script src="https://cdn.jsdelivr.net/npm/aplayer@1.10.1/dist/APlayer.min.js" integrity="sha384-gdGYZwHnfJM54evoZhpO0s6ZF5BQiybkiyW7VXr+h5UfruuRL/aORyw+5+HZoU6e" crossorigin="anonymous"></script>
 <script>
-/* ===== 主题切换：点击标题 暗色↔小清新 ===== */
 (function(){
   var logo = document.getElementById("logoTitle");
   var saved = localStorage.getItem("thana_theme");
@@ -274,13 +256,11 @@ a:focus-visible{outline:2px solid var(--c1);outline-offset:2px;border-radius:4px
     document.body.classList.toggle("fresh");
     var isFresh = document.body.classList.contains("fresh");
     localStorage.setItem("thana_theme", isFresh ? "fresh" : "dark");
-    // 切换时标题闪一下
     logo.style.transform = "scale(0.92)";
     setTimeout(function(){ logo.style.transform = ""; }, 150);
   });
 })();
 
-/* ===== 动态光标跟随 ===== */
 (function(){
   if(window.matchMedia("(hover:none)").matches) return;
   var dot = document.getElementById("cursorDot");
@@ -288,7 +268,6 @@ a:focus-visible{outline:2px solid var(--c1);outline-offset:2px;border-radius:4px
   var mx = window.innerWidth/2, my = window.innerHeight/2;
   var rx = mx, ry = my;
   var raf = false;
-
   document.addEventListener("mousemove", function(e){
     mx = e.clientX; my = e.clientY;
     dot.style.left = mx + "px";
@@ -304,8 +283,6 @@ a:focus-visible{outline:2px solid var(--c1);outline-offset:2px;border-radius:4px
       });
     }
   });
-
-  // hover可点击元素时光标变大
   var hoverSelector = "a,button,.tab,.dchip,.scard,.pcard,.logo,.ntab,.aplayer";
   document.addEventListener("mouseover", function(e){
     if(e.target.closest(hoverSelector)){ document.body.classList.add("cursor-hover"); }
@@ -313,8 +290,6 @@ a:focus-visible{outline:2px solid var(--c1);outline-offset:2px;border-radius:4px
   document.addEventListener("mouseout", function(e){
     if(e.target.closest(hoverSelector)){ document.body.classList.remove("cursor-hover"); }
   });
-
-  // 点击时闪烁
   document.addEventListener("mousedown", function(){
     dot.style.opacity = "0.4";
     ring.style.opacity = "0.3";
@@ -325,7 +300,6 @@ a:focus-visible{outline:2px solid var(--c1);outline-offset:2px;border-radius:4px
   });
 })();
 
-/* ===== 鼠标拖尾粒子 ===== */
 (function(){
   if(window.matchMedia("(hover:none)").matches) return;
   var canvas = document.getElementById("trailCanvas");
@@ -333,20 +307,17 @@ a:focus-visible{outline:2px solid var(--c1);outline-offset:2px;border-radius:4px
   var particles = [];
   var MAX_PARTICLES = 35;
   var colors = ["#4ad6f7","#b6a0ff","#42e2a6","#ff9ec7","#8ec5ff"];
-
   function resize(){
     canvas.width = window.innerWidth;
     canvas.height = window.innerHeight;
   }
   resize();
   window.addEventListener("resize", resize);
-
   var lastX = 0, lastY = 0, lastSpawn = 0;
   document.addEventListener("mousemove", function(e){
     var now = Date.now();
     var dx = e.clientX - lastX, dy = e.clientY - lastY;
     var speed = Math.sqrt(dx*dx + dy*dy);
-    // 移动越快粒子越多
     if(now - lastSpawn > 16 && speed > 2){
       var count = Math.min(Math.floor(speed / 8), 3);
       for(var i = 0; i < count; i++){
@@ -368,7 +339,6 @@ a:focus-visible{outline:2px solid var(--c1);outline-offset:2px;border-radius:4px
     }
     lastX = e.clientX; lastY = e.clientY;
   });
-
   function animate(){
     ctx.clearRect(0,0,canvas.width,canvas.height);
     for(var i = particles.length - 1; i >= 0; i--){
@@ -392,7 +362,6 @@ a:focus-visible{outline:2px solid var(--c1);outline-offset:2px;border-radius:4px
   animate();
 })();
 
-/* ===== 数据文件加载 ===== */
 (function(){
   var s = document.createElement("script");
   s.src = "data.js?v=" + new Date().getTime();
@@ -406,7 +375,6 @@ a:focus-visible{outline:2px solid var(--c1);outline-offset:2px;border-radius:4px
   document.head.appendChild(s);
 })();
 
-/* ===== 主程序 ===== */
 function initApp(){
 function esc(s){
   return String(s).replace(/[&<>"']/g, function(c){
@@ -527,7 +495,6 @@ applyTargets();
   var music_order = "random";
   var music_loop = "all";
   var ap = null;
-
   function mapList(songList){
     return (songList || []).map(function(s){
       return {
