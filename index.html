@@ -24,7 +24,7 @@
   --font-body:"Noto Sans SC","PingFang SC","Microsoft YaHei","Segoe UI",sans-serif;
   --font-mono:"JetBrains Mono","Consolas","SFMono-Regular",monospace;
 }
-.pane-wrap.fresh{
+.page.fresh{
   --ink:#2d3a5c;
   --ink-dim:#5a6a8c;
   --line:rgba(120,140,180,.3);
@@ -109,7 +109,7 @@ body.cursor-hover .cursor-ring{width:52px;height:52px;border-color:var(--c3);opa
 
 .page{position:relative;z-index:1;flex:1;min-height:0;width:100%;max-width:1020px;margin:0 auto;padding:18px 22px 20px;display:flex;flex-direction:column;overflow:hidden}
 
-.tabbar{display:flex;align-items:flex-end;gap:10px;margin-top:18px;padding:0 10px;border-bottom:1px solid var(--line);flex:none;transition:border-color .6s ease}
+.tabbar{display:flex;align-items:flex-end;gap:10px;margin-top:18px;padding:0 10px;flex:none}
 .tabs{display:flex;gap:6px;align-items:flex-end;overflow-x:auto;overflow-y:hidden;flex:1;min-width:0;padding:0;border-bottom:none;margin-top:0;scrollbar-width:none;-ms-overflow-style:none}
 .tabs::-webkit-scrollbar{display:none}
 .tab{position:relative;flex:none;border:1px solid var(--line);border-bottom:none;border-radius:10px 10px 0 0;
@@ -122,7 +122,9 @@ body.cursor-hover .cursor-ring{width:52px;height:52px;border-color:var(--c3);opa
 .tab:hover{color:var(--ink)}
 .tab.on{color:var(--ink);background:rgba(12,19,35,.92);border-color:rgba(150,170,205,.30);
   box-shadow:inset 0 2px 0 var(--ac),0 -10px 30px -22px var(--ac)}
-.pane-wrap{position:relative;border:1px solid rgba(150,170,205,.24);border-top:none;border-radius:0 14px 14px 14px;
+.page.fresh .tab{background:rgba(255,255,255,.55);color:#5a6a8c;border-color:rgba(120,140,180,.25)}
+.page.fresh .tab.on{background:rgba(255,255,255,.95);color:#2d3a5c;border-color:rgba(120,140,180,.35);box-shadow:inset 0 2px 0 var(--ac)}
+.pane-wrap{position:relative;border:1px solid rgba(150,170,205,.24);border-radius:14px;
   background:var(--pane-bg);
   backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);
   padding:22px 24px 26px;flex:none;min-height:120px;max-height:calc(100vh - 235px);overflow-y:auto;overscroll-behavior:contain;
@@ -140,14 +142,14 @@ body.cursor-hover .cursor-ring{width:52px;height:52px;border-color:var(--c3);opa
 .dchip{display:flex;flex-direction:column;gap:6px;padding:14px 16px;border:1px solid var(--line);border-radius:12px;
   background:var(--card-bg);transition:transform .2s ease,border-color .2s ease,background .2s ease}
 .dchip:hover{border-color:var(--c1);background:rgba(74,214,247,.06);transform:translateY(-2px)}
-.pane-wrap.fresh .dchip:hover{background:rgba(232,121,168,.08)}
+.page.fresh .dchip:hover{background:rgba(232,121,168,.08)}
 .dchip .dn{font-family:var(--font-mono);font-size:14px;font-weight:600;color:var(--ink);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .dchip .du{font-family:var(--font-mono);font-size:11.5px;color:var(--ink-dim);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 
 .scard{display:flex;align-items:flex-start;gap:12px;padding:13px 14px;border:1px solid var(--line);border-radius:12px;
   background:var(--card-bg);transition:transform .2s ease,border-color .2s ease,background .2s ease}
 .scard:hover{border-color:var(--c2);background:rgba(182,160,255,.07);transform:translateY(-2px)}
-.pane-wrap.fresh .scard:hover{background:rgba(107,168,232,.08)}
+.page.fresh .scard:hover{background:rgba(107,168,232,.08)}
 .scard .ico{font-size:21px;width:38px;height:38px;display:grid;place-items:center;border-radius:10px;background:rgba(182,160,255,.10);border:1px solid rgba(182,160,255,.25);flex:none}
 .scard .body{min-width:0;flex:1}
 .scard .sn{display:block;font-size:14.5px;font-weight:600;line-height:1.35;word-break:normal;overflow-wrap:anywhere}
@@ -156,7 +158,7 @@ body.cursor-hover .cursor-ring{width:52px;height:52px;border-color:var(--c3);opa
 .pcard{display:flex;flex-direction:column;gap:10px;padding:15px 16px;border:1px solid var(--line);border-radius:12px;
   background:var(--card-bg);transition:transform .2s ease,border-color .2s ease,background .2s ease}
 .pcard:hover{border-color:var(--c3);background:rgba(66,226,166,.05);transform:translateY(-2px)}
-.pane-wrap.fresh .pcard:hover{background:rgba(107,201,160,.08)}
+.page.fresh .pcard:hover{background:rgba(107,201,160,.08)}
 .pcard .ptop{display:flex;align-items:center;gap:8px;min-width:0}
 .pcard .psite{font-size:14.5px;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .pcard .psite a:hover{color:var(--c3)}
@@ -166,7 +168,7 @@ body.cursor-hover .cursor-ring{width:52px;height:52px;border-color:var(--c3);opa
 .pdom{display:flex;flex-wrap:wrap;gap:6px}
 .pdom a,.pdom span{font-family:var(--font-mono);font-size:11.5px;color:#c6d8ec;
   border:1px solid var(--line);border-radius:8px;padding:4px 9px;background:rgba(5,10,20,.5);transition:border-color .2s ease,color .2s ease}
-.pane-wrap.fresh .pdom a,.pane-wrap.fresh .pdom span{color:#2d3a5c;background:rgba(255,255,255,.95);border-color:rgba(120,140,180,.35)}
+.page.fresh .pdom a,.page.fresh .pdom span{color:#2d3a5c;background:rgba(255,255,255,.95);border-color:rgba(120,140,180,.35)}
 .pdom a:hover{border-color:var(--c3);color:#eafff5}
 .pexp{align-self:flex-start;font-family:var(--font-mono);font-size:11.5px;border-radius:8px;padding:3px 9px}
 .pexp.ok{color:#8ff0c2;background:rgba(66,226,166,.10);border:1px solid rgba(66,226,166,.28)}
@@ -236,7 +238,7 @@ a:focus-visible{outline:2px solid var(--c1);outline-offset:2px;border-radius:4px
 <script>
 (function(){
   var logo = document.getElementById("logoTitle");
-  var pane = document.querySelector(".pane-wrap");
+  var pane = document.querySelector(".page");
   var saved = localStorage.getItem("thana_theme");
   if(saved === "fresh"){ pane.classList.add("fresh"); }
   logo.addEventListener("click", function(){
