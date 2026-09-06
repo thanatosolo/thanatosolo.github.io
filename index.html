@@ -33,6 +33,41 @@
   --pane-bg:linear-gradient(160deg,rgba(255,255,255,.14),rgba(255,255,255,.10));
 }
 
+/* ===== 透明模式：APlayer 透明毛玻璃 ===== */
+body.fresh .aplayer{
+  --aplayer-bg:rgba(255,255,255,.10)!important;
+  --aplayer-list-bg:rgba(255,255,255,.12)!important;
+  --aplayer-list-light-bg:rgba(232,121,168,.14)!important;
+  --aplayer-color:#fff!important;
+  --aplayer-list-color:#fff!important;
+  --aplayer-border-color:rgba(120,140,180,.22)!important;
+  background:rgba(255,255,255,.10)!important;
+  backdrop-filter:blur(14px)!important;
+  -webkit-backdrop-filter:blur(14px)!important;
+  box-shadow:0 8px 30px -18px rgba(0,0,0,.20)!important;
+}
+body.fresh .aplayer .aplayer-body{background:transparent!important}
+body.fresh .aplayer .aplayer-info{background:transparent!important}
+body.fresh .aplayer .aplayer-list{background:rgba(255,255,255,.12)!important}
+body.fresh .aplayer .aplayer-list ol li{background:transparent!important;color:#fff!important;border-top-color:rgba(255,255,255,.12)!important}
+body.fresh .aplayer .aplayer-list ol li:hover{background:rgba(255,255,255,.10)!important}
+body.fresh .aplayer .aplayer-list-index{color:rgba(135,206,250,.65)!important}
+body.fresh .aplayer .aplayer-list-title{color:#fff!important}
+body.fresh .aplayer .aplayer-list-author{color:rgba(135,206,250,.95)!important}
+body.fresh .aplayer .aplayer-list-light{background:rgba(255,255,255,.18)!important}
+body.fresh .aplayer .aplayer-miniswitcher{background:rgba(255,255,255,.15)!important}
+body.fresh .aplayer .aplayer-notice{background:rgba(255,255,255,.90)!important}
+body.fresh .aplayer .aplayer-music .aplayer-title{color:#fff!important}
+body.fresh .aplayer .aplayer-music .aplayer-author{color:rgba(255,255,255,.85)!important}
+body.fresh .aplayer .aplayer-pic .aplayer-play{background:rgba(255,255,255,.35)!important}
+body.fresh .aplayer .aplayer-info .aplayer-controller .aplayer-bar-wrap .aplayer-bar{background:rgba(255,255,255,.25)!important}
+body.fresh .aplayer .aplayer-time .aplayer-icon svg{fill:#fff!important}
+body.fresh .aplayer svg{fill:#fff!important}
+body.fresh .aplayer svg path,body.fresh .aplayer svg circle,body.fresh .aplayer svg rect,body.fresh .aplayer svg line,body.fresh .aplayer svg polyline,body.fresh .aplayer svg polygon{fill:#fff!important}
+body.fresh .aplayer .aplayer-time{color:#fff!important}
+body.fresh .aplayer-lrc p{color:rgba(255,255,255,.5)!important}
+body.fresh .aplayer-lrc p.aplayer-lrc-current{color:#fff!important;text-shadow:0 2px 12px rgba(0,0,0,.4)!important}
+
 *{margin:0;padding:0;box-sizing:border-box;cursor:none !important}
 html,body{height:100%}
 html{scroll-behavior:smooth}
@@ -70,7 +105,7 @@ body.cursor-hover .cursor-ring{width:52px;height:52px;border-color:var(--c3);opa
 
 .ntab{display:inline-flex;align-items:center;gap:7px;padding:8px 14px;border:1px solid var(--line);border-radius:999px;flex:none;margin-bottom:-1px;
   background:rgba(9,14,27,.55);cursor:pointer;font-size:12.5px;color:var(--ink-dim);
-  backdrop-filter:blur(6px);transition:border-color .25s ease,color .25s ease,box-shadow .25s ease,background .6s ease}
+  backdrop-filter:blur(6px);transition:border-color .25s ease,color .25s ease,box-shadow:.25s ease,background .6s ease}
 .ntab .nt-ic{width:15px;height:15px;border-radius:5px;border:1.5px solid currentColor;position:relative}
 .ntab .nt-ic::after{content:"";position:absolute;inset:3px;border-radius:2px;background:transparent;transition:background .25s ease}
 .ntab.on{color:#dff4ff;border-color:rgba(74,214,247,.55);box-shadow:0 0 16px -6px var(--c1)}
@@ -84,13 +119,41 @@ body.cursor-hover .cursor-ring{width:52px;height:52px;border-color:var(--c3);opa
   --aplayer-list-light-bg:rgba(74,214,247,.10)!important;--aplayer-list-color:#c7d6ea!important;
   --aplayer-color:#dfe8f6!important;--aplayer-border-color:var(--line)!important;
   width:520px!important;max-width:100%!important;margin:0!important;
+  background:rgba(8,13,25,.82)!important;
   border:1px solid var(--line)!important;border-radius:12px!important;
   box-shadow:0 14px 38px -18px rgba(0,0,0,.75)!important;font-family:var(--font-body)!important;transition:background .6s ease,border-color .6s ease}
+.aplayer .aplayer-body{background:transparent!important}
+.aplayer .aplayer-info{background:transparent!important}
+.aplayer .aplayer-list-index{color:#6a8aaf!important}
+.aplayer .aplayer-list-title{color:#eaf2fd!important}
+.aplayer .aplayer-list-author{color:#87CEFA!important}
 .aplayer .aplayer-pic{border-radius:8px!important;margin:6px!important}
 .aplayer .aplayer-pic .aplayer-play{background:rgba(5,7,15,.45)!important}
-.aplayer .aplayer-info{padding:9px 12px 9px 0!important;overflow:visible!important}
+/* 歌词吸底多行展开，透明无背景 */
+.aplayer .aplayer-body{position:relative!important}
+.aplayer-lrc{
+  position:fixed!important;bottom:0!important;left:0!important;right:0!important;
+  width:100vw!important;max-width:none!important;height:120px!important;
+  background:transparent!important;border:none!important;
+  padding:10px 40px!important;z-index:9998!important;
+  overflow:hidden!important;display:block!important;
+  pointer-events:none!important;
+}
+.aplayer-lrc-hide{display:none!important}
+.aplayer-lrc-contents{width:100%!important;text-align:center!important;transform:none!important;transition:margin-top .45s ease-out!important;-webkit-transition:margin-top .45s ease-out!important}
+.aplayer-lrc p{
+  color:rgba(255,255,255,.38)!important;font-size:14px!important;line-height:2.2!important;
+  margin:0!important;transition:color .35s ease,opacity .35s ease,font-size .35s ease!important;
+}
+.aplayer-lrc p.aplayer-lrc-current{
+  color:#fff!important;font-weight:600!important;font-size:19px!important;text-shadow:0 2px 12px rgba(0,0,0,.5)!important;
+}
+/* 去掉播放列表折叠时残留的顶部白线，并下移到与唱片底部齐平 */
+.aplayer .aplayer-list{border-top:none!important;margin-top:25px!important}
+.aplayer .aplayer-info{padding:9px 12px 9px 0!important;overflow:visible!important;height:auto!important;min-height:0!important;border-bottom:none!important}
 .aplayer .aplayer-music .aplayer-title{color:#eef5ff!important;font-weight:600}
 .aplayer .aplayer-music .aplayer-author{color:var(--ink-dim)!important}
+.aplayer .aplayer-info .aplayer-controller{margin-top:32px!important}
 .aplayer .aplayer-info .aplayer-controller .aplayer-bar-wrap{flex:1;padding:6px 0!important}
 .aplayer .aplayer-info .aplayer-controller .aplayer-bar-wrap .aplayer-bar{height:4px!important;background:rgba(148,168,200,.25)!important}
 .aplayer .aplayer-info .aplayer-controller .aplayer-bar-wrap .aplayer-bar .aplayer-loaded,
@@ -117,15 +180,15 @@ body.cursor-hover .cursor-ring{width:52px;height:52px;border-color:var(--c3);opa
 .tab{position:relative;flex:none;border:1px solid var(--line);border-bottom:none;border-radius:10px 10px 0 0;
   background:rgba(8,13,25,.52);padding:11px 18px;cursor:pointer;color:var(--ink-dim);
   display:flex;align-items:center;gap:8px;font-size:14px;margin-bottom:-1px;white-space:nowrap;
-  transition:background .25s ease,color .25s ease,box-shadow .25s ease,border-color .6s ease}
+  transition:background .25s ease,color .25s ease,box-shadow:.25s ease,border-color .6s ease}
 .tab .tnum{font-family:var(--font-mono);font-size:11px;color:var(--ac);opacity:.95}
 .tab .tcount{font-family:var(--font-mono);font-size:11px;padding:1px 8px;border-radius:999px;background:rgba(148,168,200,.14);color:var(--ink)}
 .tab[data-l="1"]{--ac:var(--c1)}.tab[data-l="2"]{--ac:var(--c2)}.tab[data-l="3"]{--ac:var(--c3)}
 .tab:hover{color:var(--ink)}
 .tab.on{color:var(--ink);background:rgba(12,19,35,.92);border-color:rgba(150,170,205,.30);
   box-shadow:inset 0 2px 0 var(--ac),0 -10px 30px -22px var(--ac)}
-.page.fresh .tab{background:rgba(255,255,255,.20);color:#3a4a6c;border-color:rgba(120,140,180,.35)}
-.page.fresh .tab.on{background:rgba(255,255,255,.40);color:#1a2540;border-color:rgba(120,140,180,.45);box-shadow:inset 0 2px 0 var(--ac)}
+.page.fresh .tab{background:rgba(255,255,255,.10);color:#fff!important;border-color:rgba(255,255,255,.20)}
+.page.fresh .tab.on{background:rgba(255,255,255,.18);color:#fff!important;border-color:rgba(255,255,255,.30);box-shadow:inset 0 2px 0 var(--ac)}
 .page.fresh .pane-wrap{backdrop-filter:none;-webkit-backdrop-filter:none}
 .pane-wrap{position:relative;border:1px solid rgba(150,170,205,.24);border-radius:14px;
   background:var(--pane-bg);
@@ -177,8 +240,19 @@ body.cursor-hover .cursor-ring{width:52px;height:52px;border-color:var(--c3);opa
 .pexp.ok{color:#8ff0c2;background:rgba(66,226,166,.10);border:1px solid rgba(66,226,166,.28)}
 .pexp.warn{color:#ffd08a;background:rgba(255,170,60,.10);border:1px solid rgba(255,170,60,.30)}
 .pexp.long{color:var(--ink-dim);background:rgba(148,168,200,.08);border:1px solid var(--line)}
-.page.fresh .pexp.ok{color:#2a7a52;background:rgba(58,154,106,.12);border-color:rgba(58,154,106,.30)}
-.page.fresh .pexp.warn{color:#8a5a1a;background:rgba(200,140,40,.12);border-color:rgba(200,140,40,.30)}
+.page.fresh .pexp.ok{color:#8ff0c2;background:rgba(66,226,166,.15);border-color:rgba(66,226,166,.40)}
+.page.fresh .pexp.warn{color:#ffd08a;background:rgba(255,170,60,.15);border-color:rgba(255,170,60,.40)}
+.page.fresh .pexp.long{color:rgba(255,255,255,.65);background:rgba(255,255,255,.08);border-color:rgba(255,255,255,.20)}
+.page.fresh .pcard .psite{color:#fff}
+.page.fresh .pcard .psite a{color:#fff}
+.page.fresh .pdom a,.page.fresh .pdom span{color:rgba(255,255,255,.88);background:rgba(255,255,255,.10);border-color:rgba(255,255,255,.22)}
+.page.fresh .pdom a:hover{border-color:var(--c3);color:#eafff5}
+.page.fresh .pacc{color:#8ff0c2;border-color:rgba(66,226,166,.40);background:rgba(66,226,166,.12)}
+.page.fresh .pacc.muted{color:rgba(255,255,255,.6);border-color:rgba(255,255,255,.20);background:transparent}
+.page.fresh .scard .sn{color:#fff}
+.page.fresh .scard .su{color:rgba(255,255,255,.78)}
+.page.fresh .dchip .dn{color:#fff}
+.page.fresh .dchip .du{color:rgba(255,255,255,.82)}
 
 .foot{flex:none;margin-top:14px;text-align:center;color:#6a7a92;font-family:var(--font-mono);font-size:12px;letter-spacing:.05em;transition:color .6s ease}
 .foot .dot{display:inline-block;width:7px;height:7px;border-radius:50%;background:var(--c1);margin-right:6px;vertical-align:1px;box-shadow:0 0 10px var(--c1);animation:blink 2.4s ease-in-out infinite}
@@ -245,9 +319,10 @@ a:focus-visible{outline:2px solid var(--c1);outline-offset:2px;border-radius:4px
   var logo = document.getElementById("logoTitle");
   var pane = document.querySelector(".page");
   var saved = localStorage.getItem("thana_theme");
-  if(saved === "fresh"){ pane.classList.add("fresh"); }
+  if(saved === "fresh"){ pane.classList.add("fresh"); document.body.classList.add("fresh"); }
   logo.addEventListener("click", function(){
     pane.classList.toggle("fresh");
+    document.body.classList.toggle("fresh");
     var isFresh = pane.classList.contains("fresh");
     localStorage.setItem("thana_theme", isFresh ? "fresh" : "dark");
     logo.style.transform = "scale(0.92)";
@@ -500,6 +575,22 @@ applyTargets();
     });
   }
   function build(audio){
+    // 重写 APlayer 歌词滚动算法：用第一行标准高度算行距，确保当前行始终居中且平滑
+    if (window.APlayer && APlayer.prototype) {
+      APlayer.prototype.lrcUpdate = function () {
+        if (!this.lrc || !this.lrcContents) return;
+        var index = this.lrcIndex;
+        if (index === -1) {
+          this.lrcContents.style.transform = "translateY(0)";
+          return;
+        }
+        var firstP = this.lrcContents.querySelector("p");
+        var lineHeight = (firstP && firstP.offsetHeight) ? firstP.offsetHeight : 30;
+        var containerH = this.lrc.offsetHeight;
+        var offset = -(index * lineHeight) + (containerH / 2) - (lineHeight / 2);
+        this.lrcContents.style.transform = "translateY(" + offset + "px)";
+      };
+    }
     ap = new APlayer({
       container: document.getElementById("aplayer"),
       fixed: false,
@@ -510,9 +601,41 @@ applyTargets();
       loop: music_loop,
       order: music_order,
       mutex: true,
-      listFolded: true
+      listFolded: true,
+      lrcType: 3
     });
     ap.volume(0.1);
+    // 点击歌名/歌手区域展开/收起歌曲列表
+    var musicArea = document.querySelector("#aplayer .aplayer-music");
+    if (musicArea) {
+      musicArea.style.cursor = "pointer";
+      musicArea.addEventListener("click", function () {
+        var menuBtn = document.querySelector("#aplayer .aplayer-icon-menu");
+        if (menuBtn) menuBtn.click();
+      });
+    }
+    // 把歌词条移到 body 下，避免父容器 transform 限制 fixed 全屏宽
+    var lrcEl = document.querySelector("#aplayer .aplayer-lrc");
+    if (lrcEl && lrcEl.parentNode !== document.body) {
+      document.body.appendChild(lrcEl);
+    }
+    // 用 margin-top 驱动歌词平滑滚动（APlayer 的 transform 已被 CSS 禁用，互不干扰）
+    setInterval(function () {
+      var lrc = document.querySelector(".aplayer-lrc");
+      var contents = lrc ? lrc.querySelector(".aplayer-lrc-contents") : null;
+      var current = lrc ? lrc.querySelector("p.aplayer-lrc-current") : null;
+      if (!lrc || !contents || !current) return;
+      var firstP = contents.querySelector("p");
+      var lineHeight = (firstP && firstP.offsetHeight) ? firstP.offsetHeight : 30;
+      var allLines = contents.querySelectorAll("p");
+      var index = 0;
+      for (var i = 0; i < allLines.length; i++) {
+        if (allLines[i] === current) { index = i; break; }
+      }
+      var containerH = lrc.offsetHeight;
+      var offset = -(index * lineHeight) + (containerH / 2) - (lineHeight / 2);
+      contents.style.marginTop = offset + "px";
+    }, 350);
   }
   function load(){
     fetch(meting_music_api + "?server=" + music_server + "&type=" + music_type + "&id=" + music_id)
