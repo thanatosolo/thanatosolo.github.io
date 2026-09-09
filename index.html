@@ -32,8 +32,6 @@
   --card-bg:rgba(255,255,255,.10);
   --pane-bg:linear-gradient(160deg,rgba(255,255,255,.14),rgba(255,255,255,.10));
 }
-
-/* ===== 小清新模式：APlayer 透明毛玻璃 ===== */
 body.fresh .aplayer{
   --aplayer-bg:rgba(255,255,255,.10)!important;
   --aplayer-list-bg:rgba(255,255,255,.12)!important;
@@ -67,7 +65,6 @@ body.fresh .aplayer svg path,body.fresh .aplayer svg circle,body.fresh .aplayer 
 body.fresh .aplayer .aplayer-time{color:#fff!important}
 body.fresh .aplayer-lrc p{color:rgba(255,255,255,.5)!important}
 body.fresh .aplayer-lrc p.aplayer-lrc-current{color:#fff!important;text-shadow:0 2px 12px rgba(0,0,0,.4)!important}
-
 *{margin:0;padding:0;box-sizing:border-box;cursor:none !important}
 html,body{height:100%}
 html{scroll-behavior:smooth}
@@ -75,22 +72,18 @@ body{background:var(--bg);color:var(--ink);font-family:var(--font-body);height:1
 a{color:inherit;text-decoration:none}
 button{font-family:inherit;color:inherit}
 .grid > *{min-width:0}
-
 .cursor-dot{position:fixed;top:0;left:0;width:8px;height:8px;border-radius:50%;background:var(--c1);pointer-events:none;z-index:9999;transform:translate(-50%,-50%);transition:width .25s ease,height .25s ease,background .25s ease,opacity .3s ease;mix-blend-mode:screen;box-shadow:0 0 12px var(--c1),0 0 24px var(--c1)}
 .cursor-ring{position:fixed;top:0;left:0;width:36px;height:36px;border-radius:50%;border:1.5px solid var(--c2);pointer-events:none;z-index:9998;transform:translate(-50%,-50%);transition:width .3s ease,height .3s ease,border-color .3s ease,opacity .3s ease;opacity:.7}
 body.cursor-hover .cursor-dot{width:14px;height:14px;background:var(--c3);box-shadow:0 0 16px var(--c3),0 0 32px var(--c3)}
 body.cursor-hover .cursor-ring{width:52px;height:52px;border-color:var(--c3);opacity:.5}
 @media (hover:none){.cursor-dot,.cursor-ring{display:none}}
-
 #trailCanvas{position:fixed;inset:0;pointer-events:none;z-index:9997}
-
 .bg-parallax{position:fixed;inset:0;z-index:0;overflow:hidden;pointer-events:none}
 .bg-img{position:absolute;inset:-70px;background:url("https://aka.doubaocdn.com/s/HUM3RIuX8V") center/cover no-repeat;opacity:1;will-change:transform;transition:opacity .6s ease,filter .6s ease}
 .bg-veil{position:absolute;inset:0;background:var(--veil);transition:background .6s ease}
 .bg-grid{position:absolute;inset:0;will-change:transform;
   background-image:linear-gradient(rgba(150,175,215,.05) 1px,transparent 1px),linear-gradient(90deg,rgba(150,175,215,.05) 1px,transparent 1px);
   background-size:70px 70px;-webkit-mask-image:radial-gradient(90% 80% at 50% 12%,#000 20%,transparent 100%);mask-image:radial-gradient(90% 80% at 50% 12%,#000 20%,transparent 100%);transition:background-image .6s ease}
-
 .topbar{position:sticky;top:0;z-index:20;flex:none;display:flex;justify-content:center;align-items:center;
   padding:16px 22px;border-bottom:1px solid rgba(150,170,205,.12);
   background:var(--topbar-bg);
@@ -102,7 +95,6 @@ body.cursor-hover .cursor-ring{width:52px;height:52px;border-color:var(--c3);opa
   filter:drop-shadow(0 2px 14px rgba(2,6,14,.9));white-space:nowrap;cursor:pointer;user-select:none;transition:transform .3s ease,filter .3s ease}
 .logo:hover{transform:scale(1.04)}
 .logo:active{transform:scale(0.97)}
-
 .ntab{display:inline-flex;align-items:center;gap:7px;padding:8px 14px;border:1px solid var(--line);border-radius:999px;flex:none;margin-bottom:-1px;
   background:rgba(9,14,27,.55);cursor:pointer;font-size:12.5px;color:var(--ink-dim);
   backdrop-filter:blur(6px);transition:border-color .25s ease,color .25s ease,box-shadow .25s ease,background .6s ease}
@@ -113,9 +105,7 @@ body.cursor-hover .cursor-ring{width:52px;height:52px;border-color:var(--c3);opa
 .page.fresh .ntab{background:rgba(255,255,255,.12);color:#5a6a8c;border-color:rgba(120,140,180,.25)}
 .page.fresh .ntab.on{color:#2d3a5c;border-color:rgba(232,121,168,.5);box-shadow:0 0 16px -6px var(--c1)}
 .player-box{min-width:0}
-/* ===== APlayer 播放器（重写） ===== */
 #aplayer{width:350px;max-width:100%}
-
 .aplayer{
   width:350px!important;max-width:100%!important;margin:0!important;
   background:rgba(8,13,25,.82)!important;
@@ -124,36 +114,26 @@ body.cursor-hover .cursor-ring{width:52px;height:52px;border-color:var(--c3);opa
   font-family:var(--font-body)!important;overflow:hidden!important;
   transition:background .6s ease,border-color .6s ease;
 }
-
-/* 主体：封面左 + 信息右，等高，上左10px */
 .aplayer .aplayer-body{
   background:transparent!important;display:flex!important;align-items:stretch!important;
   gap:10px!important;padding:10px 0 0 10px!important;position:relative!important;height:100px!important;min-height:100px!important;max-height:100px!important;
 }
-
-/* 封面：撑满高度，90x90 */
 .aplayer .aplayer-pic{
   border-radius:0!important;margin:0!important;width:90px!important;height:90px!important;flex:none!important;
 }
 .aplayer .aplayer-pic .aplayer-play{background:rgba(5,7,15,.45)!important}
-
-/* 信息区：歌名贴顶，控制器贴底 */
 .aplayer .aplayer-info{
   background:transparent!important;margin-left:0!important;overflow:visible!important;
   border-bottom:none!important;display:flex!important;flex-direction:column!important;
   flex:1!important;min-width:0!important;height:90px!important;min-height:90px!important;max-height:90px!important;
   justify-content:space-between!important;padding:0 10px 0 0!important;
 }
-
-/* 歌名 */
 .aplayer .aplayer-music{margin:0!important;line-height:1.2!important}
 .aplayer .aplayer-music .aplayer-title{
   color:#eef5ff!important;font-weight:600;font-size:13px!important;line-height:1.2!important;
   display:block!important;white-space:nowrap!important;overflow:hidden!important;text-overflow:ellipsis!important;
 }
 .aplayer .aplayer-music .aplayer-author{display:none!important}
-
-/* 控制器：进度条在上，按键在下 */
 .aplayer .aplayer-info .aplayer-controller{
   margin-top:0!important;flex-direction:column!important;gap:8px!important;align-items:stretch!important;
 }
@@ -166,8 +146,6 @@ body.cursor-hover .cursor-ring{width:52px;height:52px;border-color:var(--c3);opa
 .aplayer .aplayer-info .aplayer-controller .aplayer-bar-wrap .aplayer-bar .aplayer-loaded,
 .aplayer .aplayer-info .aplayer-controller .aplayer-bar-wrap .aplayer-bar .aplayer-played{height:4px!important}
 .aplayer .aplayer-info .aplayer-controller .aplayer-bar-wrap .aplayer-bar .aplayer-played .aplayer-thumb{margin-top:-3px!important}
-
-/* 按键：一排7个（播放键移到进度条右边） */
 .aplayer .aplayer-time{
   flex:0 0 auto!important;overflow:visible!important;height:auto!important;min-height:0!important;
   display:flex!important;justify-content:space-between!important;align-items:center!important;width:100%!important;
@@ -177,21 +155,16 @@ body.cursor-hover .cursor-ring{width:52px;height:52px;border-color:var(--c3);opa
   width:24px;height:24px;margin:0;display:inline-flex!important;align-items:center;justify-content:center;opacity:.95!important;
 }
 .aplayer .aplayer-time .aplayer-icon svg{width:18px;height:18px;fill:currentColor}
-/* 进度条+播放键 同一排 */
 .aplayer .aplayer-bar-row{display:flex!important;align-items:center!important;gap:10px!important;width:100%!important}
 .aplayer .aplayer-bar-row .aplayer-bar-wrap{flex:1!important}
 .aplayer .aplayer-bar-row .aplayer-icon-play{width:28px!important;height:28px!important;flex:none!important}
 .aplayer .aplayer-bar-row .aplayer-icon-play svg{width:20px!important;height:20px!important}
-
-/* 播放列表 */
 .aplayer .aplayer-list{border-top:none!important;margin-top:0!important}
 .aplayer .aplayer-list-index{color:#6a8aaf!important}
 .aplayer .aplayer-list-title{color:#eaf2fd!important}
 .aplayer .aplayer-list-author{color:#87CEFA!important}
 .aplayer .aplayer-list ol li{color:var(--ink-dim)!important;border-top:1px solid rgba(148,168,200,.08)!important}
 .aplayer .aplayer-list ol li:hover{background:rgba(148,168,200,.05)!important}
-
-/* 歌词吸底多行 */
 .aplayer-lrc{
   position:fixed!important;bottom:0!important;left:0!important;right:0!important;
   width:100vw!important;max-width:none!important;height:120px!important;
@@ -208,9 +181,7 @@ body.cursor-hover .cursor-ring{width:52px;height:52px;border-color:var(--c3);opa
 .aplayer-lrc p.aplayer-lrc-current{
   color:#fff!important;font-weight:600!important;font-size:19px!important;text-shadow:0 2px 12px rgba(0,0,0,.5)!important;
 }
-
 .page{position:relative;z-index:1;flex:1;min-height:0;width:100%;max-width:1020px;margin:0 auto;padding:18px 22px 20px;display:flex;flex-direction:column;overflow:hidden}
-
 .tabbar{display:flex;align-items:flex-end;gap:10px;margin-top:18px;padding:0 10px;flex:none}
 .tabs{display:flex;gap:6px;align-items:flex-end;overflow-x:auto;overflow-y:hidden;flex:1;min-width:0;padding:0;border-bottom:none;margin-top:0;scrollbar-width:none;-ms-overflow-style:none}
 .tabs::-webkit-scrollbar{display:none}
@@ -230,26 +201,23 @@ body.cursor-hover .cursor-ring{width:52px;height:52px;border-color:var(--c3);opa
 .pane-wrap{position:relative;border:1px solid rgba(150,170,205,.24);border-radius:14px;
   background:var(--pane-bg);
   backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);
-  padding:22px 24px 26px;flex:none;min-height:120px;max-height:calc(100vh - 235px);overflow-y:auto;overscroll-behavior:contain;
+  padding:22px 24px 110px;flex:none;min-height:120px;max-height:calc(100vh - 235px);overflow-y:auto;overscroll-behavior:contain;
   scrollbar-width:none;-ms-overflow-style:none;transition:background .6s ease,border-color .6s ease}
 .pane-wrap::-webkit-scrollbar{display:none}
 .pane{display:none}
 .pane.on{display:block;animation:paneIn .38s ease}
 @keyframes paneIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
-
 .grid{display:grid;gap:12px}
 .g1{grid-template-columns:repeat(auto-fit,minmax(210px,1fr))}
 .g2{grid-template-columns:repeat(auto-fit,minmax(280px,1fr))}
 .g3{grid-template-columns:repeat(auto-fit,minmax(250px,1fr))}
 .g4{grid-template-columns:1fr}
-
 .dchip{display:flex;flex-direction:column;gap:6px;padding:14px 16px;border:1px solid var(--line);border-radius:12px;
   background:var(--card-bg);transition:transform .2s ease,border-color .2s ease,background .2s ease}
 .dchip:hover{border-color:var(--c1);background:rgba(74,214,247,.06);transform:translateY(-2px)}
 .page.fresh .dchip:hover{background:rgba(232,121,168,.08)}
 .dchip .dn{font-family:var(--font-mono);font-size:14px;font-weight:600;color:var(--ink);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .dchip .du{font-family:var(--font-mono);font-size:11.5px;color:var(--ink-dim);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-
 .scard{display:flex;align-items:flex-start;gap:12px;padding:13px 14px;border:1px solid var(--line);border-radius:12px;
   background:var(--card-bg);transition:transform .2s ease,border-color .2s ease,background .2s ease}
 .scard:hover{border-color:var(--c2);background:rgba(182,160,255,.07);transform:translateY(-2px)}
@@ -258,9 +226,10 @@ body.cursor-hover .cursor-ring{width:52px;height:52px;border-color:var(--c3);opa
 .scard .body{min-width:0;flex:1}
 .scard .sn{display:block;font-size:14.5px;font-weight:600;line-height:1.35;word-break:normal;overflow-wrap:anywhere}
 .scard .su{display:block;font-family:var(--font-mono);font-size:11px;color:var(--ink-dim);line-height:1.45;word-break:normal;overflow-wrap:anywhere}
-
 .pcard{display:flex;flex-direction:column;gap:10px;padding:15px 16px;border:1px solid var(--line);border-radius:12px;
-  background:var(--card-bg);transition:transform .2s ease,border-color .2s ease,background .2s ease}
+  background:var(--card-bg);max-height:280px;overflow-y:auto;scrollbar-width:none;-ms-overflow-style:none;
+  transition:transform .2s ease,border-color .2s ease,background .2s ease}
+.pcard::-webkit-scrollbar{display:none}
 .pcard:hover{border-color:var(--c3);background:rgba(66,226,166,.05);transform:translateY(-2px)}
 .page.fresh .pcard:hover{background:rgba(58,154,106,.08)}
 .pcard .ptop{display:flex;align-items:center;gap:8px;min-width:0}
@@ -289,8 +258,6 @@ body.cursor-hover .cursor-ring{width:52px;height:52px;border-color:var(--c3);opa
 .page.fresh .pacc.muted{color:rgba(255,255,255,.6);border-color:rgba(255,255,255,.20);background:transparent}
 .page.fresh .scard .sn{color:#fff}
 .page.fresh .scard .su{color:rgba(255,255,255,.78)}
-
-/* ===== 04 漫画追更卡 ===== */
 .mcard{display:flex;flex-direction:column;gap:12px;padding:16px 18px;border:1px solid var(--line);border-radius:12px;
   background:var(--card-bg);transition:transform .2s ease,border-color .2s ease,background .2s ease}
 .mcard:hover{border-color:var(--c1);background:rgba(74,214,247,.05);transform:translateY(-2px)}
@@ -320,8 +287,6 @@ body.cursor-hover .cursor-ring{width:52px;height:52px;border-color:var(--c3);opa
 .page.fresh .mchapters a{color:rgba(255,255,255,.78);border-color:rgba(255,255,255,.15);background:rgba(255,255,255,.06)}
 .page.fresh .mchapters a:hover{color:#fff;border-color:var(--c1);background:rgba(255,255,255,.14)}
 .page.fresh .mchapters a:first-child{color:#8ff0c2;border-color:rgba(66,226,166,.45);background:rgba(66,226,166,.15)}
-
-/* ===== 漫画搜索框 ===== */
 .msearch{margin-bottom:8px}
 .msearch-input{
   width:100%;padding:8px 12px;border:1px solid var(--line);border-radius:8px;
@@ -333,8 +298,6 @@ body.cursor-hover .cursor-ring{width:52px;height:52px;border-color:var(--c3);opa
 .page.fresh .msearch-input{background:rgba(255,255,255,.12);border-color:rgba(255,255,255,.20);color:#fff}
 .page.fresh .msearch-input:focus{border-color:var(--c1);box-shadow:0 0 0 3px rgba(232,121,168,.15)}
 .page.fresh .msearch-input::placeholder{color:rgba(255,255,255,.55)}
-
-/* ===== 漫画分页导航 ===== */
 .mpager{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-top:10px;flex-wrap:wrap}
 .mpager-info{font-family:var(--font-mono);font-size:11px;color:var(--ink-dim);white-space:nowrap}
 .page.fresh .mpager-info{color:rgba(255,255,255,.65)}
@@ -354,11 +317,9 @@ body.cursor-hover .cursor-ring{width:52px;height:52px;border-color:var(--c3);opa
 .page.fresh .mpg-ellipsis{color:rgba(255,255,255,.5)}
 .page.fresh .dchip .dn{color:#fff}
 .page.fresh .dchip .du{color:rgba(255,255,255,.82)}
-
 .foot{flex:none;margin-top:14px;text-align:center;color:#6a7a92;font-family:var(--font-mono);font-size:12px;letter-spacing:.05em;transition:color .6s ease}
 .foot .dot{display:inline-block;width:7px;height:7px;border-radius:50%;background:var(--c1);margin-right:6px;vertical-align:1px;box-shadow:0 0 10px var(--c1);animation:blink 2.4s ease-in-out infinite}
 @keyframes blink{0%,100%{opacity:1}50%{opacity:.25}}
-
 a:focus-visible{outline:2px solid var(--c1);outline-offset:2px;border-radius:4px}
 @media (max-width:760px){
   .topbar{padding:12px 14px}
@@ -366,7 +327,6 @@ a:focus-visible{outline:2px solid var(--c1);outline-offset:2px;border-radius:4px
   .logo{font-size:clamp(28px,8.5vw,40px);letter-spacing:.06em}
   .player-box{width:100%;max-width:560px}
   #aplayer{width:100%;min-width:0}
-  /* 移动端播放器高度调整 */
   .aplayer{min-height:110px!important}
   .aplayer .aplayer-body{height:110px!important;min-height:110px!important;max-height:110px!important}
   .aplayer .aplayer-info{height:110px!important;min-height:110px!important;max-height:110px!important}
@@ -388,24 +348,20 @@ a:focus-visible{outline:2px solid var(--c1);outline-offset:2px;border-radius:4px
 </style>
 </head>
 <body>
-
 <div class="cursor-dot" id="cursorDot"></div>
 <div class="cursor-ring" id="cursorRing"></div>
 <canvas id="trailCanvas"></canvas>
-
 <div class="bg-parallax" id="bgParallax" aria-hidden="true">
   <div class="bg-img" data-depth="1"></div>
   <div class="bg-veil"></div>
   <div class="bg-grid" data-depth="0.5"></div>
 </div>
-
 <header class="topbar">
   <div class="center-group">
     <h1 class="logo" id="logoTitle" title="点击切换主题">THANATOSOLO</h1>
     <div class="player-box"><div id="aplayer"></div></div>
   </div>
 </header>
-
 <main class="page">
   <div class="tabbar">
     <div class="tabs" id="tabs" role="tablist"></div>
@@ -414,10 +370,8 @@ a:focus-visible{outline:2px solid var(--c1);outline-offset:2px;border-radius:4px
     </button>
   </div>
   <div class="pane-wrap" id="panes"></div>
-
   <footer class="foot"><span class="dot"></span>THANATOSOLO · NAVIGATION · 2026</footer>
 </main>
-
 <script src="https://cdn.jsdelivr.net/npm/aplayer@1.10.1/dist/APlayer.min.js" integrity="sha384-gdGYZwHnfJM54evoZhpO0s6ZF5BQiybkiyW7VXr+h5UfruuRL/aORyw+5+HZoU6e" crossorigin="anonymous"></script>
 <script>
 (function(){
@@ -434,7 +388,6 @@ a:focus-visible{outline:2px solid var(--c1);outline-offset:2px;border-radius:4px
     setTimeout(function(){ logo.style.transform = ""; }, 150);
   });
 })();
-
 (function(){
   if(window.matchMedia("(hover:none)").matches) return;
   var dot = document.getElementById("cursorDot");
@@ -473,7 +426,6 @@ a:focus-visible{outline:2px solid var(--c1);outline-offset:2px;border-radius:4px
     ring.style.opacity = "0.7";
   });
 })();
-
 (function(){
   if(window.matchMedia("(hover:none)").matches) return;
   var canvas = document.getElementById("trailCanvas");
@@ -534,7 +486,6 @@ a:focus-visible{outline:2px solid var(--c1);outline-offset:2px;border-radius:4px
   }
   animate();
 })();
-
 (function(){
   var s = document.createElement("script");
   s.src = "data.js?v=" + new Date().getTime();
@@ -547,7 +498,6 @@ a:focus-visible{outline:2px solid var(--c1);outline-offset:2px;border-radius:4px
   };
   document.head.appendChild(s);
 })();
-
 function initApp(){
 function esc(s){
   return String(s).replace(/[&<>"']/g, function(c){
@@ -567,7 +517,6 @@ function expireHtml(dateStr){
   var cls = days < 180 ? "warn" : "ok";
   return '<span class="pexp ' + cls + '">' + esc(dateStr) + ' · ' + days + ' 天</span>';
 }
-
 var g1 = L1.map(function(d){
   return '<a class="dchip" href="' + esc(d.url) + '">' +
          '<span class="dn">' + esc(d.name) + '</span>' +
@@ -592,7 +541,6 @@ var g3 = L3.map(function(p){
          expireHtml(p.expire) +
          '</div>';
 }).join("");
-
 var g4 = L4.map(function(m, idx){
   return '<div class="mcard" data-midx="' + idx + '">' +
          '<div class="mtop">' +
@@ -606,24 +554,20 @@ var g4 = L4.map(function(m, idx){
          '<div class="mpager" id="mpager-' + idx + '"></div>' +
          '</div>';
 }).join("");
-
 var layers = [
   { l:1, num:TABS[0].num, title:TABS[0].title, count:L1.length, html:'<div class="grid g1">' + g1 + '</div>' },
   { l:2, num:TABS[1].num, title:TABS[1].title, count:L2.length, html:'<div class="grid g2">' + g2 + '</div>' },
   { l:3, num:TABS[2].num, title:TABS[2].title, count:L3.length, html:'<div class="grid g3">' + g3 + '</div>' },
   { l:4, num:TABS[3].num, title:TABS[3].title, count:L4.length, html:'<div class="grid g4">' + g4 + '</div>' }
 ];
-
 document.getElementById("tabs").innerHTML = layers.map(function(x, i){
   return '<button class="tab' + (i === 0 ? ' on' : '') + '" data-i="' + i + '" data-l="' + x.l + '" role="tab">' +
          (x.num ? '<span class="tnum">' + esc(x.num) + '</span>' : '') + x.title +
          '<span class="tcount">' + x.count + '</span></button>';
 }).join("");
-
 document.getElementById("panes").innerHTML = layers.map(function(x, i){
   return '<div class="pane' + (i === 0 ? ' on' : '') + '" data-i="' + i + '">' + x.html + '</div>';
 }).join("");
-
 function switchTab(i){
   document.querySelectorAll(".tab").forEach(function(t, idx){ t.classList.toggle("on", idx === i); });
   document.querySelectorAll(".pane").forEach(function(p, idx){ p.classList.toggle("on", idx === i); });
@@ -631,7 +575,6 @@ function switchTab(i){
 document.querySelectorAll(".tab").forEach(function(t, i){
   t.addEventListener("click", function(){ switchTab(i); });
 });
-
 var newtab = localStorage.getItem("thana_newtab") !== "0";
 var ntBtn = document.getElementById("newtabBtn");
 var ntLabel = document.getElementById("ntLabel");
@@ -650,12 +593,9 @@ ntBtn.addEventListener("click", function(){
   applyTargets();
 });
 applyTargets();
-
-// ===== 漫画分页 + 搜索初始化 =====
 (function initMangaPagers(){
   if(typeof L4 === "undefined" || !L4.length) return;
   var PAGE_SIZE = 50;
-
   function buildPager(current, totalPages, total, start, shown){
     var pages = [];
     var delta = 2;
@@ -680,7 +620,6 @@ applyTargets();
     html += "</div>";
     return html;
   }
-
   L4.forEach(function(m, idx){
     var state = { page: 1, keyword: "" };
     var listEl = document.getElementById("mchapters-" + idx);
@@ -688,14 +627,12 @@ applyTargets();
     var cardEl = document.querySelector('.mcard[data-midx="' + idx + '"]');
     if(!listEl || !pagerEl || !cardEl) return;
     var searchEl = cardEl.querySelector(".msearch-input");
-
     function getFiltered(){
       var list = m.chapters || [];
       if(!state.keyword) return list;
       var kw = state.keyword.toLowerCase();
       return list.filter(function(c){ return c.title.toLowerCase().indexOf(kw) >= 0; });
     }
-
     function render(){
       var filtered = getFiltered();
       var total = filtered.length;
@@ -704,16 +641,13 @@ applyTargets();
       var start = (state.page - 1) * PAGE_SIZE;
       var pageItems = filtered.slice(start, start + PAGE_SIZE);
       var targetAttr = newtab ? ' target="_blank" rel="noopener"' : "";
-
       listEl.innerHTML = pageItems.length
         ? pageItems.map(function(c){
             return '<a href="' + esc(c.url) + '" title="' + esc(c.title) + '"' + targetAttr + '>' + esc(c.title) + "</a>";
           }).join("")
         : '<a href="javascript:void(0)">未找到匹配的章节</a>';
-
       pagerEl.innerHTML = buildPager(state.page, totalPages, total, start, pageItems.length);
     }
-
     if(searchEl){
       searchEl.addEventListener("input", function(){
         state.keyword = this.value.trim();
@@ -721,7 +655,6 @@ applyTargets();
         render();
       });
     }
-
     pagerEl.addEventListener("click", function(e){
       var btn = e.target.closest("[data-page]");
       if(btn && !btn.disabled){
@@ -730,11 +663,9 @@ applyTargets();
         listEl.scrollTop = 0;
       }
     });
-
     render();
   });
 })();
-
 (function(){
   var els = Array.prototype.slice.call(document.querySelectorAll("[data-depth]"));
   var MAX = 30;
@@ -757,7 +688,6 @@ applyTargets();
     }
   });
 })();
-
 (function(){
   var meting_music_api = "https://meting.noome.cn/api";
   var music_server = "netease";
@@ -779,7 +709,6 @@ applyTargets();
     });
   }
   function build(audio){
-    // 重写 APlayer 歌词滚动算法：用第一行标准高度算行距，确保当前行始终居中且平滑
     if (window.APlayer && APlayer.prototype) {
       APlayer.prototype.lrcUpdate = function () {
         if (!this.lrc || !this.lrcContents) return;
@@ -809,7 +738,6 @@ applyTargets();
       lrcType: 3
     });
     ap.volume(0.1);
-    // 把播放键移到进度条右边，进度条+播放键同一排
     (function(){
       var controller = document.querySelector("#aplayer .aplayer-controller");
       var barWrap = document.querySelector("#aplayer .aplayer-bar-wrap");
@@ -823,7 +751,6 @@ applyTargets();
         barRow.appendChild(playBtn);
       }
     })();
-    // 点击歌名/歌手区域展开/收起歌曲列表
     var musicArea = document.querySelector("#aplayer .aplayer-music");
     if (musicArea) {
       musicArea.style.cursor = "pointer";
@@ -832,12 +759,10 @@ applyTargets();
         if (menuBtn) menuBtn.click();
       });
     }
-    // 把歌词条移到 body 下，避免父容器 transform 限制 fixed 全屏宽
     var lrcEl = document.querySelector("#aplayer .aplayer-lrc");
     if (lrcEl && lrcEl.parentNode !== document.body) {
       document.body.appendChild(lrcEl);
     }
-    // 用 margin-top 驱动歌词平滑滚动（APlayer 的 transform 已被 CSS 禁用，互不干扰）
     setInterval(function () {
       var lrc = document.querySelector(".aplayer-lrc");
       var contents = lrc ? lrc.querySelector(".aplayer-lrc-contents") : null;
