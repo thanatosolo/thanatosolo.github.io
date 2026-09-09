@@ -1,0 +1,40 @@
+name: 漫画章节周更
+
+on:
+  schedule:
+    # 每周一 UTC 0:00 = 北京时间 8:00
+    - cron: '0 0 * * 1'
+  workflow_dispatch:  # 支持手动触发
+
+permissions:
+  contents: write
+
+jobs:
+  update-manga:
+    runs-on: ubuntu-latest
+    steps:
+      - name: 检出仓库
+        uses: actions/checkout@v4
+
+      - name: 设置 Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: 安装依赖
+        run: npm install crypto-js
+
+      - name: 抓取并更新章节
+        run: node .github/scripts/update-manga.js
+
+      - name: 提交变更
+        run: |
+          git config --local user.email "actions@github.com"
+          git config --local user.name "github-actions[bot]"
+          git add data.js
+          if git diff --cached --quiet; then
+            echo "无变化，不提交。"
+          else
+            git commit -m "chore: 自动更新漫画章节 [skip ci]"
+            git push
+          fi
