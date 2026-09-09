@@ -9,7 +9,8 @@
 var TABS = [
   { num: "", title: "Entrance" },
   { num: "", title: "Serve" },
-  { num: "", title: "Domain" }
+  { num: "", title: "Domain" },
+  { num: "", title: "Menga" }
 ];
 
 /* ---------- 01 公网域名入口 ---------- */
@@ -62,4 +63,21 @@ var L3 = [
   { site: "Dynu",                   url: "https://www.dynu.com/",                         account: "",        domains: ["thanatos.ddnsfree.com"],          expire: null },
   { site: "infinityfree",           url: "https://dash.infinityfree.com//",               account: "hm",      domains: ["thanatosolo.xo.je"],              expire: null },
   { site: "changeip",               url: "https://changeip.com",                          account: "hm",      domains: ["thanatosolo.myddns.com", "thanatos.myddns.com"], expire: null }
+];
+
+/* ---------- 04 漫画追更 ----------
+ * name     ：漫画名
+ * cover    ：封面图 URL（没有就留 ""）
+ * source   ：漫画目录页地址（换源只改这里）
+ * desc     ：简介
+ * chapters ：章节列表（倒序，最新在前），由 GitHub Actions 每周自动更新
+ */
+var L4 = [
+  {
+    name: "一人之下",
+    cover: "",
+    source: "https://www.pipimh123.com/book/3137",
+    desc: "张楚岚爷爷的坟被刨，神秘少女冯宝宝出现，异人世界的大门就此打开。",
+    chapters: []
+  }
 ];
