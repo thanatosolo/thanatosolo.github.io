@@ -201,7 +201,7 @@ body.cursor-hover .cursor-ring{width:52px;height:52px;border-color:var(--c3);opa
 .pane-wrap{position:relative;border:1px solid rgba(150,170,205,.24);border-radius:14px;
   background:var(--pane-bg);
   backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);
-  padding:22px 24px 110px;flex:none;min-height:120px;max-height:calc(100vh - 235px);overflow-y:auto;overscroll-behavior:contain;
+  padding:22px 24px 26px;flex:none;min-height:120px;max-height:calc(100vh - 235px);overflow-y:auto;overscroll-behavior:contain;
   scrollbar-width:none;-ms-overflow-style:none;transition:background .6s ease,border-color .6s ease}
 .pane-wrap::-webkit-scrollbar{display:none}
 .pane{display:none}
@@ -227,9 +227,7 @@ body.cursor-hover .cursor-ring{width:52px;height:52px;border-color:var(--c3);opa
 .scard .sn{display:block;font-size:14.5px;font-weight:600;line-height:1.35;word-break:normal;overflow-wrap:anywhere}
 .scard .su{display:block;font-family:var(--font-mono);font-size:11px;color:var(--ink-dim);line-height:1.45;word-break:normal;overflow-wrap:anywhere}
 .pcard{display:flex;flex-direction:column;gap:10px;padding:15px 16px;border:1px solid var(--line);border-radius:12px;
-  background:var(--card-bg);max-height:280px;overflow-y:auto;scrollbar-width:none;-ms-overflow-style:none;
-  transition:transform .2s ease,border-color .2s ease,background .2s ease}
-.pcard::-webkit-scrollbar{display:none}
+  background:var(--card-bg);transition:transform .2s ease,border-color .2s ease,background .2s ease}
 .pcard:hover{border-color:var(--c3);background:rgba(66,226,166,.05);transform:translateY(-2px)}
 .page.fresh .pcard:hover{background:rgba(58,154,106,.08)}
 .pcard .ptop{display:flex;align-items:center;gap:8px;min-width:0}
