@@ -220,7 +220,7 @@ body.cursor-hover .cursor-ring{width:52px;height:52px;border-color:var(--c3);opa
   transition:background .25s ease,color .25s ease,box-shadow:.25s ease,border-color .6s ease}
 .tab .tnum{font-family:var(--font-mono);font-size:11px;color:var(--ac);opacity:.95}
 .tab .tcount{font-family:var(--font-mono);font-size:11px;padding:1px 8px;border-radius:999px;background:rgba(148,168,200,.14);color:var(--ink)}
-.tab[data-l="1"]{--ac:var(--c1)}.tab[data-l="2"]{--ac:var(--c2)}.tab[data-l="3"]{--ac:var(--c3)}
+.tab[data-l="1"]{--ac:var(--c1)}.tab[data-l="2"]{--ac:var(--c2)}.tab[data-l="3"]{--ac:var(--c3)}.tab[data-l="4"]{--ac:var(--c1)}
 .tab:hover{color:var(--ink)}
 .tab.on{color:var(--ink);background:rgba(12,19,35,.92);border-color:rgba(150,170,205,.30);
   box-shadow:inset 0 2px 0 var(--ac),0 -10px 30px -22px var(--ac)}
@@ -241,6 +241,7 @@ body.cursor-hover .cursor-ring{width:52px;height:52px;border-color:var(--c3);opa
 .g1{grid-template-columns:repeat(auto-fit,minmax(210px,1fr))}
 .g2{grid-template-columns:repeat(auto-fit,minmax(280px,1fr))}
 .g3{grid-template-columns:repeat(auto-fit,minmax(250px,1fr))}
+.g4{grid-template-columns:1fr}
 
 .dchip{display:flex;flex-direction:column;gap:6px;padding:14px 16px;border:1px solid var(--line);border-radius:12px;
   background:var(--card-bg);transition:transform .2s ease,border-color .2s ease,background .2s ease}
@@ -288,6 +289,36 @@ body.cursor-hover .cursor-ring{width:52px;height:52px;border-color:var(--c3);opa
 .page.fresh .pacc.muted{color:rgba(255,255,255,.6);border-color:rgba(255,255,255,.20);background:transparent}
 .page.fresh .scard .sn{color:#fff}
 .page.fresh .scard .su{color:rgba(255,255,255,.78)}
+
+/* ===== 04 漫画追更卡 ===== */
+.mcard{display:flex;flex-direction:column;gap:12px;padding:16px 18px;border:1px solid var(--line);border-radius:12px;
+  background:var(--card-bg);transition:transform .2s ease,border-color .2s ease,background .2s ease}
+.mcard:hover{border-color:var(--c1);background:rgba(74,214,247,.05);transform:translateY(-2px)}
+.page.fresh .mcard:hover{background:rgba(232,121,168,.08)}
+.mcard .mtop{display:flex;align-items:center;gap:10px;min-width:0}
+.mcard .mname{font-size:16px;font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.mcard .mname a:hover{color:var(--c1)}
+.mcard .mcount{flex:none;font-family:var(--font-mono);font-size:11px;color:var(--ink-dim);padding:2px 8px;border-radius:999px;background:rgba(148,168,200,.12)}
+.page.fresh .mcard .mcount{color:rgba(255,255,255,.78);background:rgba(255,255,255,.12)}
+.mcard .msrc{margin-left:auto;flex:none;font-family:var(--font-mono);font-size:11px;color:var(--c1);
+  border:1px solid rgba(74,214,247,.3);border-radius:999px;padding:3px 10px;background:rgba(74,214,247,.08);white-space:nowrap;transition:background .2s ease}
+.mcard .msrc:hover{background:rgba(74,214,247,.16)}
+.page.fresh .msrc{color:#8ff0c2;border-color:rgba(66,226,166,.4);background:rgba(66,226,166,.12)}
+.page.fresh .msrc:hover{background:rgba(66,226,166,.22)}
+.mcard .mdesc{font-size:12.5px;color:var(--ink-dim);line-height:1.55}
+.page.fresh .mcard .mdesc{color:rgba(255,255,255,.78)}
+.mcard .mchapters{display:flex;flex-direction:column;gap:0;max-height:280px;overflow-y:auto;
+  border:1px solid var(--line);border-radius:8px;background:rgba(5,10,20,.45);scrollbar-width:none;-ms-overflow-style:none}
+.mcard .mchapters::-webkit-scrollbar{display:none}
+.page.fresh .mchapters{background:rgba(255,255,255,.10);border-color:rgba(255,255,255,.20)}
+.mcard .mchapters a{display:block;padding:7px 14px;font-family:var(--font-mono);font-size:12px;
+  color:var(--ink-dim);border-bottom:1px solid rgba(148,168,200,.06);transition:color .15s ease,background .15s ease;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.mcard .mchapters a:last-child{border-bottom:none}
+.mcard .mchapters a:hover{color:var(--ink);background:rgba(74,214,247,.08)}
+.mcard .mchapters a:first-child{color:var(--c1);font-weight:600}
+.page.fresh .mchapters a{color:rgba(255,255,255,.78);border-bottom-color:rgba(255,255,255,.08)}
+.page.fresh .mchapters a:hover{color:#fff;background:rgba(255,255,255,.12)}
+.page.fresh .mchapters a:first-child{color:#8ff0c2}
 .page.fresh .dchip .dn{color:#fff}
 .page.fresh .dchip .du{color:rgba(255,255,255,.82)}
 
@@ -393,7 +424,7 @@ a:focus-visible{outline:2px solid var(--c1);outline-offset:2px;border-radius:4px
       });
     }
   });
-  var hoverSelector = "a,button,.tab,.dchip,.scard,.pcard,.logo,.ntab,.aplayer";
+  var hoverSelector = "a,button,.tab,.dchip,.scard,.pcard,.mcard,.logo,.ntab,.aplayer";
   document.addEventListener("mouseover", function(e){
     if(e.target.closest(hoverSelector)){ document.body.classList.add("cursor-hover"); }
   });
@@ -529,10 +560,28 @@ var g3 = L3.map(function(p){
          '</div>';
 }).join("");
 
+var g4 = L4.map(function(m){
+  var ch = (m.chapters && m.chapters.length)
+    ? m.chapters.map(function(c){
+        return '<a href="' + esc(c.url) + '" title="' + esc(c.title) + '">' + esc(c.title) + '</a>';
+      }).join("")
+    : '<a href="javascript:void(0)">暂无章节数据（Actions 首次运行后自动填充）</a>';
+  return '<div class="mcard">' +
+         '<div class="mtop">' +
+         '<span class="mname"><a href="' + esc(m.source) + '">' + esc(m.name) + '</a></span>' +
+         '<span class="mcount">' + (m.chapters ? m.chapters.length : 0) + ' 话</span>' +
+         '<a class="msrc" href="' + esc(m.source) + '">去源站</a>' +
+         '</div>' +
+         (m.desc ? '<div class="mdesc">' + esc(m.desc) + '</div>' : '') +
+         '<div class="mchapters">' + ch + '</div>' +
+         '</div>';
+}).join("");
+
 var layers = [
   { l:1, num:TABS[0].num, title:TABS[0].title, count:L1.length, html:'<div class="grid g1">' + g1 + '</div>' },
   { l:2, num:TABS[1].num, title:TABS[1].title, count:L2.length, html:'<div class="grid g2">' + g2 + '</div>' },
-  { l:3, num:TABS[2].num, title:TABS[2].title, count:L3.length, html:'<div class="grid g3">' + g3 + '</div>' }
+  { l:3, num:TABS[2].num, title:TABS[2].title, count:L3.length, html:'<div class="grid g3">' + g3 + '</div>' },
+  { l:4, num:TABS[3].num, title:TABS[3].title, count:L4.length, html:'<div class="grid g4">' + g4 + '</div>' }
 ];
 
 document.getElementById("tabs").innerHTML = layers.map(function(x, i){
