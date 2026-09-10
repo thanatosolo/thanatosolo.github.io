@@ -30,14 +30,14 @@ var L1 = [
 
 /* ---------- 02 内网服务 ---------- */
 var L2 = [
-  { icon: "🖥️", name: "Istoreos",    url: "http://luci.thanatosolo.duckdns.org:8888" },
-  { icon: "📦", name: "Openlist",    url: "http://op.thanatosolo.duckdns.org:8888" },
-  { icon: "📁", name: "Filebrowser", url: "http://fb.thanatosolo.duckdns.org:8888" },
-  { icon: "📥", name: "ariaNG",      url: "http://ar.thanatosolo.duckdns.org:8888" },
-  { icon: "💻", name: "TTYD",        url: "http://ssh.thanatosolo.duckdns.org:8888" },
-  { icon: "🌱", name: "QBittorrent", url: "http://qb.thanatosolo.duckdns.org:8888" },
-  { icon: "🎬", name: "Jellyfin",    url: "http://je.thanatosolo.duckdns.org:8888" },
-  { icon: "🤖", name: "AI",          url: "http://ai.thanatosolo.duckdns.org:8888" }
+  { icon: "🖥️", name: "Istoreos",    url: "http://luci.1581151.xyz:8888" },
+  { icon: "📦", name: "Openlist",    url: "http://op.1581151.xyz:8888" },
+  { icon: "📁", name: "Filebrowser", url: "http://fb.1581151.xyz:8888" },
+  { icon: "📥", name: "ariaNG",      url: "http://ar.1581151.xyz:8888" },
+  { icon: "💻", name: "TTYD",        url: "http://ssh.1581151.xyz:8888" },
+  { icon: "🌱", name: "QBittorrent", url: "http://qb.1581151.xyz:8888" },
+  { icon: "🎬", name: "Jellyfin",    url: "http://je.1581151.xyz:8888" },
+  { icon: "🤖", name: "AI",          url: "http://ai.1581151.xyz:8888" }
 ];
 
 /* ---------- 03 DNS 面板 / 注册商 ----------
