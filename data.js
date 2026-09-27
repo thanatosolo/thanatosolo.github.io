@@ -48,8 +48,7 @@ var L2 = [
  * expire   ：到期时间（格式 2027-05-25），不知道就写 null
  */
 var L3 = [
-  { site: "domain.digitalplat.org", url: "https://dash.domain.digitalplat.org/dashboard", account: "hm",      domains: ["thanatosolo.dpdns.org"],          expire: "2027-05-25" },
-  { site: "domain.digitalplat.org", url: "https://dash.domain.digitalplat.org/dashboard", account: "163",      domains: ["thanatoss.dpdns.org"],          expire: "2027-08-28" },  
+  { site: "domain.digitalplat.org", url: "https://dash.domain.digitalplat.org/dashboard", account: "hm",      domains: ["thanatosolo.dpdns.org","thanatoss.dpdns.org"],expire: "2027-05-25" }, 
   { site: "katabump.com",           url: "https://dashboard.katabump.com/auth/login",     account: "hm",      domains: ["thanatosolo.kdns.fr"],            expire: null },
   { site: "nic.chenzhizuo.com",     url: "https://nic.chenzhizuo.com/user",               account: "163",     domains: ["thanatosolo.beyond.wang"],        expire: null },
   { site: "desec.io",               url: "https://desec.io/domains",                      account: "hm / 163",domains: ["thanatos.dedyn.io", "thanatosolo.dedyn.io"], expire: null },
