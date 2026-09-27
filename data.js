@@ -49,10 +49,11 @@ var L2 = [
  */
 var L3 = [
   { site: "domain.digitalplat.org", url: "https://dash.domain.digitalplat.org/dashboard", account: "hm",      domains: ["thanatosolo.dpdns.org"],          expire: "2027-05-25" },
+  { site: "domain.digitalplat.org", url: "https://dash.domain.digitalplat.org/dashboard", account: "163",      domains: ["thanatoss.dpdns.org"],          expire: "2027-08-28" },  
   { site: "katabump.com",           url: "https://dashboard.katabump.com/auth/login",     account: "hm",      domains: ["thanatosolo.kdns.fr"],            expire: null },
   { site: "nic.chenzhizuo.com",     url: "https://nic.chenzhizuo.com/user",               account: "163",     domains: ["thanatosolo.beyond.wang"],        expire: null },
   { site: "desec.io",               url: "https://desec.io/domains",                      account: "hm / 163",domains: ["thanatos.dedyn.io", "thanatosolo.dedyn.io"], expire: null },
-  { site: "dnshe.com",              url: "https://my.dnshe.com/clientarea.php",           account: "hm",      domains: ["thanatosolo.cn.mt"],              expire: "2027-07-25" },
+  { site: "dnshe.com",              url: "https://my.dnshe.com/clientarea.php",           account: "hm",      domains: ["thanatosolo.cn.mt"],              expire: "null" },
   { site: "localhost.cc",           url: "https://localhost.cc/dashboard",                account: "hm",      domains: ["thanatosolo.localhost.cc"],       expire: "2027-07-26" },
   { site: "domain.stackryze.com",   url: "https://domain.stackryze.com/dashboard",        account: "hm",      domains: ["thanatos.nx.kg", "thanatos.indevs.in"], expire: "2027-08-02" },
   { site: "duckdns.org",            url: "https://www.duckdns.org/domains",               account: "gm",      domains: ["thanatosolo.duckdns.org"],        expire: null },
