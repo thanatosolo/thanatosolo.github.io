@@ -79,6 +79,7 @@ var L4 = [
     source: "https://www.pipimh123.com/book/3137",
     desc: "张楚岚爷爷的坟被刨，神秘少女冯宝宝出现，异人世界的大门就此打开。",
     chapters: [
+    { title: "779 回归", url: "https://www.pipimh123.com/chapter/1115680" },
     { title: "778 情儿殇", url: "https://www.pipimh123.com/chapter/1114949" },
     { title: "777 匹配", url: "https://www.pipimh123.com/chapter/1114362" },
     { title: "776 叔叔", url: "https://www.pipimh123.com/chapter/1113729" },
