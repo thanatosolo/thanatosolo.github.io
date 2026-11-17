@@ -22,8 +22,6 @@ var L1 = [
   { name: "GB-V6.ROCKS",     url: "https://thanatosolo.v6.rocks" },
   { name: "VPS-DESEC",       url: "https://thanatos.dedyn.io" },
   { name: "VPS-DYNU",        url: "https://thanatos.ddnsfree.com" },
-  { name: "QWEN-CF-Tunnel",  url: "https://thanatoss.dpdns.org" },
-  { name: "QWEN-S-FRP",      url: "https://thanatosolo.ddns.ge" },
   { name: "InfinityFree",    url: "https://thanatosolo.xo.je" },
   { name: "changeip",        url: "https://thanatos.myddns.com" }
 ];
@@ -34,10 +32,8 @@ var L2 = [
   { icon: "📦", name: "Openlist",    url: "http://op.thanatosolo.duckdns.org:8888" },
   { icon: "📁", name: "Filebrowser", url: "http://fb.thanatosolo.duckdns.org:8888" },
   { icon: "📥", name: "ariaNG",      url: "http://ar.thanatosolo.duckdns.org:8888" },
-  { icon: "💻", name: "TTYD",        url: "http://ssh.thanatosolo.duckdns.org:8888" },
   { icon: "🌱", name: "QBittorrent", url: "http://qb.thanatosolo.duckdns.org:8888" },
-  { icon: "🎬", name: "Jellyfin",    url: "http://je.thanatosolo.duckdns.org:8888" },
-  { icon: "🤖", name: "AI",          url: "http://ai.thanatosolo.duckdns.org:8888" }
+  { icon: "🎬", name: "Jellyfin",    url: "http://je.thanatosolo.duckdns.org:8888" }
 ];
 
 /* ---------- 03 DNS 面板 / 注册商 ----------
